@@ -1,0 +1,241 @@
+<!DOCTYPE html> <html> <head>
+    <title>Welcome to the CryptoScreener !</title>
+	<script>
+	var lstTokens = new Array();
+	lstTokens.push(["BITCOIN", "coinmarketcap", 1, ""]);
+	lstTokens.push(["ETHEREUM", "coinmarketcap", 1027, ""]);
+	lstTokens.push(["NEO", "coinmarketcap", 1376, ""]);
+	lstTokens.push(["LITECOIN", "coinmarketcap", 2, ""]);
+	lstTokens.push(["TRON", "coinmarketcap", 1958, ""]);
+	lstTokens.push(["FRIENDS", "coinmarketcap", 2626, ""]);
+	lstTokens.push(["VERGE", "coinmarketcap", 693, ""]);
+	lstTokens.push(["HAVVEN", "coinmarketcap", 2586, ""]);
+	lstTokens.push(["TE-FOOD", "coinmarketcap", 2578, ""]);
+	lstTokens.push(["ONTOLOGY", "coinmarketcap", 2566, ""]);
+	lstTokens.push(["ARCBLOCK", "coinmarketcap", 2545, ""]);
+	lstTokens.push(["POLYMATH-NETWORK", "coinmarketcap", 2496, ""]);
+	lstTokens.push(["EQUAL", "coinmarketcap", 2479, ""]);
+	lstTokens.push(["DROPIL", "coinmarketcap", 2591, ""]);
+	</script>
+	<style>
+	td {
+	  height:50px;
+	  width:200px;
+	  padding-bottom: 20px;
+	}
+	th {
+		height:20px;
+		width:200px;
+	}
+	div {
+	}
+	
+	div #rank{
+		width:40px;
+		text-align: center;
+		vertical-align: middle;
+	}
+	div #market_cap{
+		//width:40px;
+		text-align: center;
+		vertical-align: middle;
+	}
+	div #volume{
+		//width:40px;
+		text-align: center;
+		vertical-align: middle;
+	}
+	div .cellule{
+		display: table;
+		width:100%;
+		table-layout: fixed; /*Optional*/
+	}
+	div .tokenicon{
+		display: table-cell;
+		width:30%;
+		
+	}
+	div .tokenicon img {
+		width: 90%;
+		height: auto;
+	}
+	
+	div .tokeninfo{
+		display: table-cell;
+		// text-align: center;
+		vertical-align: top;
+		padding-top: 10px;
+	}
+	div #token_infos{
+		font-size: 12px;
+	}
+	div .sparkline1d{
+		display: none;
+	}
+	
+	span {
+	}
+	.rowInfos {
+		display: table;
+		width: 100%; /*Optional*/
+		table-layout: fixed; /*Optional*/
+		border-spacing: 2px; /*Optional*/
+	    border-style: inset;
+    border-right: 1px;
+    border-left: 2px;
+    border-width: 1px;
+	}
+	.Column {
+		display: table-cell;
+		font-size: 10px;
+		//background-color: red; /*Optional*/
+	}
+	</style> </head> <body> <div id="dvTable"> </div> <br />
+	<input type="button" value="Refresh Table" onclick="GenerateTokensInfos()" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script>
+	var tokenName;
+	var table = $("#mytable");
+	$(document).ready(startApp()); function nFormatter(num, digits) {
+  var si = [
+    { value: 1, symbol: "" },
+    { value: 1E3, symbol: " k" },
+    { value: 1E6, symbol: " M" },
+    { value: 1E9, symbol: " B" },
+    { value: 1E12, symbol: " T" },
+    { value: 1E15, symbol: " P" },
+    { value: 1E18, symbol: " E" }
+  ];
+  var rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+  var i;
+  for (i = si.length - 1; i > 0; i--) {
+    if (num >= si[i].value) {
+      break;
+    }
+  }
+  return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
+}
+		// var tokenInfo = "<div class='icon'><div id='token_icon'><img 
+src='https://s2.coinmarketcap.com/static/img/coins/64x64/1.png' /></div><div id='token_name'>"+data[0].name+" 
+("+data[0].symbol+")</div>"+
+						// "<div id='token_infos'>"+
+							// "<span id='price_usd'>"+data[0].price_usd+" "+currency+"</span> <span 
+id='percent_change'>("+data[0]["percent_change_24h"]+"%)</span>"+
+						// "</div></div>"+
+						// "<hr />"+
+						// "<div class='rowInfos'>"+
+							// "<div id='rank' class='Column'>RANK<br>"+data[0].rank+"</div><div 
+id='market_cap' class='Column'>MARKET CAP<br>$"+nFormatter(data[0].market_cap_usd, 2)+"</div><div id='volume' class='Column'>VOLUME 
+(24H)<br>$"+nFormatter(data[0]["24h_volume_usd"], 2)+"</div>"+
+						// "</div>";
+						
+function tokenInfo_CoinMarketCap(token, idImage) {
+	var currency = "EUR";
+	var tokenInfo = new Array();
+	var jqxhr = $.getJSON('https://api.coinmarketcap.com/v1/ticker/'+token+'/?convert='+currency);
+	jqxhr.done(function(data) {
+		var tokenInfo = "<div class='cellule'>"+
+							"<div class='tokenicon' id=icon><img 
+src='https://s2.coinmarketcap.com/static/img/coins/64x64/"+idImage+".png' /></div>"+
+							"<div class='tokeninfo' id=text>"+
+								"<div id='token_name'>"+data[0].name+" ("+data[0].symbol+")</div>"+
+								"<div id='token_infos'>"+
+									"<span id='price_usd'>"+data[0].price_usd+" 
+"+currency+"</span> <span id='percent_change'>("+data[0]["percent_change_24h"]+"%)</span>"+
+								"</div>"+
+							"</div>"+
+							
+		
+						"</div>"+
+		"<div class='rowInfos'>"+
+		"<div id='rank' class='Column'>RANK<br>"+data[0].rank+"</div><div id='market_cap' class='Column'>MARKET 
+CAP<br>$"+nFormatter(data[0].market_cap_usd, 2)+"</div><div id='volume' class='Column'>VOLUME 
+(24H)<br>$"+nFormatter(data[0]["24h_volume_usd"], 2)+"</div>"+
+		"</div>"+
+		"<div class='sparkline7d'>"+
+		"<div id='rank' class='Column'><img class='sparkline' 
+src='https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/"+idImage+".png' /></div>"+
+		"</div>"+
+		"<div class='sparkline1d'>"+
+		"<div id='rank' class='Column'><img class='sparkline' 
+src='https://s2.coinmarketcap.com/generated/sparklines/web/1d/usd/"+idImage+".png' /></div>"+
+		"</div>"+
+		"<div class='rowInfos'>"+
+		"</div>";
+						
+						
+						
+		$("#"+token).html(tokenInfo);
+		// console.log($("#"+token).innerhtml);
+		// return tokenInfo;
+	});
+	
+	jqxhr.complete(function() {
+			// console.log( "second complete" );
+	});
+	
+	// return tokenInfo;
+}
+function startApp() {
+	generateTable(0);
+	var newCells = GenerateTokensInfos();
+	
+	
+}
+function GenerateTokensInfos() {
+	var cells = { };
+	$.each(lstTokens, function(key, value) {
+		var tokenName = value[0];
+		
+		tokenInfo_CoinMarketCap(tokenName, value[2]);
+		// .then(function(returndata){
+			//received data!
+			// cells[tokenName] = returndata;
+		// });
+			// console.log(cells);
+	});
+	// console.log(cells);
+	
+	
+	return cells;
+	
+	
+	
+}
+function generateTable(tokensInfos) {
+    //Build an array containing Customer records.
+	var nbToken = lstTokens.length;
+	var cptToken = 0;
+	var numberOfRows = Math.floor(window.innerHeight / 20);
+	var numberOfCells = Math.floor(window.innerWidth / 200);
+	
+  var nbRow = nbToken / numberOfCells;
+    //Create a HTML Table element.
+    var table = document.createElement("TABLE");
+    table.border = "0";
+	// console.log(lstTokens);
+	
+	for (var r = 0; r < nbRow; r++) {
+		row = table.insertRow(-1);
+		for (var j = 0; j < numberOfCells; j++) {
+			var cell = row.insertCell(-1);
+			if(cptToken < nbToken) {
+				var tokenName = $(lstTokens[cptToken++]).splice(",");
+				cell.id = tokenName[0];
+				cell.innerHTML = tokenName[0];
+			}
+			else{
+				cell.id = "";
+				cell.innerHTML = "";
+			}
+			
+		}
+	}
+	//console.log(lstTokens[0][0]);
+    var dvTable = document.getElementById("dvTable");
+    dvTable.innerHTML = "";
+    dvTable.appendChild(table);
+}
+    </script> </body>
+</html>
+
