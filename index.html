@@ -4,34 +4,46 @@
     <title>Welcome to the CryptoScreener !</title>
 	<script>
 	var lstTokens = new Array();
-	lstTokens.push(["BITCOIN", "coinmarketcap", 1, ""]);
-	lstTokens.push(["ETHEREUM", "coinmarketcap", 1027, ""]);
-	lstTokens.push(["NEO", "coinmarketcap", 1376, ""]);
-	lstTokens.push(["LITECOIN", "coinmarketcap", 2, ""]);
-	lstTokens.push(["TRON", "coinmarketcap", 1958, ""]);
-	lstTokens.push(["FRIENDS", "coinmarketcap", 2626, ""]);
-	lstTokens.push(["VERGE", "coinmarketcap", 693, ""]);
-	lstTokens.push(["HAVVEN", "coinmarketcap", 2586, ""]);
-	lstTokens.push(["TE-FOOD", "coinmarketcap", 2578, ""]);
-	lstTokens.push(["ONTOLOGY", "coinmarketcap", 2566, ""]);
-	lstTokens.push(["ARCBLOCK", "coinmarketcap", 2545, ""]);
-	lstTokens.push(["POLYMATH-NETWORK", "coinmarketcap", 2496, ""]);
-	lstTokens.push(["EQUAL", "coinmarketcap", 2479, ""]);
-	lstTokens.push(["DROPIL", "coinmarketcap", 2591, ""]);
+	lstTokens.push(["BITCOIN", "coinmarketcap", 1, "", 0.09]);
+	lstTokens.push(["ETHEREUM", "coinmarketcap", 1027, "", 0.33]);
+	lstTokens.push(["NEO", "coinmarketcap", 1376, "", 3]);
+	lstTokens.push(["LITECOIN", "coinmarketcap", 2, "", 0.45]);
+	lstTokens.push(["TRON", "coinmarketcap", 1958, "", 2000]);
+	lstTokens.push(["FRIENDS", "coinmarketcap", 2626, "", 1290]);
+	lstTokens.push(["VERGE", "coinmarketcap", 693, "", 750]);
+	lstTokens.push(["HAVVEN", "coinmarketcap", 2586, "", 250]);
+	lstTokens.push(["TE-FOOD", "coinmarketcap", 2578, "", 1290]);
+	lstTokens.push(["ONTOLOGY", "coinmarketcap", 2566, "", 50]);
+	lstTokens.push(["ARCBLOCK", "coinmarketcap", 2545, "", 75]);
+	lstTokens.push(["POLYMATH-NETWORK", "coinmarketcap", 2496, "", 250]);
+	lstTokens.push(["EQUAL", "coinmarketcap", 2479, "", 2500]);
+	lstTokens.push(["DROPIL", "coinmarketcap", 2591, "", 1000]);
 	</script>
 	<style>
+	html * {
+		//font-size: 1em !important;
+		//color: #000 !important;
+		font-family: font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	}
 	td {
-	  height:50px;
-	  width:200px;
-	  padding-bottom: 20px;
+		height:50px;
+		width:200px;
+		padding-bottom: 20px;
 	}
 	th {
 		height:20px;
 		width:200px;
 	}
-	div {
+	div #tokename_green{
+		color: green;
 	}
-	
+	div #tokename_red{
+		color: red;
+	}
+	.pump {
+		font-weight: bold;
+	}
+
 	div #rank{
 		width:40px;
 		text-align: center;
@@ -55,44 +67,45 @@
 	div .tokenicon{
 		display: table-cell;
 		width:30%;
-		
 	}
 	div .tokenicon img {
 		width: 90%;
 		height: auto;
 	}
-	
 	div .tokeninfo{
 		display: table-cell;
 		// text-align: center;
 		vertical-align: top;
-		padding-top: 10px;
+		padding-top: 5px;
 	}
-
 	div #token_infos{
 		font-size: 12px;
 	}
-
+	div #wallet_infos{
+		font-size: 10px;
+	}
 	div .sparkline1d{
 		display: none;
 	}
-	
 	.percent_change_green {
 		color: green;
 	}
 	.percent_change_red {
 		color: red;
 	}
-		
+	.pump {
+		font-weight: bold;
+	}
+	
 	.rowInfos {
 		display: table;
 		width: 100%; /*Optional*/
 		table-layout: fixed; /*Optional*/
 		border-spacing: 2px; /*Optional*/
 	    border-style: inset;
-    border-right: 1px;
-    border-left: 2px;
-    border-width: 1px;
+		border-right: 1px;
+		border-left: 2px;
+		border-width: 1px;
 	}
 	.Column {
 		display: table-cell;
@@ -106,47 +119,71 @@
 </div>
 <br />
 	<input type="button" value="Refresh Table" onclick="GenerateTokensInfos()" />
-
-
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script>
 	var tokenName;
+	var priceETH = 0;
+	var priceBTC = 0;
 	var table = $("#mytable");
 	$(document).ready(startApp());
 
+function startApp() {
+	generateTable(0);
+	var newCells = GenerateTokensInfos();
+}
+		
 function nFormatter(num, digits) {
-  var si = [
-    { value: 1, symbol: "" },
-    { value: 1E3, symbol: " k" },
-    { value: 1E6, symbol: " M" },
-    { value: 1E9, symbol: " B" },
-    { value: 1E12, symbol: " T" },
-    { value: 1E15, symbol: " P" },
-    { value: 1E18, symbol: " E" }
-  ];
-  var rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-  var i;
-  for (i = si.length - 1; i > 0; i--) {
-    if (num >= si[i].value) {
-      break;
-    }
-  }
-  return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
+	var si = [
+		{ value: 1, symbol: "" },
+		{ value: 1E3, symbol: " k" },
+		{ value: 1E6, symbol: " M" },
+		{ value: 1E9, symbol: " B" },
+		{ value: 1E12, symbol: " T" },
+		{ value: 1E15, symbol: " P" },
+		{ value: 1E18, symbol: " E" }
+	];
+	var rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+	var i;
+	for (i = si.length - 1; i > 0; i--) {
+		if (num >= si[i].value) {
+		  break;
+		}
+	}
+	return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
 }
 
-function tokenInfo_CoinMarketCap(token, idImage) {
+function tokenInfo_CoinMarketCap(token, idImage, nbTokens) {
 	var currency = "EUR";
+	var currencySym = "€";
 	var tokenInfo = new Array();
+	var pump = "";
 	var jqxhr = $.getJSON('https://api.coinmarketcap.com/v1/ticker/'+token+'/?convert='+currency);
 	jqxhr.done(function(data) {
-		if(data[0]["percent_change_24h"] > 0) { colorvar = "percent_change_green" }
-		else { colorvar = "percent_change_red" }
+		if(token == "BITCOIN") { priceBTC = parseFloat(data[0].price_eur); }
+		if(token == "ETHEREUM") { priceETH = parseFloat(data[0].price_eur); }
+		var priceToken = parseFloat(data[0].price_eur);
+		var priceWallet = priceToken * nbTokens;
+		if(data[0]["percent_change_24h"] > 0) { 
+			colorvar = "percent_change_green" 
+			colorName = "tokename_green";
+		}
+		else { 
+			colorvar = "percent_change_red" 
+			colorName = "tokename_red";
+		}
+		if(data[0]["percent_change_24h"] > 15) { 
+			pump = "pump"; 
+		}
+		//else if(data[0]["percent_change_24h"] > -5) { colorvar += " pump"; }
 		var tokenInfo = "<div class='cellule'>"+
 							"<div class='tokenicon' id=icon><img src='https://s2.coinmarketcap.com/static/img/coins/64x64/"+idImage+".png' /></div>"+
 							"<div class='tokeninfo' id=text>"+
-								"<div id='token_name'>"+data[0].name+" ("+data[0].symbol+")</div>"+
+								"<div id='"+colorName+"' class='"+pump+"'>"+data[0].name+" ("+data[0].symbol+")</div>"+
 								"<div id='token_infos' class='"+colorvar+"'>"+
-									"<span id='price_usd'>"+data[0].price_usd+" "+currency+"</span> <span id='percent_change'>("+data[0]["percent_change_24h"]+"%)</span>"+
+									"<span id='price_eur'>"+priceToken.toFixed(5)+" "+currencySym+"</span> <span id='percent_change'>("+data[0]["percent_change_24h"]+"%)</span>"+
+								"</div>"+
+								"<div id='wallet_infos' class=''>"+
+								"<span id='price_eur'>"+priceWallet.toFixed(5)+" "+currencySym+"</span> <span id='percent_change'>("+nbTokens+")</span>"+
 								"</div>"+
 							"</div>"+
 							
@@ -163,51 +200,30 @@ function tokenInfo_CoinMarketCap(token, idImage) {
 		"</div>"+
 		"<div class='rowInfos'>"+
 		"</div>";		
-						
-						
-						
 		$("#"+token).html(tokenInfo);
-		// console.log($("#"+token).innerhtml);
-		// return tokenInfo;
 	});
-	
-	jqxhr.complete(function() {
-			// console.log( "second complete" );
-	});
-	
-	// return tokenInfo;
-}
-
-function startApp() {
-	generateTable(0);
-	var newCells = GenerateTokensInfos();
-	
-	
 }
 
 function GenerateTokensInfos() {
 	var cells = { };
 	$.each(lstTokens, function(key, value) {
 		var tokenName = value[0];
-		tokenInfo_CoinMarketCap(tokenName, value[2]);
+		tokenInfo_CoinMarketCap(tokenName, value[2], parseFloat(value[4]));
 	});
 	return cells;
 }
 
 function generateTable(tokensInfos) {
-    //Build an array containing Customer records.
+	//Build an array containing Customer records.
 	var nbToken = lstTokens.length;
 	var cptToken = 0;
 	var numberOfRows = Math.floor(window.innerHeight / 20);
 	var numberOfCells = Math.floor(window.innerWidth / 200);
+	var nbRow = nbToken / numberOfCells;
+	//Create a HTML Table element.
+	var table = document.createElement("TABLE");
+	table.border = "0";
 
-	
-  var nbRow = nbToken / numberOfCells;
-    //Create a HTML Table element.
-    var table = document.createElement("TABLE");
-    table.border = "0";
-
-	// console.log(lstTokens);
 	for (var r = 0; r < nbRow; r++) {
 		row = table.insertRow(-1);
 		for (var j = 0; j < numberOfCells; j++) {
@@ -221,14 +237,12 @@ function generateTable(tokensInfos) {
 				cell.id = "";
 				cell.innerHTML = "";
 			}
-			
 		}
 	}
-	//console.log(lstTokens[0][0]);
-    var dvTable = document.getElementById("dvTable");
-    dvTable.innerHTML = "";
-    dvTable.appendChild(table);	
+	var dvTable = document.getElementById("dvTable");
+	dvTable.innerHTML = "";
+	dvTable.appendChild(table);	
 }
-    </script>
+	</script>
 </body>
 </html>
