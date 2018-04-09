@@ -6,24 +6,22 @@
 	var lstTokens = new Array();
 	lstTokens.push(["BITCOIN", "coinmarketcap", 1, "", 0.09]);
 	lstTokens.push(["ETHEREUM", "coinmarketcap", 1027, "", 0.33]);
-	lstTokens.push(["NEO", "coinmarketcap", 1376, "", 3]);
+	lstTokens.push(["NEO", "coinmarketcap", 1376, "", 4]);
 	lstTokens.push(["LITECOIN", "coinmarketcap", 2, "", 0.45]);
-	lstTokens.push(["TRON", "coinmarketcap", 1958, "", 2000]);
-	lstTokens.push(["FRIENDS", "coinmarketcap", 2626, "", 1290]);
-	lstTokens.push(["VERGE", "coinmarketcap", 693, "", 750]);
-	lstTokens.push(["HAVVEN", "coinmarketcap", 2586, "", 250]);
-	lstTokens.push(["TE-FOOD", "coinmarketcap", 2578, "", 1290]);
-	lstTokens.push(["ONTOLOGY", "coinmarketcap", 2566, "", 50]);
+	lstTokens.push(["TRON", "coinmarketcap", 1958, "", 2003]);
+	lstTokens.push(["FRIENDS", "coinmarketcap", 2626, "", 1299]);
+	lstTokens.push(["VERGE", "coinmarketcap", 693, "", 749]);
+	lstTokens.push(["HAVVEN", "coinmarketcap", 2586, "", 249.75]);
+	lstTokens.push(["TE-FOOD", "coinmarketcap", 2578, "", 2162]);
+	lstTokens.push(["ONTOLOGY", "coinmarketcap", 2566, "", 20]);
 	lstTokens.push(["ARCBLOCK", "coinmarketcap", 2545, "", 75]);
 	lstTokens.push(["POLYMATH-NETWORK", "coinmarketcap", 2496, "", 250]);
-	lstTokens.push(["EQUAL", "coinmarketcap", 2479, "", 2500]);
-	lstTokens.push(["DROPIL", "coinmarketcap", 2591, "", 1000]);
+	lstTokens.push(["EQUAL", "coinmarketcap", 2479, "", 16000]);
+	lstTokens.push(["DROPIL", "coinmarketcap", 2591, "", 1500]);
 	</script>
 	<style>
 	html * {
-		//font-size: 1em !important;
-		//color: #000 !important;
-		font-family: font-family: 'Trebuchet MS', Helvetica, sans-serif;
+		font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	}
 	td {
 		height:50px;
@@ -43,19 +41,16 @@
 	.pump {
 		font-weight: bold;
 	}
-
 	div #rank{
 		width:40px;
 		text-align: center;
 		vertical-align: middle;
 	}
 	div #market_cap{
-		//width:40px;
 		text-align: center;
 		vertical-align: middle;
 	}
 	div #volume{
-		//width:40px;
 		text-align: center;
 		vertical-align: middle;
 	}
@@ -74,7 +69,7 @@
 	}
 	div .tokeninfo{
 		display: table-cell;
-		// text-align: center;
+		/* text-align: center; */
 		vertical-align: top;
 		padding-top: 5px;
 	}
@@ -96,7 +91,21 @@
 	.pump {
 		font-weight: bold;
 	}
-	
+	#header {
+		display: table;
+		width: 100%; /*Optional*/
+		table-layout: fixed; /*Optional*/
+		border: 1px;
+		border-style: inset;
+	}
+	#header .column {
+		display: table-cell;
+		text-align: center;
+	    border-style: inset;
+		border-right: 1px;
+		border-width: 1px;
+		
+	}
 	.rowInfos {
 		display: table;
 		width: 100%; /*Optional*/
@@ -110,17 +119,49 @@
 	.Column {
 		display: table-cell;
 		font-size: 10px;
-		//background-color: red; /*Optional*/
+		/* background-color: red; /*Optional*/
+	}
+	.center {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 50%;
+	}	
+	.dateheure {
+		font-weight: bold;
 	}
 	</style>
 </head>
 <body>
+<div id="header" class="inline">
+	<div class="column">Market Cap: <span id="gl_MC"></span> <span id="curr_symb1"></span></div>
+	<div class="column">24h Volume: <span id="gl_Vol"></span> <span id="curr_symb2"></span></div>
+	<div class="column">BTC Dominance: <span id="gl_BTCdom"></span> %</div>
+	<div class="column">Last Update: 
+		<span id="lastupdate" class="dateheure"></span> | Currency :
+		<select id="currencyChoice" onchange="choiceCurrency(this.value)">
+			<option selected="selected" value="EUR">EUR</option>
+			<option value="USD">USD</option>
+			<option value="ETH">ETH</option>
+		</select> 
+	</div>
+</div>
 <div id="dvTable">
 </div>
 <br />
 	<input type="button" value="Refresh Table" onclick="GenerateTokensInfos()" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script>
+	//console.log($("#currencyChoice").val());
+	var currency = $("#currencyChoice").val();
+	var currencySym = "€";
+	////// Variable pour : COINMARKETCAP :-------------------------------------------------------------------------------
+	var cmc_urlAPI = "https://api.coinmarketcap.com/v1/ticker/";
+	var cmc_urlAPIinformation = "https://api.coinmarketcap.com/v1/global/?convert=";
+	var cmc_urlStaticIMG = "https://s2.coinmarketcap.com/static/img/coins/64x64/";
+	var cmc_sparkLine7d = "https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/";
+	var cmc_sparkLine1d = "https://s2.coinmarketcap.com/generated/sparklines/web/1d/usd/";
+	//-------------------------------------------------------------------------------------------------------------------
 	var tokenName;
 	var priceETH = 0;
 	var priceBTC = 0;
@@ -128,8 +169,40 @@
 	$(document).ready(startApp());
 
 function startApp() {
+	info_CoinMarketCap_Global();
 	generateTable(0);
 	var newCells = GenerateTokensInfos();
+}
+
+function choiceCurrency(type) {
+	if(type == "EUR") {
+		currency = "EUR";
+		currencySym = "€";
+	}
+	if(type == "USD"){
+		currency = "USD";
+		currencySym = "$";
+	}
+	if(type == "ETH"){
+		currency = "ETH";
+		currencySym = "E";
+	}
+	
+	info_CoinMarketCap_Global();
+	var newCells = GenerateTokensInfos();
+}
+
+function convertDate(timestamp) {
+var date = new Date(timestamp*1000);
+// Hours part from the timestamp
+var hours = date.getHours();
+// Minutes part from the timestamp
+var minutes = "0" + date.getMinutes();
+// Seconds part from the timestamp
+var seconds = "0" + date.getSeconds();
+// Will display time in 10:30:23 format
+var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+return formattedTime;
 }
 		
 function nFormatter(num, digits) {
@@ -153,15 +226,18 @@ function nFormatter(num, digits) {
 }
 
 function tokenInfo_CoinMarketCap(token, idImage, nbTokens) {
-	var currency = "EUR";
-	var currencySym = "€";
 	var tokenInfo = new Array();
 	var pump = "";
-	var jqxhr = $.getJSON('https://api.coinmarketcap.com/v1/ticker/'+token+'/?convert='+currency);
+	var jqxhr = $.getJSON(cmc_urlAPI+token+'/?convert='+currency);
 	jqxhr.done(function(data) {
-		if(token == "BITCOIN") { priceBTC = parseFloat(data[0].price_eur); }
-		if(token == "ETHEREUM") { priceETH = parseFloat(data[0].price_eur); }
-		var priceToken = parseFloat(data[0].price_eur);
+		if(token == "BITCOIN") { 
+			priceBTC = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
+		}
+		if(token == "ETHEREUM") { 
+			priceETH = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
+		}
+		var priceToken = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
+		
 		var priceWallet = priceToken * nbTokens;
 		if(data[0]["percent_change_24h"] > 0) { 
 			colorvar = "percent_change_green" 
@@ -176,7 +252,7 @@ function tokenInfo_CoinMarketCap(token, idImage, nbTokens) {
 		}
 		//else if(data[0]["percent_change_24h"] > -5) { colorvar += " pump"; }
 		var tokenInfo = "<div class='cellule'>"+
-							"<div class='tokenicon' id=icon><img src='https://s2.coinmarketcap.com/static/img/coins/64x64/"+idImage+".png' /></div>"+
+							"<div class='tokenicon' id=icon><img src='"+cmc_urlStaticIMG+idImage+".png' /></div>"+
 							"<div class='tokeninfo' id=text>"+
 								"<div id='"+colorName+"' class='"+pump+"'>"+data[0].name+" ("+data[0].symbol+")</div>"+
 								"<div id='token_infos' class='"+colorvar+"'>"+
@@ -193,15 +269,45 @@ function tokenInfo_CoinMarketCap(token, idImage, nbTokens) {
 		"<div id='rank' class='Column'>RANK<br>"+data[0].rank+"</div><div id='market_cap' class='Column'>MARKET CAP<br>$"+nFormatter(data[0].market_cap_usd, 2)+"</div><div id='volume' class='Column'>VOLUME (24H)<br>$"+nFormatter(data[0]["24h_volume_usd"], 2)+"</div>"+
 		"</div>"+
 		"<div class='sparkline7d'>"+
-		"<div id='rank' class='Column'><img class='sparkline' src='https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/"+idImage+".png' /></div>"+
+		"<div id='rank' class='Column'><img class='sparkline' src='"+cmc_sparkLine7d+idImage+".png' /></div>"+
 		"</div>"+
 		"<div class='sparkline1d'>"+
-		"<div id='rank' class='Column'><img class='sparkline' src='https://s2.coinmarketcap.com/generated/sparklines/web/1d/usd/"+idImage+".png' /></div>"+
+		"<div id='rank' class='Column'><img class='sparkline' src='"+cmc_sparkLine1d+idImage+".png' /></div>"+
 		"</div>"+
 		"<div class='rowInfos'>"+
 		"</div>";		
 		$("#"+token).html(tokenInfo);
 	});
+}
+
+function info_CoinMarketCap_Global() {
+	console.log(cmc_urlAPIinformation+currency);
+	var jqxhr = $.getJSON(cmc_urlAPIinformation+currency);
+	jqxhr.done(function(data) {
+		//console.log(data);
+		var dateConvert = convertDate(data.last_updated);
+		$("#lastupdate").html(dateConvert);
+		if(currency == "EUR") {
+			$("#gl_MC").html(nFormatter(data.total_market_cap_eur, 4));
+			$("#gl_Vol").html(nFormatter(data.total_24h_volume_eur, 4));
+		}
+		if(currency == "USD"){
+			$("#gl_MC").html(nFormatter(data.total_market_cap_usd, 4));
+			$("#gl_Vol").html(nFormatter(data.total_24h_volume_usd, 4));
+		}
+		if(currency == "ETH"){
+			$("#gl_MC").html(nFormatter(data.total_market_cap_eth, 4));
+			$("#gl_Vol").html(nFormatter(data.total_24h_volume_eth, 4));
+		}
+		
+		$("#curr_symb1").html(currencySym);
+		$("#curr_symb2").html(currencySym);
+
+			if(data.bitcoin_percentage_of_market_cap > 50) { $("#gl_BTCdom").css("color", "red"); }
+		else { $("#gl_BTCdom").css("color", "green"); }
+		
+		$("#gl_BTCdom").html(data.bitcoin_percentage_of_market_cap);
+	});	
 }
 
 function GenerateTokensInfos() {
@@ -231,7 +337,9 @@ function generateTable(tokensInfos) {
 			if(cptToken < nbToken) {
 				var tokenName = $(lstTokens[cptToken++]).splice(",");
 				cell.id = tokenName[0];
-				cell.innerHTML = tokenName[0];
+				var imgLink = "<img src='"+cmc_urlStaticIMG+tokenName[2]+".png' alt='"+tokenName[0]+"' class='center'>";
+				//cell.innerHTML = tokenName[0];
+				cell.innerHTML = imgLink;
 			}
 			else{
 				cell.id = "";
