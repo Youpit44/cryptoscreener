@@ -3,22 +3,34 @@
 <head>
     <title>Welcome to the CryptoScreener !</title>
 	<script>
-	var lstTokens = new Array();
-	lstTokens.push(["BITCOIN", "coinmarketcap", 1, "", 0.09]);
-	lstTokens.push(["ETHEREUM", "coinmarketcap", 1027, "", 0.33]);
-	lstTokens.push(["NEO", "coinmarketcap", 1376, "", 4]);
-	lstTokens.push(["LITECOIN", "coinmarketcap", 2, "", 0.45]);
-	lstTokens.push(["TRON", "coinmarketcap", 1958, "", 2003]);
-	lstTokens.push(["FRIENDS", "coinmarketcap", 2626, "", 1299]);
-	lstTokens.push(["VERGE", "coinmarketcap", 693, "", 749]);
-	lstTokens.push(["HAVVEN", "coinmarketcap", 2586, "", 249.75]);
-	lstTokens.push(["TE-FOOD", "coinmarketcap", 2578, "", 2162]);
-	lstTokens.push(["ONTOLOGY", "coinmarketcap", 2566, "", 20]);
-	lstTokens.push(["ARCBLOCK", "coinmarketcap", 2545, "", 75]);
-	lstTokens.push(["POLYMATH-NETWORK", "coinmarketcap", 2496, "", 250]);
-	lstTokens.push(["EQUAL", "coinmarketcap", 2479, "", 16000]);
-	lstTokens.push(["DROPIL", "coinmarketcap", 2591, "", 1500]);
-	</script>
+		var lstTokens = new Array();
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// VARIABLE A MODIFIER
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		lstTokens.push(["BITCOIN", "coinmarketcap", 1, "", 0.09]);
+		lstTokens.push(["ETHEREUM", "coinmarketcap", 1027, "", 0.33]);
+		lstTokens.push(["NEO", "coinmarketcap", 1376, "", 4]);
+		lstTokens.push(["LITECOIN", "coinmarketcap", 2, "", 0.45]);
+		lstTokens.push(["TRON", "coinmarketcap", 1958, "", 2003]);
+		lstTokens.push(["FRIENDS", "coinmarketcap", 2626, "", 1299]);
+		lstTokens.push(["VERGE", "coinmarketcap", 693, "", 749]);
+		lstTokens.push(["HAVVEN", "coinmarketcap", 2586, "", 249.75]);
+		lstTokens.push(["TE-FOOD", "coinmarketcap", 2578, "", 2162]);
+		lstTokens.push(["ONTOLOGY", "coinmarketcap", 2566, "", 20]);
+		lstTokens.push(["ARCBLOCK", "coinmarketcap", 2545, "", 75]);
+		lstTokens.push(["POLYMATH-NETWORK", "coinmarketcap", 2496, "", 250]);
+		lstTokens.push(["EQUAL", "coinmarketcap", 2479, "", 16000]);
+		lstTokens.push(["DROPIL", "coinmarketcap", 2591, "", 1500]);
+		lstTokens.push(["DATUM", "coinmarketcap", 2283, "", 196.77]);
+		lstTokens.push(["NUCLEUS-VISION", "coinmarketcap", 2544, "", 200]);
+		lstTokens.push(["JESUS-COIN", "coinmarketcap", 2520, "", 11500]);
+		lstTokens.push(["PUREVIDZ", "coinmarketcap", 1511, "", 7400]);
+		lstTokens.push(["PECULIUM", "coinmarketcap", 2610, "", 1050]);
+		lstTokens.push(["MATRIX-AI-NETWORK", "coinmarketcap", 2474, "", 10]);
+		// lstTokens.push(["FDZ", "idex", 2474, "", 10]);
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// https://s2.coinmarketcap.com/static/img/coins/32x32/2474.png
+		</script>
 	<style>
 	html * {
 		font-family: 'Trebuchet MS', Helvetica, sans-serif;
@@ -39,6 +51,16 @@
 		color: red;
 	}
 	.pump {
+		font-weight: bold;
+	}
+	.bigpump {
+		background-color: green;
+		color: white;
+		font-weight: bold;
+	}
+	.bigdump {
+		background-color: red;
+		color: white;
 		font-weight: bold;
 	}
 	div #rank{
@@ -87,9 +109,6 @@
 	}
 	.percent_change_red {
 		color: red;
-	}
-	.pump {
-		font-weight: bold;
 	}
 	#header {
 		display: table;
@@ -149,12 +168,13 @@
 <div id="dvTable">
 </div>
 <br />
-	<input type="button" value="Refresh Table" onclick="GenerateTokensInfos()" />
+	<input type="button" value="Refresh Table" onclick="refreshTables()" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script>
 	//console.log($("#currencyChoice").val());
 	var currency = $("#currencyChoice").val();
 	var currencySym = "€";
+	var decimals = 5;
 	////// Variable pour : COINMARKETCAP :-------------------------------------------------------------------------------
 	var cmc_urlAPI = "https://api.coinmarketcap.com/v1/ticker/";
 	var cmc_urlAPIinformation = "https://api.coinmarketcap.com/v1/global/?convert=";
@@ -173,19 +193,26 @@ function startApp() {
 	generateTable(0);
 	var newCells = GenerateTokensInfos();
 }
+function refreshTables() {
+	info_CoinMarketCap_Global();
+	var newCells = GenerateTokensInfos();
+}
 
 function choiceCurrency(type) {
 	if(type == "EUR") {
 		currency = "EUR";
 		currencySym = "€";
+		decimals = 5;
 	}
 	if(type == "USD"){
 		currency = "USD";
 		currencySym = "$";
+		decimals = 5;
 	}
 	if(type == "ETH"){
 		currency = "ETH";
 		currencySym = "E";
+		decimals = 7;
 	}
 	
 	info_CoinMarketCap_Global();
@@ -225,10 +252,15 @@ function nFormatter(num, digits) {
 	return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
 }
 
-function tokenInfo_CoinMarketCap(token, idImage, nbTokens) {
+function tokenInfo_CoinMarketCap(token, idImage, nbTokens, convert) {
 	var tokenInfo = new Array();
 	var pump = "";
-	var jqxhr = $.getJSON(cmc_urlAPI+token+'/?convert='+currency);
+	var curr_convert = "";
+	var priceToken = 0;
+	if(convert == "") { curr_convert = currency; }
+	else { curr_convert = convert; }
+
+	var jqxhr = $.getJSON(cmc_urlAPI+token+'/?convert='+curr_convert);
 	jqxhr.done(function(data) {
 		if(token == "BITCOIN") { 
 			priceBTC = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
@@ -236,9 +268,16 @@ function tokenInfo_CoinMarketCap(token, idImage, nbTokens) {
 		if(token == "ETHEREUM") { 
 			priceETH = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
 		}
-		var priceToken = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
-		priceToken = (currency == "ETH" ? parseFloat(data[0].price_eth) : priceToken);
-		
+		// if(convert == "") {
+			priceToken = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
+			priceToken = (currency == "ETH" ? parseFloat(data[0].price_eth) : priceToken);
+		// }
+		// else {
+			// priceToken = parseFloat(data[0].price_btc);
+			// currencySym = "B";
+			// decimals = 8;
+		// }
+
 		var priceWallet = priceToken * nbTokens;
 		if(data[0]["percent_change_24h"] > 0) { 
 			colorvar = "percent_change_green" 
@@ -248,19 +287,21 @@ function tokenInfo_CoinMarketCap(token, idImage, nbTokens) {
 			colorvar = "percent_change_red" 
 			colorName = "tokename_red";
 		}
-		if(data[0]["percent_change_24h"] > 15) { 
+		if(data[0]["percent_change_24h"] > 15 && data[0]["percent_change_24h"] < 30) { 
 			pump = "pump"; 
 		}
-		//else if(data[0]["percent_change_24h"] > -5) { colorvar += " pump"; }
+		else if(data[0]["percent_change_24h"] >= 30) { colorName = ""; pump = "bigpump"; }
+		else if(data[0]["percent_change_24h"] < -15 && data[0]["percent_change_24h"] > -40) { pump = "pump"; }
+		else if(data[0]["percent_change_24h"] <= -40) {  colorName = ""; pump = "bigdump"; }
 		var tokenInfo = "<div class='cellule'>"+
 							"<div class='tokenicon' id=icon><img src='"+cmc_urlStaticIMG+idImage+".png' /></div>"+
 							"<div class='tokeninfo' id=text>"+
 								"<div id='"+colorName+"' class='"+pump+"'>"+data[0].name+" ("+data[0].symbol+")</div>"+
 								"<div id='token_infos' class='"+colorvar+"'>"+
-									"<span id='price_eur'>"+priceToken.toFixed(5)+" "+currencySym+"</span> <span id='percent_change'>("+data[0]["percent_change_24h"]+"%)</span>"+
+									"<span id='price_eur'>"+priceToken.toFixed(decimals)+" "+currencySym+"</span> <span id='percent_change'>("+data[0]["percent_change_24h"]+"%)</span>"+
 								"</div>"+
 								"<div id='wallet_infos' class=''>"+
-								"<span id='price_eur'>"+priceWallet.toFixed(5)+" "+currencySym+"</span> <span id='percent_change'>("+nbTokens+")</span>"+
+								"<span id='price_eur'>"+priceWallet.toFixed(decimals)+" "+currencySym+"</span> <span id='percent_change'>("+nbTokens+data[0].symbol+")</span>"+
 								"</div>"+
 							"</div>"+
 							
@@ -278,6 +319,17 @@ function tokenInfo_CoinMarketCap(token, idImage, nbTokens) {
 		"<div class='rowInfos'>"+
 		"</div>";		
 		$("#"+token).html(tokenInfo);
+	});
+}
+
+function tokenInfo_IDEXmarket(token, idImage, nbTokens, convert) {
+	$.post('https://api.idex.market/returnTicker',
+    {
+        json: {
+			market: 'ETH_FDZ'
+		}
+		}, function(err, resp, body) {
+        console.log(body);
 	});
 }
 
@@ -315,7 +367,12 @@ function GenerateTokensInfos() {
 	var cells = { };
 	$.each(lstTokens, function(key, value) {
 		var tokenName = value[0];
-		tokenInfo_CoinMarketCap(tokenName, value[2], parseFloat(value[4]));
+		if(value[1] == "coinmarketcap") {
+			tokenInfo_CoinMarketCap(tokenName, value[2], parseFloat(value[4]), value[3]);
+		}
+		else {
+			tokenInfo_IDEXmarket(tokenName, value[2], parseFloat(value[4]), value[3]);
+		}
 	});
 	return cells;
 }
