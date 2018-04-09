@@ -138,7 +138,7 @@
 	<div class="column">24h Volume: <span id="gl_Vol"></span> <span id="curr_symb2"></span></div>
 	<div class="column">BTC Dominance: <span id="gl_BTCdom"></span> %</div>
 	<div class="column">Last Update: 
-		<span id="lastupdate" class="dateheure"></span> | Currency :
+		<span id="lastupdate" class="dateheure"></span> |
 		<select id="currencyChoice" onchange="choiceCurrency(this.value)">
 			<option selected="selected" value="EUR">EUR</option>
 			<option value="USD">USD</option>
@@ -237,6 +237,7 @@ function tokenInfo_CoinMarketCap(token, idImage, nbTokens) {
 			priceETH = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
 		}
 		var priceToken = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
+		priceToken = (currency == "ETH" ? parseFloat(data[0].price_eth) : priceToken);
 		
 		var priceWallet = priceToken * nbTokens;
 		if(data[0]["percent_change_24h"] > 0) { 
