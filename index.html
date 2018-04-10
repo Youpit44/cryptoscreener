@@ -139,6 +139,7 @@
 		display: table;
 		width: 100%; /*Optional*/
 		table-layout: fixed; /*Optional*/
+		font-size: 12px;
 		/* border: 1px;
 		border-style: inset;
 		font-size: 12px; */
@@ -179,7 +180,7 @@
 		display: block;
 		margin-left: auto;
 		margin-right: auto;
-		width: 50%;
+		/* width: 50%; */
 	}	
 	.dateheure {
 		font-weight: bold;
@@ -191,7 +192,7 @@
 	<div class="column">Market Cap: <span id="gl_MC"></span> <span id="curr_symb1"></span></div>
 	<div class="column">24h Volume: <span id="gl_Vol"></span> <span id="curr_symb2"></span></div>
 	<div class="column">BTC Dominance: <span id="gl_BTCdom"></span> %</div>
-	<div class="column">MaJ: 
+	<div class="column">
 		<span id="lastupdate" class="dateheure"></span> |
 		<select id="currencyChoice" onchange="choiceCurrency(this.value)">
 			<option selected="selected" value="EUR">EUR</option>
@@ -217,6 +218,7 @@
 	var cmc_urlAPI = "https://api.coinmarketcap.com/v1/ticker/";
 	var cmc_urlAPIinformation = "https://api.coinmarketcap.com/v1/global/?convert=";
 	var cmc_urlStaticIMG = "https://s2.coinmarketcap.com/static/img/coins/64x64/";
+	var cmc_urlStatic32IMG = "https://s2.coinmarketcap.com/static/img/coins/32x32/";
 	var cmc_sparkLine7d = "https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/";
 	var cmc_sparkLine1d = "https://s2.coinmarketcap.com/generated/sparklines/web/1d/usd/";
 	//-------------------------------------------------------------------------------------------------------------------
@@ -282,6 +284,16 @@ function choiceCurrency(type) {
 		currencySym = "E";
 		decimals = 7;
 	}
+	if(type == "LTC"){
+		currency = "LTC";
+		currencySym = "L";
+		decimals = 7;
+	}
+	if(type == "NEO"){
+		currency = "NEO";
+		currencySym = "N";
+		decimals = 7;
+	}
 	
 	info_CoinMarketCap_Global();
 	var newCells = GenerateTokensInfos();
@@ -321,7 +333,7 @@ function nFormatter(num, digits) {
 }
 
 function tokenInfo_CoinMarketCap(token, idImage, nbTokens, convert) {
-	currency = $("#currencyChoice").val();
+	//currency = $("#currencyChoice").val();
 	var tokenInfo = new Array();
 	var pump = "";
 	var curr_convert = "";
@@ -329,8 +341,6 @@ function tokenInfo_CoinMarketCap(token, idImage, nbTokens, convert) {
 	if(convert == "") { curr_convert = currency; }
 	else { curr_convert = convert.toUpperCase(); }
 
-	// console.log(curr_convert);
-	
 	var jqxhr = $.getJSON(cmc_urlAPI+token+'/?convert='+curr_convert);
 	jqxhr.done(function(data) {
 		if(token == "BITCOIN") { 
@@ -340,7 +350,7 @@ function tokenInfo_CoinMarketCap(token, idImage, nbTokens, convert) {
 			priceETH = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
 		}
 		
-		priceToken = calculPriceToken(data, convert.toUpperCase());
+		priceToken = calculPriceToken(data, curr_convert.toUpperCase());
 		// if(convert == "") {
 			// priceToken = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
 			// priceToken = (currency == "ETH" ? parseFloat(data[0].price_eth) : priceToken);
@@ -409,32 +419,42 @@ function tokenInfo_CoinMarketCap(token, idImage, nbTokens, convert) {
 
 function calculPriceToken(dataToken, coinRef) {
 	var convertPrice = 0;
-	console.log("CoinRef: " + coinRef);
+	// console.log("CoinRef: " + coinRef);
 	if(coinRef == "BTC") {
 		convertPrice = parseFloat(dataToken[0].price_btc);
-		console.log("BTC=>" + convertPrice);
+		// console.log("BTC=>" + convertPrice);
 		currencySym = "B";
 		decimals = 8;
 	}
 	else if(coinRef == "ETH") {
 		convertPrice = parseFloat(dataToken[0].price_eth);
-		console.log("ETH=>" + convertPrice);
+		// console.log("ETH=>" + convertPrice);
+		currencySym = "E";
+		decimals = 7;
 	}
 	else if(coinRef == "LTC") {
 		convertPrice = parseFloat(dataToken[0].price_ltc);
-		console.log("LTC=>" + convertPrice);
+		// console.log("LTC=>" + convertPrice);
+		currencySym = "L";
+		decimals = 7;
 	}
 	else if(coinRef == "NEO") {
 		convertPrice = parseFloat(dataToken[0].price_neo);
-		console.log("NEO=>" + convertPrice);
+		// console.log("NEO=>" + convertPrice);
+		currencySym = "N";
+		decimals = 7;
 	}
 	else if(coinRef == "USD") {
 		convertPrice = parseFloat(dataToken[0].price_usd);
-		console.log("NEO=>" + convertPrice);
+		// console.log("NEO=>" + convertPrice);
+		currencySym = "$";
+		decimals = 5;
 	}
 	else {
 		convertPrice = parseFloat(dataToken[0].price_eur);
-		console.log("EUR=>" + convertPrice);
+		// console.log("EUR=>" + convertPrice);
+		currencySym = "€";
+		decimals = 5;
 	}
 	//priceToken * priceConvert;
 
@@ -470,6 +490,14 @@ function info_CoinMarketCap_Global() {
 		if(currency == "ETH"){
 			$("#gl_MC").html(nFormatter(data.total_market_cap_eth, 4));
 			$("#gl_Vol").html(nFormatter(data.total_24h_volume_eth, 4));
+		}
+		if(currency == "LTC"){
+			$("#gl_MC").html(nFormatter(data.total_market_cap_ltc, 4));
+			$("#gl_Vol").html(nFormatter(data.total_24h_volume_ltc, 4));
+		}
+		if(currency == "NEO"){
+			$("#gl_MC").html(nFormatter(data.total_market_cap_neo, 4));
+			$("#gl_Vol").html(nFormatter(data.total_24h_volume_neo, 4));
 		}
 		
 		$("#curr_symb1").html(currencySym);
