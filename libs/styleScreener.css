@@ -1,0 +1,152 @@
+﻿html * {
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	background-color: #efeded;
+}
+td {
+	height:50px;
+	width:200px;
+	padding-bottom: 0px;
+	border: 1px solid #c2c2c2;
+	border-top-right-radius: 10px;		
+}
+th {
+	height:20px;
+	width:200px;
+}
+div #tokename_green{
+	color: green;
+}
+div #tokename_red{
+	color: red;
+}
+.pump {
+	font-weight: bold;
+}
+.bigpump {
+	background-color: green;
+	color: white;
+	font-weight: bold;
+}
+.bigdump {
+	background-color: red;
+	color: white;
+	font-weight: bold;
+}
+div #rank{
+	width:40px;
+	text-align: center;
+	vertical-align: middle;
+}
+div #market_cap{
+	text-align: center;
+	vertical-align: middle;
+}
+div #volume{
+	text-align: center;
+	vertical-align: middle;
+}
+div .cellule{
+	display: table;
+	width:100%;
+	table-layout: fixed; /*Optional*/
+	background-color: transparent;
+}
+div .tokenicon{
+	display: table-cell;
+	width:30%;
+}
+div .tokenicon img {
+	width: 90%;
+	height: auto;
+}
+div .tokeninfo{
+	display: table-cell;
+	/* text-align: center; */
+	vertical-align: top;
+	padding-top: 5px;
+}
+div #token_infos{
+	font-size: 12px;
+}
+div #wallet_infos{
+	font-size: 10px;
+}
+#sparkline1d {
+	display: table;
+	width: 100%; /*Optional*/
+	table-layout: fixed; /*Optional*/
+
+}
+#sparktext {
+	display: table-cell;
+	font-size: 10px;
+	vertical-align: top;
+}
+#sparkImg1d {
+	display: table-cell;
+	font-size: 10px;
+	
+}
+
+div .sparkline1d{
+	display: inline;
+}
+div .sparkline7d{
+	display: none;
+}
+.percent_change_green {
+	color: green;
+}
+.percent_change_red {
+	color: red;
+}
+#header {
+	display: table;
+	width: 100%; /*Optional*/
+	table-layout: fixed; /*Optional*/
+	font-size: 12px;
+	/* border: 1px;
+	border-style: inset;
+	font-size: 12px; */
+}
+#header .column {
+	display: table-cell;
+	text-align: center;
+	border: 1px solid #c2c2c2;
+	border-bottom: 1px solid #777;
+	border-top-right-radius: 10px;		
+	border-top-left-radius: 10px;
+	/* border-style: inset;
+	border-right: 1px;
+	border-width: 1px; */
+	
+}
+.rowInfos {
+	display: table;
+	width: 100%; /*Optional*/
+	table-layout: fixed; /*Optional*/
+	border-spacing: 2px; /*Optional*/
+	border-style: inset;
+	border-right: 1px;
+	border-left: 2px;
+	border-width: 1px;
+}
+.Column {
+	display: table-cell;
+	font-size: 10px;
+	/* background-color: red; /*Optional*/
+}
+.rowBlank {
+	width: 100%; /*Optional*/
+	height: 5px;
+	table-layout: fixed; /*Optional*/
+}	
+.center {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	/* width: 50%; */
+}	
+.dateheure {
+	font-weight: bold;
+}
