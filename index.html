@@ -3,451 +3,249 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <title>Welcome to the CryptoScreener !</title>
-	<script>
-		var lstTokens = new Array();
-		var unkTokens = new Array();
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		// VARIABLE A MODIFIER
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		<!-- lstTokens.push(["BITCOIN", "coinmarketcap", 1, "", 0.09]); -->
-		<!-- lstTokens.push(["ETHEREUM", "coinmarketcap", 1027, "", 0.33]); -->
-		<!-- lstTokens.push(["NEO", "coinmarketcap", 1376, "", 4]); -->
-		<!-- lstTokens.push(["LITECOIN", "coinmarketcap", 2, "", 0.45]); -->
-		<!-- lstTokens.push(["TRON", "coinmarketcap", 1958, "", 2003]); -->
-		<!-- lstTokens.push(["FRIENDS", "coinmarketcap", 2626, "", 1299]); -->
-		<!-- lstTokens.push(["VERGE", "coinmarketcap", 693, "", 749]); -->
-		<!-- lstTokens.push(["HAVVEN", "coinmarketcap", 2586, "", 268.628]); -->
-		<!-- lstTokens.push(["TE-FOOD", "coinmarketcap", 2578, "", 2162]); -->
-		<!-- lstTokens.push(["ONTOLOGY", "coinmarketcap", 2566, "", 20]); -->
-		<!-- lstTokens.push(["ARCBLOCK", "coinmarketcap", 2545, "", 75]); -->
-		<!-- lstTokens.push(["POLYMATH-NETWORK", "coinmarketcap", 2496, "", 250]); -->
-		<!-- lstTokens.push(["EQUAL", "coinmarketcap", 2479, "", 16000]); -->
-		<!-- lstTokens.push(["DROPIL", "coinmarketcap", 2591, "", 1500]); -->
-		<!-- lstTokens.push(["DATUM", "coinmarketcap", 2283, "", 196.77]); -->
-		<!-- lstTokens.push(["NUCLEUS-VISION", "coinmarketcap", 2544, "", 200]); -->
-		<!-- lstTokens.push(["JESUS-COIN", "coinmarketcap", 2520, "", 11500]); -->
-		<!-- lstTokens.push(["PUREVIDZ", "coinmarketcap", 1511, "btc", 7400]); -->
-		<!-- lstTokens.push(["PECULIUM", "coinmarketcap", 2610, "", 1050]); -->
-		<!-- lstTokens.push(["MATRIX-AI-NETWORK", "coinmarketcap", 2474, "", 10]); -->
-		//lstTokens.push(["FDZ", "coinmarketcap", 2474, "", 10]);
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		// https://s2.coinmarketcap.com/static/img/coins/32x32/2474.png
-	</script>
-	<script type="text/javascript" src="./dist/web3.min.js"></script>
-	<!-- <script type="text/javascript" src="./dist/human_standard_token_abi.js"></script> -->
+	<link rel="stylesheet" type="text/css" href="./libs/styleScreener.css">
+	<script type="text/javascript" src="./libs/initScreener.js"></script>
+	<script type="text/javascript" src="./libs/configScreener.js"></script>
+	<script type="text/javascript" src="./libs/web3.min.js"></script>
+	<script type="text/javascript" src="./libs/libsScreener.js"></script>
+	<script type="text/javascript" src="./libs/walletsScreener.js"></script>
+	<!-- <script type="text/javascript" src="./libs/human_standard_token_abi.js"></script> -->
 	<script type="text/javascript">
-		<!-- window.addEventListener('load', function () { -->
-			<!-- if (typeof web3 !== 'undefined') { -->
-				<!-- console.log('Web3 Detected! ' + web3.currentProvider.constructor.name) -->
-				<!-- window.web3 = new Web3(web3.currentProvider); -->
-			<!-- } else { -->
-				<!-- console.log('No Web3 Detected... using HTTP Provider') -->
-				<!-- window.web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/psPjCLWLXsuC8SUG6b4v")); -->
-			<!-- } -->
-		<!-- }) -->
-		
-        function getBalance() {
-            var address, wei, balance;
-            //address = document.getElementById("address").value
-			
-			var MyContract = web3.eth.contract(contractJC);
-			
-			<!-- var contractInstance = MyContract.at(address); -->
-			
-			<!-- console.log(contractInstance.balanceOf(my_address)); -->
-			
-            <!-- try { -->
-                <!-- web3.eth.getBalance(ethAddress, function (error, wei) { -->
-                    <!-- if (!error) { -->
-						<!-- var contractABI = human_standard_token_abi; -->
-						<!-- var contractAddress = "0xe2d82dc7da0e6f882e96846451f4fabcc8f90528"; -->
-												
-						<!-- var tokenContract = web3.eth.contract(contractABI).at(contractAddress); -->
-						<!-- var decimal = tokenContract.decimals(); -->
-						<!-- var balance = tokenContract.balanceOf(address); -->
-						<!-- var adjustedBalance = balance / Math.pow(10, decimal); -->
-						<!-- var tokenName = tokenContract.name(); -->
-						<!-- var tokenSymbol = tokenContract.symbol(); -->
-						<!-- document.getElementById("output").innerHTML = tokenContract.balanceOf(address).toNumber() + " JC"; -->
-                    <!-- } -->
-                <!-- }); -->
-            <!-- } catch (err) { -->
-                <!-- document.getElementById("output").innerHTML = err; -->
-            <!-- } -->
-        }	</script>
-	<style>
-	html * {
-		font-family: 'Trebuchet MS', Helvetica, sans-serif;
-		background-color: #efeded;
-	}
-	td {
-		height:50px;
-		width:200px;
-		padding-bottom: 0px;
-		border: 1px solid #c2c2c2;
-		border-top-right-radius: 10px;		
-	}
-	th {
-		height:20px;
-		width:200px;
-	}
-	div #tokename_green{
-		color: green;
-	}
-	div #tokename_red{
-		color: red;
-	}
-	.pump {
-		font-weight: bold;
-	}
-	.bigpump {
-		background-color: green;
-		color: white;
-		font-weight: bold;
-	}
-	.bigdump {
-		background-color: red;
-		color: white;
-		font-weight: bold;
-	}
-	div #rank{
-		width:40px;
-		text-align: center;
-		vertical-align: middle;
-	}
-	div #market_cap{
-		text-align: center;
-		vertical-align: middle;
-	}
-	div #volume{
-		text-align: center;
-		vertical-align: middle;
-	}
-	div .cellule{
-		display: table;
-		width:100%;
-		table-layout: fixed; /*Optional*/
-		background-color: transparent;
-	}
-	div .tokenicon{
-		display: table-cell;
-		width:30%;
-	}
-	div .tokenicon img {
-		width: 90%;
-		height: auto;
-	}
-	div .tokeninfo{
-		display: table-cell;
-		/* text-align: center; */
-		vertical-align: top;
-		padding-top: 5px;
-	}
-	div #token_infos{
-		font-size: 12px;
-	}
-	div #wallet_infos{
-		font-size: 10px;
-	}
-	#sparkline1d {
-		display: table;
-		width: 100%; /*Optional*/
-		table-layout: fixed; /*Optional*/
-	
-	}
-	#sparktext {
-		display: table-cell;
-		font-size: 10px;
-		vertical-align: top;
-	}
-	#sparkImg1d {
-		display: table-cell;
-		font-size: 10px;
-		
-	}
-	
-	div .sparkline1d{
-		display: inline;
-	}
-	div .sparkline7d{
-		display: none;
-	}
-	.percent_change_green {
-		color: green;
-	}
-	.percent_change_red {
-		color: red;
-	}
-	#header {
-		display: table;
-		width: 100%; /*Optional*/
-		table-layout: fixed; /*Optional*/
-		font-size: 12px;
-		/* border: 1px;
-		border-style: inset;
-		font-size: 12px; */
-	}
-	#header .column {
-		display: table-cell;
-		text-align: center;
-		border: 1px solid #c2c2c2;
-		border-bottom: 1px solid #777;
-		border-top-right-radius: 10px;		
-		border-top-left-radius: 10px;
-	    /* border-style: inset;
-		border-right: 1px;
-		border-width: 1px; */
-		
-	}
-	.rowInfos {
-		display: table;
-		width: 100%; /*Optional*/
-		table-layout: fixed; /*Optional*/
-		border-spacing: 2px; /*Optional*/
-	    border-style: inset;
-		border-right: 1px;
-		border-left: 2px;
-		border-width: 1px;
-	}
-	.Column {
-		display: table-cell;
-		font-size: 10px;
-		/* background-color: red; /*Optional*/
-	}
-	.rowBlank {
-		width: 100%; /*Optional*/
-		height: 5px;
-		table-layout: fixed; /*Optional*/
-	}	
-	.center {
-		display: block;
-		margin-left: auto;
-		margin-right: auto;
-		/* width: 50%; */
-	}	
-	.dateheure {
-		font-weight: bold;
-	}
-	</style>
+		if(infura_KEY != "") {
+			window.addEventListener('load', function () {
+				if (typeof web3 !== 'undefined') {
+				console.log('Web3 Detected! ' + web3.currentProvider.constructor.name)
+				window.web3 = new Web3(web3.currentProvider);
+				} else {
+				console.log('No Web3 Detected... using HTTP Provider')
+				window.web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/"+infura_KEY));
+				}
+			})
+		}
+	</script>
 </head>
 <body>
-<div id="header" class="inline">
-	<div class="column">Market Cap: <span id="gl_MC"></span> <span id="curr_symb1"></span></div>
-	<div class="column">24h Volume: <span id="gl_Vol"></span> <span id="curr_symb2"></span></div>
-	<div class="column">BTC Dominance: <span id="gl_BTCdom"></span> %</div>
-	<div class="column">
-		<span id="lastupdate" class="dateheure"></span> |
-		<select id="currencyChoice" onchange="choiceCurrency(this.value)">
-			<option selected="selected" value="EUR">EUR</option>
-			<option value="USD">USD</option>
-			<option value="BTC">BTC</option>
-			<option value="ETH">ETH</option>
-			<option value="NEO">NEO</option>
-		</select> |
-		1d:<input id="oneDayGraph" name="OneDay" value="oneday" type="checkbox" onchange="changeDayGraph(this)" /> |
-		7d:<input id="sevenDayGraph" name="SevenDays" value="sevenday"type="checkbox" onchange="changeDayGraph(this)" />
+	<div id="header" class="inline">
+		<div class="column">Market Cap: <span id="gl_MC"></span> <span id="curr_symb1"></span></div>
+		<div class="column">24h Volume: <span id="gl_Vol"></span> <span id="curr_symb2"></span></div>
+		<div class="column">BTC Dominance: <span id="gl_BTCdom"></span> %</div>
+		<div class="column">Balance: <span id="wallet_Balance"></span> <span id="curr_symb3"></span> |
+			<select id="currencyChoice" onchange="choiceCurrency(this.value)">
+				<option selected="selected" value="EUR">EUR</option>
+				<option value="USD">USD</option>
+				<option value="BTC">BTC</option>
+				<option value="ETH">ETH</option>
+				<option value="NEO">NEO</option>
+			</select>
+		</div>
+		<div class="column">
+			<span id="lastupdate" class="dateheure"></span> |
+			1d:<input id="oneDayGraph" name="OneDay" value="oneday" type="checkbox" onchange="changeDayGraph(this)" /><!-- |
+			7d:<input id="sevenDayGraph" name="SevenDays" value="sevenday"type="checkbox" onchange="changeDayGraph(this)" /> | -->
+<!--			@<input id="onlineMode" name="onlineMode" value="true"type="checkbox" onchange="changeOnlineMode(this)" /> -->
+		</div>
 	</div>
-</div>
-<div id="dvTable">
-</div>
-<br />
-	<input type="button" value="Refresh Table" onclick="refreshTables()" />
-    <button type="button" onClick="readTokensWalletFile();">Get Balance</button>
+	<div id="dvTableCoins"></div>
+	<hr/>
+	<div id="dvTableTokens"></div>
+	<hr/>
+	<!-- <input type="button" value="Refresh Table" onclick="refreshTables()" />
+	<button type="button" onClick="getBalance();">Get Balance</button> -->
 	<div id="output"></div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script>
+	var table = $("#mytable");
 	var currency = $("#currencyChoice").val();
 	var currencySym = "€";
 	var decimals = 5;
-	////// Variable pour : COINMARKETCAP :-------------------------------------------------------------------------------
-	var cmc_urlAPI = "https://api.coinmarketcap.com/v1/ticker/";
-	var cmc_urlAPIinformation = "https://api.coinmarketcap.com/v1/global/?convert=";
-	var cmc_urlStaticIMG = "https://s2.coinmarketcap.com/static/img/coins/64x64/";
-	var cmc_urlStatic32IMG = "https://s2.coinmarketcap.com/static/img/coins/32x32/";
-	var cmc_sparkLine7d = "https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/";
-	var cmc_sparkLine1d = "https://s2.coinmarketcap.com/generated/sparklines/web/1d/usd/";
-	//-------------------------------------------------------------------------------------------------------------------
-	// API KEYS
-	var urlInfura = "https://mainnet.infura.io/";
-	var infura_KEY = "";
-	//-------------------------------------------------------------------------------------------------------------------
-	// WALLET
-	var ethAddress = "";
-	var contractJC = ""
-	var tokenName;
-	var priceETH = 0;
-	var priceBTC = 0;
-	var table = $("#mytable");
-	var lstAllTokensCMC = [];
 	
 	$(document).ready(startApp());
 
-function startApp() {
-	// var tb = loadAllTokensCMC();
-	var nolimit = "https://api.coinmarketcap.com/v1/ticker/?convert=EUR&limit=0";
-	
-	readLinkOnDBalances();
-	
-
-	
-	<!-- lstAllTokensCMC = readCMC_Tokens(); -->
-	
-	<!-- readTokensWalletFile(); -->
-	<!-- info_CoinMarketCap_Global(); -->
-	<!-- generateTable(0); -->
-	//var newCells = GenerateTokensInfos();
-	
-	<!-- console.log(lstTokens); -->
-	$("#oneDayGraph").prop('checked', true);
-}
-
-function readLinkOnDBalances() {
-	<!-- $('#button').click(function() { -->
-	  <!-- var array = []; -->
-		<!-- var jqxhr = $.get('https://deltabalances.github.io/#0x2a0bc682Cf0A70E4489089E550383dC9F28aF34B',function(data) { $("#output").html(data); }); -->
+	function startApp() {
+		initScreenerConfiguration();
 		
-		
-	$.ajax({
-		 url: "https://deltabalances.github.io/index.html",
-		 dataType: 'html',
-		 data: '#',
-		 success: function(data) {
-			$("#output").html(data);
-			  <!-- var elements = $("<div>").html(data)[0].getElementsByTagName("ul")[0].getElementsByTagName("li"); -->
-			  <!-- for(var i = 0; i < elements.length; i++) { -->
-				   <!-- var theText = elements[i].firstChild.nodeValue; -->
-				   // Do something here
-			  <!-- } -->
-		 }
-	});		
-	
-	<!-- jqxhr.always(function() { -->
-		<!-- alert( "second finished" ); -->
-	<!-- }); -->
-}
+		console.log("Online Mode: "+configScreener.onlineMode);
+		if(configScreener.onlineMode) {
+			lstAllTokensCMC = loadCMC_Tokens();
+			loadWallet_online();
+		}
+		else {
+			lstAllTokensCMC = readCMC_Tokens();
+		}
 
-function readTokensWalletFile() {
-	var listAllTokens = [];
-	$.ajax({
-		type: "GET",
-		url: "tokens.csv",
-		dataType: "text",
-		async: false,
-		success: function(data) { 
-			listAllTokens = processData(data);
-			var tokenName;
-			$.each(listAllTokens, function(key, values) {
-				$.each(values, function(header, value) {
-					var splitLine = value.split(":");
-					if(splitLine[0] == "Token") {
-						tokenName = splitLine[1];
-						if(tokenName.indexOf('(') > -1) {
-							tokenName = tokenName.substring(0, tokenName.indexOf('('));
+		GenerateCoinsInfos();
+		
+		if(configScreener.localWallet) {
+			readTokensWalletFile(configScreener.walletName);
+		}
+		
+		// Charge les infos du marché Global de CoinMarketCap (CCC)
+		info_CoinMarketCap_Global();
+
+		if(configScreener.onlineMode) {
+			//////////////////////////////////////////////////////////////////
+			// MODE ON LINE /////////////////////////////////////////////////
+			generateTable(lstCoins, "dvTableCoins");
+			generateTable(lstTokens, "dvTableTokens");
+			var newCells = GenerateTokensInfos();
+			//////////////////////////////////////////////////////////////////
+		}
+		else {
+			//////////////////////////////////////////////////////////////////
+			// MODE OFF LINE /////////////////////////////////////////////////
+			generateTable_offline(smallListCoins, "dvTableCoins");
+			GenerateCoinsInfos_offline();
+			generateTable_offline(smallListTokens, "dvTableTokens");
+			GenerateTokensInfos_offline();
+			//////////////////////////////////////////////////////////////////
+		}
+		
+		$("#wallet_Balance").html(walletBalance.toFixed(2));
+		$("#oneDayGraph").prop('checked', true);
+	}
+
+	function changeOnlineMode(choice) {
+		if(choice.value == "true") {
+			if(choice.checked) {
+				configScreener.onlineMode = true;
+				localStorage.setItem('cs_configuration', JSON.stringify(configScreener));
+			}
+			else {
+				configScreener.onlineMode = false;
+				localStorage.setItem('cs_configuration', JSON.stringify(configScreener));
+			}
+			refreshTables();
+		}
+	}
+	
+	function readTokensWalletFile(walletFile) {
+		var listAllTokens = [];
+		$.ajax({
+			type: "GET",
+			url: walletFile,
+			dataType: "text",
+			async: false,
+			success: function(data) { 
+				listAllTokens = processData(data);
+				var tokenName;
+				$.each(listAllTokens, function(key, values) {
+					$.each(values, function(header, value) {
+						var splitLine = value.split(":");
+						if(splitLine[0] == "Token") {
+							tokenName = splitLine[1];
+							if(tokenName.indexOf('(') > -1) {
+								tokenName = tokenName.substring(0, tokenName.indexOf('('));
+							}
+							var nbTokens = values[6].split(":");
+							var contractAddress = values[9].split(":");
+							if((lstAllTokensCMC.filter(p => p.symbol == tokenName)).length > 0) {
+								var indexToken = lstAllTokensCMC.findIndex(p => p.symbol == tokenName);
+								var token = lstAllTokensCMC.filter(p => p.symbol == tokenName);
+								if((token[0].id).toUpperCase() == "ETHEREUM") {
+									lstCoins.push([(token[0].id).toUpperCase(), "coinmarketcap", indexToken + 1, "", parseFloat(nbTokens[1]), ""]);
+								}
+								else {
+									if(!exceptTokens.includes()) {
+										lstTokens.push([(token[0].id).toUpperCase(), "coinmarketcap", indexToken + 1, "", parseFloat(nbTokens[1]), ""]);
+									}
+								}
+								if((!exceptContract.includes(contractAddress[1])) && (!exceptTokens.includes(token[0].symbol))) {
+									if(contractAddress[1] != "Not a token") {
+										lstGoodTokens[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(nbTokens[1]), token[0].name, token[0].price_usd, token[0].price_eur, contractAddress[1]] ;
+										smallListTokens.push([(token[0].id).toUpperCase(), parseInt(token[0].rank)]);
+									}
+									else {
+										lstGoodCoins[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(nbTokens[1]), token[0].name, token[0].price_usd, token[0].price_eur, contractAddress[1]] ;
+										smallListCoins.push([(token[0].id).toUpperCase(), parseInt(token[0].rank)]);
+									}
+									// console.log(token);
+								}
+							}
+							else {
+								unkTokens.push([tokenName, tokenName, 0, 0, 0, 0, 0, contractAddress[1]]);
+							}
 						}
-						var nbTokens = values[3].split(":");
-						// lstTokens.push([splitLine[1], "", 0, "", nbTokens[1]]);
-						if((lstAllTokensCMC.filter(p => p.symbol == tokenName)).length > 0) {
-							var token = lstAllTokensCMC.filter(p => p.symbol == tokenName);
-							lstTokens.push([(token[0].id).toUpperCase(), "coinmarketcap", 0, "", nbTokens[1]]);
-							//console.log(token[0].id);
-						}
-						else {
-							lstTokens.push([tokenName, "", 0, "", nbTokens[1]]);
-						}
-					}
+					});
 				});
-			});
+			}
+		});
+		smallListCoins.sort(function(a,b){
+			return a[1] - b[1];
+		});
+		smallListTokens.sort(function(a,b){
+			return a[1] - b[1];
+		});
+	}
+
+	function filter_TokensWalletFileCMC() {
+		$.each(listAllTokens, function(key, value) {
+			var priceToken = 0;
+			var tokenSymbol = value[0];
+			
+			for(var i = 0; i < lstAllTokensCMC.length; i++)
+			{
+				if(lstAllTokensCMC[i].symbol == tokenSymbol)
+				{
+					console.log(lstAllTokensCMC[i].name);
+				}
+			}
+		});
+	}
+
+	function readCMC_Tokens() {
+		var listAllTokens = [];
+		var dateSync = new Date(JSON.parse(localStorage.getItem('date_cmc_tokens')));
+		var diff = new Date(new Date() - dateSync);
+		var days = diff.getTime()/1000/60;
+		$.ajax({
+			type: "GET",
+			url: "./cmc.json",
+			dataType: "json",
+			async: false,
+			success: function(data) { 
+				listAllTokens = data;
+			}
+		});
+		return listAllTokens;
+	}
+
+	function loadCMC_Tokens() {
+		var listAllTokens = []; 
+		$.ajax({
+			url: cmc_urlAPI+'?limit=0&convert=EUR',
+			dataType: 'json',
+			async: false,
+			success: function(data) {
+				listAllTokens = data;
+			}
+		});
+		return listAllTokens;
+	}
+
+	function refreshTables() {
+		info_CoinMarketCap_Global();
+		if(configScreener.onlineMode) {
+			//////////////////////////////////////////////////////////////////
+			// MODE ON LINE /////////////////////////////////////////////////
+			lstAllTokensCMC = loadCMC_Tokens();
+			loadWallet_online();
+			generateTable(lstCoins, "dvTableCoins");
+			var newCells = GenerateCoinsInfos();
+			// var newCells = GenerateCoinsInfos();
+			// var newCells = GenerateTokensInfos();
+			//////////////////////////////////////////////////////////////////
 		}
-	});
-}
-
-function readCMC_Tokens() {
-	var listAllTokens = [];
-	$.ajax({
-		type: "GET",
-		url: "cmc.json",
-		dataType: "json",
-		async: false,
-		success: function(data) { 
-			listAllTokens = data;
-			<!-- var tokenName; -->
-			<!-- $.each(listAllTokens, function(key, values) { -->
-				<!-- $.each(values, function(header, value) { -->
-					<!-- var splitLine = value.split(":"); -->
-					<!-- if(splitLine[0] == "Token") { -->
-						<!-- tokenName = splitLine[1]; -->
-						<!-- var nbTokens = values[3].split(":"); -->
-						<!-- lstTokens.push([splitLine[1], "", 0, "", nbTokens[1]]); -->
-					<!-- } -->
-				<!-- }); -->
-			<!-- }); -->
-			<!-- console.log(data); -->
+		else {
+			//////////////////////////////////////////////////////////////////
+			// MODE OFF LINE /////////////////////////////////////////////////
+			GenerateCoinsInfos_offline();
+			GenerateTokensInfos_offline();
+			//////////////////////////////////////////////////////////////////
 		}
-	});
-	return listAllTokens;
-}
+	}
 
-function processData(allText) {
-    var allTextLines = allText.split(/\r\n|\n/);
-    var headers = allTextLines[0].split(',');
-    var lines = [];
-
-    for (var i=1; i<allTextLines.length; i++) {
-        var data = allTextLines[i].split(',');
-        if (data.length == headers.length) {
-
-            var tarr = [];
-            for (var j=0; j<headers.length; j++) {
-                tarr.push(headers[j]+":"+data[j]);
-            }
-            lines.push(tarr);
-        }
-    }
-    //console.log(lines);
-	return lines;
-}
-
-function processDataSimple(allText) {
-    var record_num = 5;  // or however many elements there are in each row
-    var allTextLines = allText.split(/\r\n|\n/);
-    var entries = allTextLines[0].split(',');
-    var lines = [];
-
-    var headings = entries.splice(0,record_num);
-    while (entries.length>0) {
-        var tarr = [];
-        for (var j=0; j<record_num; j++) {
-            tarr.push(headings[j]+":"+entries.shift());
-        }
-        lines.push(tarr);
-    }
-    console.log(lines);
-}
-
-function loadAllTokensCMC() {
-	var allTokensCMC = []; 
-
-	$.ajax({
-		url: cmc_urlAPI+'?convert=EUR',
-		dataType: 'json',
-		async: false,
-		success: function(data) {
-			$.each(data, function(key, value) {
-				allTokensCMC.push(value);
-			});
-		}
-	});
-	return allTokensCMC;
-}
-
-function refreshTables() {
-	info_CoinMarketCap_Global();
-	var newCells = GenerateTokensInfos();
-}
-
-function changeDayGraph(choice) {
-	<!-- if(choice.checked) { -->
+	function changeDayGraph(choice) {
 		if(choice.value == "oneday") {
 			if(choice.checked) {
 				$(".sparkline1d").css("display", "inline");
@@ -464,114 +262,129 @@ function changeDayGraph(choice) {
 				$(".sparkline7d").css("display", "none");
 			}
 		}
-		//alert("checkbox "+choice.name);
-	<!-- } -->
-}
+	}
 
-function choiceCurrency(type) {
-	if(type == "EUR") {
-		currency = "EUR";
-		currencySym = "€";
-		decimals = 5;
-	}
-	if(type == "USD"){
-		currency = "USD";
-		currencySym = "$";
-		decimals = 5;
-	}
-	if(type == "BTC"){
-		currency = "BTC";
-		currencySym = "B";
-		decimals = 8;
-	}
-	if(type == "ETH"){
-		currency = "ETH";
-		currencySym = "E";
-		decimals = 7;
-	}
-	if(type == "LTC"){
-		currency = "LTC";
-		currencySym = "L";
-		decimals = 7;
-	}
-	if(type == "NEO"){
-		currency = "NEO";
-		currencySym = "N";
-		decimals = 7;
-	}
-	
-	info_CoinMarketCap_Global();
-	var newCells = GenerateTokensInfos();
-}
-
-function convertDate(timestamp) {
-var date = new Date(timestamp*1000);
-// Hours part from the timestamp
-var hours = date.getHours();
-// Minutes part from the timestamp
-var minutes = "0" + date.getMinutes();
-// Seconds part from the timestamp
-var seconds = "0" + date.getSeconds();
-// Will display time in 10:30:23 format
-var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-return formattedTime;
-}
-		
-function nFormatter(num, digits) {
-	var si = [
-		{ value: 1, symbol: "" },
-		{ value: 1E3, symbol: " k" },
-		{ value: 1E6, symbol: " M" },
-		{ value: 1E9, symbol: " B" },
-		{ value: 1E12, symbol: " T" },
-		{ value: 1E15, symbol: " P" },
-		{ value: 1E18, symbol: " E" }
-	];
-	var rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-	var i;
-	for (i = si.length - 1; i > 0; i--) {
-		if (num >= si[i].value) {
-		  break;
+	function choiceCurrency(type) {
+		if(type == "EUR") {
+			currency = "EUR";
+			currencySym = "€";
+			decimals = 5;
 		}
-	}
-	return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
-}
-
-function tokenInfo_CoinMarketCap(token, idImage, nbTokens, convert) {
-	//currency = $("#currencyChoice").val();
-	var tokenInfo = new Array();
-	var pump = "";
-	var curr_convert = "";
-	var priceToken = 0;
-	if(convert == "") { curr_convert = currency; }
-	else { curr_convert = convert.toUpperCase(); }
-
-	var jqxhr = $.getJSON(cmc_urlAPI+token+'/?convert='+curr_convert);
-	jqxhr.done(function(data) {
-		if(token == "BITCOIN") { 
-			priceBTC = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
+		if(type == "USD"){
+			currency = "USD";
+			currencySym = "$";
+			decimals = 5;
 		}
-		if(token == "ETHEREUM") { 
-			priceETH = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
+		if(type == "BTC"){
+			currency = "BTC";
+			currencySym = "B";
+			decimals = 8;
+		}
+		if(type == "ETH"){
+			currency = "ETH";
+			currencySym = "E";
+			decimals = 7;
+		}
+		if(type == "LTC"){
+			currency = "LTC";
+			currencySym = "L";
+			decimals = 7;
+		}
+		if(type == "NEO"){
+			currency = "NEO";
+			currencySym = "N";
+			decimals = 7;
 		}
 		
-		priceToken = calculPriceToken(data, curr_convert.toUpperCase());
-		// if(convert == "") {
-			// priceToken = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
-			// priceToken = (currency == "ETH" ? parseFloat(data[0].price_eth) : priceToken);
-		// }
-		// else if(convert == "btc") {
-			// priceToken = parseFloat(data[0].price_btc);
-			// currencySym = "B";
-			// decimals = 8;
-		// }
-		// calculPriceToken(priceToken, "btc");
+		info_CoinMarketCap_Global();
+		var newCells = GenerateTokensInfos();
+	}
+
+	function tokenInfo_CoinMarketCap(token, idImage, nbTokens, convert) {
+		//currency = $("#currencyChoice").val();
+		var tokenInfo = new Array();
+		var pump = "";
+		var curr_convert = "";
+		var priceToken = 0;
+		if(convert == "") { curr_convert = currency; }
+		else { curr_convert = convert.toUpperCase(); }
+
+		var jqxhr = $.getJSON(cmc_urlAPI+token+'/?convert='+curr_convert);
+		jqxhr.done(function(data) {
+			if(token == "BITCOIN") { 
+				priceBTC = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
+			}
+			if(token == "ETHEREUM") { 
+				priceETH = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
+			}
+			
+			priceToken = calculPriceToken(data, curr_convert.toUpperCase());
+			
+			verifyBump_Token(data[0]);
+			
+			var priceWallet = priceToken * nbTokens;
+			if(data[0]["percent_change_24h"] > 0) { 
+				colorvar = "percent_change_green" 
+				colorName = "tokename_green";
+			}
+			else { 
+				colorvar = "percent_change_red" 
+				colorName = "tokename_red";
+			}
+			if(data[0]["percent_change_24h"] > 15 && data[0]["percent_change_24h"] < 30) { 
+				pump = "pump"; 
+			}
+			else if(data[0]["percent_change_24h"] >= 30) { colorName = ""; pump = "bigpump"; }
+			else if(data[0]["percent_change_24h"] < -15 && data[0]["percent_change_24h"] > -40) { pump = "pump"; }
+			else if(data[0]["percent_change_24h"] <= -40) {  colorName = ""; pump = "bigdump"; }
+			
+			if(data[0].name.length > 10) { 
+				if(data[0].symbol.length >3) { lenTokenName = 5; }
+				else { lenTokenName = 8; }
+				affTokenName = data[0].name.substring(0,lenTokenName) + "..."; 
+			}
+			else { affTokenName = data[0].name; }
+			var tokenInfo = "<div class='cellule'>"+
+								"<div class='tokenicon' id=icon><img src='"+spootnik_urlStatic32IMG+data[0].id+".png' /></div>"+
+								"<div class='tokeninfo' id=text>"+
+									"<div id='"+colorName+"' class='"+pump+"'>"+affTokenName+" ("+data[0].symbol+")</div>"+
+									"<div id='token_infos' class='"+colorvar+"'>"+
+										"<span id='price_eur'>"+priceToken.toFixed(decimals)+" "+currencySym+"</span> <span id='percent_change'>("+data[0]["percent_change_24h"]+"%)</span>"+
+									"</div>"+
+									"<div id='wallet_infos' class=''>"+
+									"<span id='price_eur'>"+priceWallet.toFixed(decimals)+" "+currencySym+"</span> <span id='percent_change'>("+nbTokens+data[0].symbol+")</span>"+
+									"</div>"+
+								"</div>"+
+								
+			
+							"</div>"+
+			"<div class='rowInfos'>"+
+			"<div id='rank' class='Column'>RANK<br>"+data[0].rank+"</div><div id='market_cap' class='Column'>MARKET CAP<br>$"+nFormatter(data[0].market_cap_usd, 2)+"</div><div id='volume' class='Column'>VOLUME (24H)<br>$"+nFormatter(data[0]["24h_volume_usd"], 2)+"</div>"+
+			"</div>"+
+			"<div class='sparkline1d'>"+
+			// "<div id='sparktext'>1d:</div><div id='sparkImg1d' class='Column'><img class='sparkline' src='"+cmc_sparkLine1d+idImage+".png' /></div>"+
+			"</div>"+
+			"<div class='sparkline7d'>"+
+			// "<div id='sparktext'>7d:</div><div id='sparkImg7d' class='Column'><img class='sparkline' src='"+cmc_sparkLine7d+idImage+".png' /></div>"+
+			"</div>"+
+			"<div class='rowBlank'>"+
+			"</div>";		
+			$("#"+token).html(tokenInfo);
+		});
+	}
+
+	function tokenInfo_CoinMarketCap_offline(tokenName, token) {
+		//currency = $("#currencyChoice").val();
+		var tokenInfo = new Array();
+		var pump = "";
+		var curr_convert = "";
+		var priceToken = 0;
+		priceToken = calculPriceToken(token, "EUR");
+
+		verifyBump_Token(token[0]);
 		
-		verifyBump_Token(data[0]);
-		
-		
-		var priceWallet = priceToken * nbTokens;
-		if(data[0]["percent_change_24h"] > 0) { 
+		var priceWallet = token[10] * token[7];
+		if(token[4] > 0) { 
 			colorvar = "percent_change_green" 
 			colorName = "tokename_green";
 		}
@@ -579,220 +392,219 @@ function tokenInfo_CoinMarketCap(token, idImage, nbTokens, convert) {
 			colorvar = "percent_change_red" 
 			colorName = "tokename_red";
 		}
-		if(data[0]["percent_change_24h"] > 15 && data[0]["percent_change_24h"] < 30) { 
+		if(token[4] > 15 && token[4] < 30) { 
 			pump = "pump"; 
 		}
-		else if(data[0]["percent_change_24h"] >= 30) { colorName = ""; pump = "bigpump"; }
-		else if(data[0]["percent_change_24h"] < -15 && data[0]["percent_change_24h"] > -40) { pump = "pump"; }
-		else if(data[0]["percent_change_24h"] <= -40) {  colorName = ""; pump = "bigdump"; }
+		else if(token[4] >= 30) { colorName = ""; pump = "bigpump"; }
+		else if(token[4] < -15 && token[4] > -40) { pump = "pump"; }
+		else if(token[4] <= -40) {  colorName = ""; pump = "bigdump"; }
+
+		walletBalance += priceWallet;
 		
-		if(data[0].name.length > 10) { 
-			if(data[0].symbol.length >3) { lenTokenName = 5; }
+		if(token[8].length > 10) { 
+			if(token[1].length >3) { lenTokenName = 5; }
 			else { lenTokenName = 8; }
-			affTokenName = data[0].name.substring(0,lenTokenName) + "..."; 
+			affTokenName = token[8].substring(0,lenTokenName) + "..."; 
 		}
-		else { affTokenName = data[0].name; }
-		
+		else { affTokenName = token[8]; }
+		// console.log(tokenName + " : " +affTokenName);
 		var tokenInfo = "<div class='cellule'>"+
-							"<div class='tokenicon' id=icon><img src='"+cmc_urlStaticIMG+idImage+".png' /></div>"+
+							"<div class='tokenicon' id=icon><img src='"+spootnik_urlStatic32IMG+token[0]+".png' /></div>"+
 							"<div class='tokeninfo' id=text>"+
-								"<div id='"+colorName+"' class='"+pump+"'>"+affTokenName+" ("+data[0].symbol+")</div>"+
+								"<div id='"+colorName+"' class='"+pump+"'>"+affTokenName+" ("+token[1]+")</div>"+
 								"<div id='token_infos' class='"+colorvar+"'>"+
-									"<span id='price_eur'>"+priceToken.toFixed(decimals)+" "+currencySym+"</span> <span id='percent_change'>("+data[0]["percent_change_24h"]+"%)</span>"+
+									"<span id='price_eur'>"+priceToken.toFixed(decimals)+" "+currencySym+"</span> <span id='percent_change'>("+token[4]+"%)</span>"+
 								"</div>"+
 								"<div id='wallet_infos' class=''>"+
-								"<span id='price_eur'>"+priceWallet.toFixed(decimals)+" "+currencySym+"</span> <span id='percent_change'>("+nbTokens+data[0].symbol+")</span>"+
+								"<span id='price_eur'>"+priceWallet.toFixed(decimals)+" "+currencySym+"</span> <span id='percent_change'>("+token[7]+token[1]+")</span>"+
 								"</div>"+
 							"</div>"+
 							
 		
 						"</div>"+
 		"<div class='rowInfos'>"+
-		"<div id='rank' class='Column'>RANK<br>"+data[0].rank+"</div><div id='market_cap' class='Column'>MARKET CAP<br>$"+nFormatter(data[0].market_cap_usd, 2)+"</div><div id='volume' class='Column'>VOLUME (24H)<br>$"+nFormatter(data[0]["24h_volume_usd"], 2)+"</div>"+
+		"<div id='rank' class='Column'>RANK<br>"+token[2]+"</div><div id='market_cap' class='Column'>MARKET CAP<br>$"+nFormatter(token[5], 2)+"</div><div id='volume' class='Column'>VOLUME (24H)<br>$"+nFormatter(token[6], 2)+"</div>"+
 		"</div>"+
 		"<div class='sparkline1d'>"+
-		"<div id='sparktext'>1d:</div><div id='sparkImg1d' class='Column'><img class='sparkline' src='"+cmc_sparkLine1d+idImage+".png' /></div>"+
+		// "<div id='sparktext'>1d:</div><div id='sparkImg1d' class='Column'><img class='sparkline' src='"+cmc_sparkLine1d+idImage+".png' /></div>"+
 		"</div>"+
 		"<div class='sparkline7d'>"+
-		"<div id='sparktext'>7d:</div><div id='sparkImg7d' class='Column'><img class='sparkline' src='"+cmc_sparkLine7d+idImage+".png' /></div>"+
+		// "<div id='sparktext'>7d:</div><div id='sparkImg7d' class='Column'><img class='sparkline' src='"+cmc_sparkLine7d+idImage+".png' /></div>"+
 		"</div>"+
 		"<div class='rowBlank'>"+
 		"</div>";		
-		$("#"+token).html(tokenInfo);
-	});
-}
-
-function calculPriceToken(dataToken, coinRef) {
-	var convertPrice = 0;
-	// console.log("CoinRef: " + coinRef);
-	if(coinRef == "BTC") {
-		convertPrice = parseFloat(dataToken[0].price_btc);
-		// console.log("BTC=>" + convertPrice);
-		currencySym = "B";
-		decimals = 8;
+		$("#"+tokenName).html(tokenInfo);
 	}
-	else if(coinRef == "ETH") {
-		convertPrice = parseFloat(dataToken[0].price_eth);
-		// console.log("ETH=>" + convertPrice);
-		currencySym = "E";
-		decimals = 7;
+
+	function tokenInfo_IDEXmarket(token, idImage, nbTokens, convert) {
+		$.post('https://api.idex.market/returnTicker',
+		{
+			json: {
+				market: 'ETH_FDZ'
+			}
+			}, function(err, resp, body) {
+			console.log(body);
+		});
 	}
-	else if(coinRef == "LTC") {
-		convertPrice = parseFloat(dataToken[0].price_ltc);
-		// console.log("LTC=>" + convertPrice);
-		currencySym = "L";
-		decimals = 7;
+
+	function info_CoinMarketCap_Global() {
+		//console.log(cmc_urlAPIinformation+currency);
+		var jqxhr = $.getJSON(cmc_urlAPIinformation+currency);
+		jqxhr.done(function(data) {
+			//console.log(data);
+			var dateConvert = convertDate(data.last_updated);
+			$("#lastupdate").html(dateConvert);
+			if(currency == "EUR") {
+				$("#gl_MC").html(nFormatter(data.total_market_cap_eur, 4));
+				$("#gl_Vol").html(nFormatter(data.total_24h_volume_eur, 4));
+			}
+			if(currency == "USD"){
+				$("#gl_MC").html(nFormatter(data.total_market_cap_usd, 4));
+				$("#gl_Vol").html(nFormatter(data.total_24h_volume_usd, 4));
+			}
+			if(currency == "ETH"){
+				$("#gl_MC").html(nFormatter(data.total_market_cap_eth, 4));
+				$("#gl_Vol").html(nFormatter(data.total_24h_volume_eth, 4));
+			}
+			if(currency == "LTC"){
+				$("#gl_MC").html(nFormatter(data.total_market_cap_ltc, 4));
+				$("#gl_Vol").html(nFormatter(data.total_24h_volume_ltc, 4));
+			}
+			if(currency == "NEO"){
+				$("#gl_MC").html(nFormatter(data.total_market_cap_neo, 4));
+				$("#gl_Vol").html(nFormatter(data.total_24h_volume_neo, 4));
+			}
+			
+			$("#curr_symb1").html(currencySym);
+			$("#curr_symb2").html(currencySym);
+			$("#curr_symb3").html(currencySym);
+			
+				if(data.bitcoin_percentage_of_market_cap > 50) { $("#gl_BTCdom").css("color", "red"); }
+			else { $("#gl_BTCdom").css("color", "green"); }
+			
+			$("#gl_BTCdom").html(data.bitcoin_percentage_of_market_cap);
+		});	
 	}
-	else if(coinRef == "NEO") {
-		convertPrice = parseFloat(dataToken[0].price_neo);
-		// console.log("NEO=>" + convertPrice);
-		currencySym = "N";
-		decimals = 7;
+
+	function GenerateTokensInfos() {
+		var cells = { };
+		$.each(lstTokens, function(key, value) {
+			var tokenName = value[0];
+			if(value[1] == "coinmarketcap") {
+				tokenInfo_CoinMarketCap(tokenName, value[2], parseFloat(value[4]), value[3]);
+			}
+			else {
+				tokenInfo_IDEXmarket(tokenName, value[2], parseFloat(value[4]), value[3]);
+			}
+		});
+		return cells;
 	}
-	else if(coinRef == "USD") {
-		convertPrice = parseFloat(dataToken[0].price_usd);
-		// console.log("NEO=>" + convertPrice);
-		currencySym = "$";
-		decimals = 5;
+
+	function GenerateCoinsInfos_offline() {
+		var cells = { };
+		var nbCoins = smallListCoins.length;
+		$.each(smallListCoins, function(key, value) {
+			// console.log(key + " : " + value[1]);
+			if(value != null) {
+				var objCoin = lstGoodCoins[value[1]];
+				tokenInfo_CoinMarketCap_offline(value[0], objCoin);
+			}
+		});
+		console.log("Nb Coins : "+nbCoins);
+		return cells;
 	}
-	else {
-		convertPrice = parseFloat(dataToken[0].price_eur);
-		// console.log("EUR=>" + convertPrice);
-		currencySym = "€";
-		decimals = 5;
+
+	function GenerateTokensInfos_offline() {
+		var cells = { };
+		var nbCoins = smallListTokens.length;
+		$.each(smallListTokens, function(key, value) {
+			// console.log(key + " : " + value[1]);
+			if(value != null) {
+				var objCoin = lstGoodTokens[value[1]];
+				tokenInfo_CoinMarketCap_offline(value[0], objCoin);
+			}
+		});
+		console.log("Nb Tokens : "+nbCoins);
+		return cells;
 	}
-	//priceToken * priceConvert;
 
-	return convertPrice;
-}
-
-function tokenInfo_IDEXmarket(token, idImage, nbTokens, convert) {
-	$.post('https://api.idex.market/returnTicker',
-    {
-        json: {
-			market: 'ETH_FDZ'
-		}
-		}, function(err, resp, body) {
-        console.log(body);
-	});
-}
-
-function info_CoinMarketCap_Global() {
-	//console.log(cmc_urlAPIinformation+currency);
-	var jqxhr = $.getJSON(cmc_urlAPIinformation+currency);
-	jqxhr.done(function(data) {
-		//console.log(data);
-		var dateConvert = convertDate(data.last_updated);
-		$("#lastupdate").html(dateConvert);
-		if(currency == "EUR") {
-			$("#gl_MC").html(nFormatter(data.total_market_cap_eur, 4));
-			$("#gl_Vol").html(nFormatter(data.total_24h_volume_eur, 4));
-		}
-		if(currency == "USD"){
-			$("#gl_MC").html(nFormatter(data.total_market_cap_usd, 4));
-			$("#gl_Vol").html(nFormatter(data.total_24h_volume_usd, 4));
-		}
-		if(currency == "ETH"){
-			$("#gl_MC").html(nFormatter(data.total_market_cap_eth, 4));
-			$("#gl_Vol").html(nFormatter(data.total_24h_volume_eth, 4));
-		}
-		if(currency == "LTC"){
-			$("#gl_MC").html(nFormatter(data.total_market_cap_ltc, 4));
-			$("#gl_Vol").html(nFormatter(data.total_24h_volume_ltc, 4));
-		}
-		if(currency == "NEO"){
-			$("#gl_MC").html(nFormatter(data.total_market_cap_neo, 4));
-			$("#gl_Vol").html(nFormatter(data.total_24h_volume_neo, 4));
-		}
-		
-		$("#curr_symb1").html(currencySym);
-		$("#curr_symb2").html(currencySym);
-
-			if(data.bitcoin_percentage_of_market_cap > 50) { $("#gl_BTCdom").css("color", "red"); }
-		else { $("#gl_BTCdom").css("color", "green"); }
-		
-		$("#gl_BTCdom").html(data.bitcoin_percentage_of_market_cap);
-	});	
-}
-
-// Hausse du cours d'un token
-function pump_Token() {
-	
-}
-
-// Baisse du cours d'un token
-function dump_Token(token) {
-	
-}
-
-// Grosse hausse du cours d'un token
-function verifyBump_Token(token) {
-		if(token["percent_change_24h"] > 0) { 
-			// colorvar = "percent_change_green" 
-			// colorName = "tokename_green";
-		}
-		else { 
-			// colorvar = "percent_change_red" 
-			// colorName = "tokename_red";
-		}
-		
-		// if(token["percent_change_24h"] > 15 && token["percent_change_24h"] < 30) { 
-			// pump = "pump"; 
-		// }
-		// else if(token["percent_change_24h"] >= 30) { colorName = ""; pump = "bigpump"; }
-		// else if(token["percent_change_24h"] < -15 && token["percent_change_24h"] > -40) { pump = "pump"; }
-		// else if(token["percent_change_24h"] <= -40) {  colorName = ""; pump = "bigdump"; }
-}
-
-function GenerateTokensInfos() {
-	var cells = { };
-	$.each(lstTokens, function(key, value) {
-		var tokenName = value[0];
-		if(value[1] == "coinmarketcap") {
-			tokenInfo_CoinMarketCap(tokenName, value[2], parseFloat(value[4]), value[3]);
-		}
-		else {
-			tokenInfo_IDEXmarket(tokenName, value[2], parseFloat(value[4]), value[3]);
-		}
-	});
-	return cells;
-}
-
-function generateTable(tokensInfos) {
-	//Build an array containing Customer records.
-	var nbToken = lstTokens.length;
-	var cptToken = 0;
-	var numberOfRows = Math.floor(window.innerHeight / 20);
-	var numberOfCells = Math.floor(window.innerWidth / 200);
-	var nbRow = nbToken / numberOfCells;
-	//Create a HTML Table element.
-	var table = document.createElement("TABLE");
-	table.border = "0";
-
-	for (var r = 0; r < nbRow; r++) {
-		row = table.insertRow(-1);
-		for (var j = 0; j < numberOfCells; j++) {
-			var cell = row.insertCell(-1);
-			if(cptToken < nbToken) {
-				var tokenName = $(lstTokens[cptToken++]).splice(",");
-				cell.id = tokenName[0];
-				if(tokenName[1] == "coinmarketcap") {
-					var imgLink = "<img src='"+cmc_urlStaticIMG+tokenName[2]+".png' alt='"+tokenName[0]+"' class='center'>";
-					//cell.innerHTML = tokenName[0];
-					//cell.innerHTML = imgLink;
+	function GenerateCoinsInfos() {
+		var cells = { };
+		var nbCoins = 0;
+		$.each(lstCoins, function(key, value) {
+			var coinName = value[0].toLowerCase();
+			if(value[1] == "coinmarketcap") {
+				if(!configScreener.localWallet) {
+					if((lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName)).length > 0) {
+						var indexToken = lstAllTokensCMC.findIndex(p => (p.id).toLowerCase() == coinName);
+						var token = lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName);
+						lstGoodCoins[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(value[4]), token[0].name, token[0].price_usd, token[0].price_eur, "Not a token"] ;
+						smallListCoins.push([(token[0].id).toUpperCase(), parseInt(token[0].rank)]);
+					}
+					else {
+						unkTokens.push([tokenName, tokenName, 0, 0, 0, 0, 0, ""]);
+					}							
+				}
+				else if(!func_GetWallet.includes(value[0])) {
+					if((lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName)).length > 0) {
+						var indexToken = lstAllTokensCMC.findIndex(p => (p.id).toLowerCase() == coinName);
+						var token = lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName);
+						lstGoodCoins[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(value[4]), token[0].name, token[0].price_usd, token[0].price_eur, "Not a token"] ;
+						smallListCoins.push([(token[0].id).toUpperCase(), parseInt(token[0].rank)]);
+					}
+					else {
+						unkTokens.push([tokenName, tokenName, 0, 0, 0, 0, 0, ""]);
+					}							
 				}
 			}
-			else{
-				cell.id = "vide";
-				cell.innerHTML = "";
+			else {
+				// tokenInfo_IDEXmarket(coinName, value[2], parseFloat(value[4]), value[3]);
 			}
-		}
+		});
+		$.each(lstTokens, function(key, value) {
+			var coinName = value[0].toLowerCase();
+			if(value[1] == "coinmarketcap") {
+				if(!configScreener.localWallet) {
+					if((lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName)).length > 0) {
+						var indexToken = lstAllTokensCMC.findIndex(p => (p.id).toLowerCase() == coinName);
+						var token = lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName);
+						lstGoodTokens[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(value[4]), token[0].name, token[0].price_usd, token[0].price_eur, "Not a token"] ;
+						smallListTokens.push([(token[0].id).toUpperCase(), parseInt(token[0].rank)]);
+					}
+					else {
+						unkTokens.push([tokenName, tokenName, 0, 0, 0, 0, 0, ""]);
+					}							
+				}
+				else if(!func_GetWallet.includes(value[0])) {
+					if((lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName)).length > 0) {
+						var indexToken = lstAllTokensCMC.findIndex(p => (p.id).toLowerCase() == coinName);
+						var token = lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName);
+						lstGoodTokens[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(value[4]), token[0].name, token[0].price_usd, token[0].price_eur, "Not a token"] ;
+						smallListTokens.push([(token[0].id).toUpperCase(), parseInt(token[0].rank)]);
+					}
+					else {
+						unkTokens.push([tokenName, tokenName, 0, 0, 0, 0, 0, ""]);
+					}							
+				}
+			}
+			else {
+				// tokenInfo_IDEXmarket(coinName, value[2], parseFloat(value[4]), value[3]);
+			}
+		});
+		return cells;
 	}
-	var dvTable = document.getElementById("dvTable");
-	dvTable.innerHTML = "";
-	dvTable.appendChild(table);	
-	$('td[id="vide"]').css("border", "0");
-}
+
+	function loadWallet_online() {
+		$.each(lstCoins, function(key, value) {
+			if(value[0] == "NEO") {
+				getWallet_NEO(value[5]);
+			}
+			if(value[0] == "ARCTICCOIN") {
+				getWallet_ArcTic(value[5]);
+			}
+		});
+	}
+
 	</script>
 </body>
 </html>
