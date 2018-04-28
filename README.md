@@ -6,6 +6,7 @@
   Réductions de l'utilisation de l'API de CCC  
   Mode Online ou Offline  
   
+---    
 Premier essai de dashboard de suivi des cryptos-monnaies suivant un choix défini.  
 Il utise dans un premier temps l'api de coinmarcketcap.com, d'autres suivront suivant les besoins.  
   
