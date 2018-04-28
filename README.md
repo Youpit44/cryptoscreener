@@ -1,4 +1,10 @@
 # cryptoscreener
+## ATTENTION : Nouvelle version !! la partie configuration a beaucoup changée et pour le moment n'est pas encore documentée. Je le fait rapidement.  
+### Nouveautés :  
+  Chargement de l'export du wallet ETH de https://deltabalances.github.io/   
+  Traitement séparé entre les Coins (type BTC, ETH, NEO) et les Tokens (type Erc20, Neo, ...)  
+  Réductions de l'utilisation de l'API de CCC  
+  Mode Online ou Offline  
   
 Premier essai de dashboard de suivi des cryptos-monnaies suivant un choix défini.  
 Il utise dans un premier temps l'api de coinmarcketcap.com, d'autres suivront suivant les besoins.  
