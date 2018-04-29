@@ -4,6 +4,7 @@ var unkTokens = new Array();
 var exceptTokens = new Array();
 var exceptContract = new Array();
 var lstGoodTokens = new Array();
+var lstForkDeltaTokens = new Array();
 var lstGoodCoins = new Array();
 var smallListTokens = new Array();
 var smallListCoins = new Array();
@@ -37,5 +38,15 @@ var configScreener = { 	onlineMode : false,
 						currencyDefault : "EUR",
 						nightMode : false,
 						localWallet : false,
-						walletName : "tokens.csv"
+						otherWallet : true,
+						viewOrder : "24H",
+						walletName : "tokens.csv",
+						version : 0.3
+};
+var walletBalances = { 	BTC : 0,
+						ETH : 0,
+						LTC : 0,
+						NEO : 0,
+						EUR : 0,
+						USD : 0
 };

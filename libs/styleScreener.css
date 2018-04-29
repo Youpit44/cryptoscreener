@@ -2,6 +2,14 @@
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	background-color: #efeded;
 }
+a:link {
+    text-decoration: none;
+	color: inherit;
+}
+a:hover {
+	text-decoration: underline;
+	color: inherit;
+}
 td {
 	height:50px;
 	width:200px;
@@ -87,7 +95,35 @@ div #wallet_infos{
 	font-size: 10px;
 	
 }
-
+div #token_type{
+	float: right;
+	position: relative;
+	top: -50px;
+	right: 0px;
+	font-size: 8px;
+}
+.circle_eth {
+	height: 12px;
+	width: 14px;
+	background-color: #858687;
+	border-radius: 50%;
+	display: inline-block;
+	vertical-align: bottom;
+	text-align: center;
+	padding-top: 2px;
+	color: white;
+}
+.circle_neo {
+	height: 12px;
+	width: 14px;
+	background-color: #74bc2a;
+	border-radius: 50%;
+	display: inline-block;
+	vertical-align: bottom;
+	text-align: center;
+	padding-top: 2px;
+	color: white;
+}
 div .sparkline1d{
 	display: inline;
 }
@@ -121,6 +157,11 @@ div .sparkline7d{
 	border-width: 1px; */
 	
 }
+#gain_loss {
+	font-size: 9px;
+	vertical-align: 5px;
+}
+
 .rowInfos {
 	display: table;
 	width: 100%; /*Optional*/

@@ -94,6 +94,7 @@ function calculPriceToken(dataToken, coinRef) {
 		decimals = 5;
 	}
 	else {
+		// console.log(dataToken);
 		convertPrice = parseFloat(dataToken[10]);
 		currencySym = "€";
 		decimals = 5;
@@ -223,9 +224,16 @@ function initScreenerConfiguration() {
 		console.log("Set Init Configuration");
 	}
 	else {
-		configScreener = JSON.parse(localStorage.getItem('cs_configuration'));
-		console.log("Init Configuration");
+		var last_configScreener = JSON.parse(localStorage.getItem('cs_configuration'));
+		if(last_configScreener.version == configScreener.version) {
+			configScreener = last_configScreener;
+			console.log("Init Configuration");
 		// console.log(configScreener);
+		}
+		else {
+			console.log("Set New Configuration v"+configScreener.version);
+			localStorage.setItem('cs_configuration', JSON.stringify(configScreener));
+		}
 	}
 	
 	if (localStorage.getItem("cs_lastvisit") === null) {
