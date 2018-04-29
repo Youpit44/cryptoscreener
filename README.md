@@ -1,4 +1,5 @@
-# cryptoscreener
+# crypto-screener  
+![Capture Crypto-Screener](https://raw.githubusercontent.com/Youpit44/cryptoscreener/master/docs/Capture.PNG)  
 ## ATTENTION : Nouvelle version !! La documentation ci-dessous reste à completer, mais permet d'éxécuter le script de suivi.
 ### Nouveautés :  
   *Mode semi-automatique ou manuel  
@@ -26,20 +27,23 @@ Il faut exporter votre Wallet Ethereum au format ".CSV" par le biais du site [De
 Sauvegarder le fichier exporté dans le dossier de l'index.html sous le nom "Tokens.csv".   
   
 ## Pour un fonctionnement manuel :  
-__Il faut modifier le fichier "libs/configScreener.js" après l'entête suivante :__  
+__Il faut modifier le fichier "[configScreener.js](libs/configScreener.js)" après l'entête suivante :__  
   ////////////////////////////////////////////////////////////////////////////////////////////////////  
   // LISTE DES COINS A MODIFIER  
   ////////////////////////////////////////////////////////////////////////////////////////////////////  
-1) Complèter la/les lignes suivantes pour ajouter vous coins type Bitcoin, Ethereum, Neo, Waves, ..... un par ligne : 
+### Capture du fichier "[configScreener.js](libs/configScreener.js)" :  
+![Capture Configuration Crypto-Screener](https://raw.githubusercontent.com/Youpit44/cryptoscreener/master/docs/Config.PNG)  
+  
+1) Complèter la/les lignes suivantes pour ajouter vous coins type Bitcoin, Ethereum, Neo, Waves, ..... un par ligne comme l'exemple ci-dessus : 
   *lstCoins.push(["__BITCOIN__", "__coinmarketcap__", __0__, __""__, __0.09__, __""__]);*  
 **BITCOIN** : nom du coin à suivre  
 **coinmarketcap** : api à utiliser  
 **O** : ne sert plus  
 **""** : ne rien mettre pour le moment  
 **0.09** : nombre de coins que vous possedez (0 si vous ne voulez pas utiliser cette option)  
-**""** : sert pour recupérer les balances de vos Wallets (prochaine version)  
-  
-2) Complèter la/les lignes suivantes pour ajouter vous tokens compatible ERC20 d'Ethereum, un par ligne : 
+**""** :  mettre la clé publique de votre wallet (sert pour recupérer les balances de vos Wallets, uniquement **NEO** et **ArcTic-Coin** pour le moment)    
+           
+2) Complèter la/les lignes suivantes pour ajouter vous tokens compatible ERC20 d'Ethereum, un par ligne comme l'exemple ci-dessus : 
   *lstTokens.push(["__HAVVEN__", "__coinmarketcap__", __0__, __""__, __200.50__]);*  
 **HAVVEN** : nom du token à suivre  
 **coinmarketcap** : api à utiliser  
