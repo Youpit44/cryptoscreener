@@ -1,21 +1,31 @@
 # cryptoscreener
-## ATTENTION : Nouvelle version !! la partie configuration a beaucoup changée et pour le moment n'est pas encore documentée. Je le fait rapidement.  
+## ATTENTION : Nouvelle version !! La documentation ci-dessous reste à completer, mais permet d'éxécuter le script de suivi.
 ### Nouveautés :  
+  *Mode semi-automatique ou manuel  
   *Vérification des tokens ERC20 non reconnu sur CMC  
   *Utilisation des cookies pour stocker les données des tokens  
   *Réductions de l'appel de l'API CMC à 15 min  
   *Utilisation de l'API de ForkDelta  
-  *Chargement de l'export du wallet ETH de https://deltabalances.github.io/   
+  *Chargement de l'export du wallet ETH de [DeltaBalances.github.io](https://deltabalances.github.io/)   
   *Traitement séparé entre les Coins (type BTC, ETH, NEO) et les Tokens (type Erc20, Neo, ...)  
   *Mode Online ou Offline  
   
+### Support des Tokens ERC20 d'Ethereum par CoinMarketCap (CMC) et ForkDelta.  
+### Support des Wallets NEO et ARCTIC-COIN (pour le moment... :) )  
+  
 ---    
-Premier essai de dashboard de suivi des cryptos-monnaies suivant un choix défini.  
-Il utise dans un premier temps l'api de coinmarcketcap.com, d'autres suivront suivant les besoins.  
+Deuxième essai de dashboard de suivi des cryptos-monnaies suivant un choix défini.  
+Il utise les API de coinmarcketcap.com, ForkDelta pour les tokens ERC20, l'API de NEO et d'ArcTic. D'autres suivront suivant les besoins.  
   
-L'utilisation est simple, il faut juste copier l'index.html dans un dossier et cliquer dessus.  
-Votre navigateur par défaut s'ouvrira sur la page avec des données de tests.  
+L'utilisation est simple, il faut juste copier le fichier "[index.html](index.html)" et son dossier de librairies "[libs](libs/)" dans un dossier et double-cliquer sur le fichier "[index.html](index.html)" .  
+Votre navigateur par défaut s'ouvrira sur la page avec des données de tests. 
   
+---  
+## Pour un fonctionnement semi-automatique :  
+Il faut exporter votre Wallet Ethereum au format ".CSV" par le biais du site [DeltaBalances.github.io](https://deltabalances.github.io/). Le seul à proposer cette possibilité. Veilliez a bien selectionner toutes les options, **exchanges compris** !    
+Sauvegarder le fichier exporté dans le dossier de l'index.html sous le nom "Tokens.csv".   
+  
+## Pour un fonctionnement manuel :  
 __Il faut modifier le fichier "libs/configScreener.js" après l'entête suivante :__  
   ////////////////////////////////////////////////////////////////////////////////////////////////////  
   // LISTE DES COINS A MODIFIER  
@@ -36,7 +46,8 @@ __Il faut modifier le fichier "libs/configScreener.js" après l'entête suivante
 **O** : ne sert plus  
 **""** : ne rien mettre pour le moment  
 **200.50** : nombre de tokens que vous possedez (0 si vous ne voulez pas utiliser cette option)  
-
+  
+### Le mode semi-automatique fonctionne conjointement au mode manuel. Vous pouvez suivre vos Tokens ERC20 exportés de DeltaBalance et d'autres coins ou tokens que vous n'avez pas sur votre wallet ethereum ou d'autres wallets.   
   
 Si vous désirez des modifications, n'hesitez pas à laissez une issue pour me notifier de votre demande, évolution ou même support.  
 @Youpit  
