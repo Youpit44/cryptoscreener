@@ -38,7 +38,7 @@ var lastvisit = new Date();
 var configScreener = { 	onlineMode : false,
 						currencyDefault : "EUR",
 						nightMode : false,
-						localWallet : true,
+						localWallet : false,
 						otherWallet : true,
 						viewOrder : "24H",
 						walletName : "tokens.csv",
