@@ -23,7 +23,7 @@ var spootnik_urlStatic32IMG = "http://spootnik.fr/wscryptos/coins/32x32/";
 //-------------------------------------------------------------------------------------------------------------------
 // API KEYS
 var urlInfura = "https://mainnet.infura.io/";
-var infura_KEY = "psPjCLWLXsuC8SUG6b4v";
+var infura_KEY = "";
 //-------------------------------------------------------------------------------------------------------------------
 // WALLET
 var ethAddress = "";
@@ -42,7 +42,7 @@ var configScreener = { 	onlineMode : false,
 						otherWallet : true,
 						viewOrder : "24H",
 						walletName : "tokens.csv",
-						version : 0.3
+						version : 0.4
 };
 var walletBalances = { 	BTC : 0,
 						ETH : 0,
