@@ -7,6 +7,7 @@ var lstGoodTokens = new Array();
 var lstForkDeltaTokens = new Array();
 var lstGoodCoins = new Array();
 var smallListTokens = new Array();
+// var smallListForkDeltaTokens = new Array();
 var smallListCoins = new Array();
 
 var func_GetWallet = ["NEO","ARCTICCOIN"];
@@ -22,7 +23,7 @@ var spootnik_urlStatic32IMG = "http://spootnik.fr/wscryptos/coins/32x32/";
 //-------------------------------------------------------------------------------------------------------------------
 // API KEYS
 var urlInfura = "https://mainnet.infura.io/";
-var infura_KEY = "";
+var infura_KEY = "psPjCLWLXsuC8SUG6b4v";
 //-------------------------------------------------------------------------------------------------------------------
 // WALLET
 var ethAddress = "";
@@ -37,7 +38,7 @@ var lastvisit = new Date();
 var configScreener = { 	onlineMode : false,
 						currencyDefault : "EUR",
 						nightMode : false,
-						localWallet : false,
+						localWallet : true,
 						otherWallet : true,
 						viewOrder : "24H",
 						walletName : "tokens.csv",

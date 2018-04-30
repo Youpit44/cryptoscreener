@@ -26,10 +26,10 @@
 </head>
 <body>
 	<div id="header" class="inline">
-		<div class="column">M.Cap: <span id="gl_MC"></span> <span id="curr_symb1"></span></div>
-		<div class="column">24h Vol: <span id="gl_Vol"></span> <span id="curr_symb2"></span></div>
-		<div class="column">BTC Dom: <span id="gl_BTCdom"></span> %</div>
-		<div class="column">Bal: <span id="wallet_Balance"></span> <span id="curr_symb3"></span> <span id="gain_loss"></span> |
+		<div id="cmc_mc" class="column">M.Cap: <span id="gl_MC"></span> <span id="curr_symb1"></span></div>
+		<div id="cmc_vol" class="column">24h Vol: <span id="gl_Vol"></span> <span id="curr_symb2"></span></div>
+		<div id="cmc_dom" class="column">BTC Dom: <span id="gl_BTCdom"></span> %</div>
+		<div class="column">Bal: <span id="wallet_Balance"></span> <span id="curr_symb3"></span>  <span id="gain_loss"></span>|
 			<select id="currencyChoice" onchange="choiceCurrency(this.value)">
 				<option selected="selected" value="EUR">EUR</option>
 				<option value="USD">USD</option>
@@ -56,6 +56,8 @@
 	<hr/>
 	<div id="dvTableTokensFD"></div>
 	<hr/>
+	<div id="dvTableUnknownTokens"></div>
+	<hr/>
 	<!-- <input type="button" value="Refresh Table" onclick="refreshTables()" />
 	<button type="button" onClick="getBalance();">Get Balance</button> -->
 	<div id="output"></div>
@@ -67,6 +69,8 @@
 	var currencySym = "€";
 	var decimals = 5;
 	var gain_loss = 0;
+	var indexOrder = "DESC";
+	var indexItem = 2;
 	
 	$(document).ready(startApp());
 
@@ -93,7 +97,7 @@
 		if(configScreener.localWallet) {
 			readTokensWalletFile(configScreener.walletName);
 		}
-		// verifyForkDelta();
+		//verifyForkDelta();
 		
 		// Charge les infos du marché Global de CoinMarketCap (CCC)
 		info_CoinMarketCap_Global();
@@ -115,6 +119,8 @@
 			GenerateTokensInfos_offline();
 			generateTable_offline(lstForkDeltaTokens, "dvTableTokensFD");
 			GenerateForkDeltaTokensInfos_offline();
+			// generateTable_offline(unkTokens, "dvTableUnknownTokens");
+			// GenerateUnknownTokensInfos_offline();
 			//////////////////////////////////////////////////////////////////
 		}
 		changeWalletBalance();
@@ -128,7 +134,7 @@
 		}
 		$("#oneDayGraph").prop('checked', true);
 		
-		// console.log(lstGoodTokens);
+		// console.log(unkTokens);
 		
 	}
 
@@ -198,8 +204,6 @@
 				});
 			}
 		});
-		sortTokens(smallListCoins, 1, "ASC");
-		sortTokens(smallListTokens, 1, "ASC");
 	}
 
 	function filter_TokensWalletFileCMC() {
@@ -444,8 +448,9 @@
 		var pump = "";
 		var curr_convert = "";
 		var priceToken = 0;
-		var token_type = "";
 		var token_color= "";
+		var fontColor = "";
+		var headerColor = "#ecece2";
 		priceToken = calculPriceToken(token, "EUR");
 // console.log(token);
 		verifyBump_Token(token[0]);
@@ -462,19 +467,37 @@
 		if(token[4] > 15 && token[4] < 30) { 
 			pump = "pump"; 
 		}
-		else if(token[4] >= 30) { colorName = ""; pump = "bigpump"; }
-		else if(token[4] < -15 && token[4] > -40) { pump = "pump"; }
-		else if(token[4] <= -40) {  colorName = ""; pump = "bigdump"; }
-
+		else if(token[4] >= 30 && token[4] < 50) { colorName = ""; pump = "bigpump"; }
+		else if(token[4] >= 50) { 
+			colorName = ""; 
+			headerColor = "green"; 
+			pump = "megapump"; 
+			fontColor = "_white";
+		}
+		else if(token[4] < -15 && token[4] > -25) { pump = "pump"; }
+		else if(token[4] <= -25 && token[4] > -45) {  colorName = ""; pump = "bigdump"; }
+		else if(token[4] <= -45) {  
+			colorName = ""; 
+			headerColor = "red"; 
+			pump = "megadump"; 
+			fontColor = "_white";
+		}
+		
 		walletBalance += priceWallet;
 		
 		if(token[11].substring(0,2) == "0x") {
-			token_type = "E";
 			token_color = "circle_eth";
 		}
 		else if(token[11] == "NEO") {
-			token_type = "N";
 			token_color = "circle_neo";
+		}
+		
+		var nbToken = token[7];
+		if(isInt(nbToken)) {
+			nbToken = parseInt(token[7]);
+		}
+		else {
+			nbToken = parseFloat(token[7]).toFixed(2);
 		}
 		
 		if(token[8].length > 10) { 
@@ -489,13 +512,13 @@
 							"<div class='tokeninfo' id=text>"+
 								"<div id='"+colorName+"' class='"+pump+"'><a href='https://coinmarketcap.com/currencies/"+ tokenName +"/' target='_blank'>"+affTokenName+"</a></div>"+
 								"<div id='token_infos' class='"+colorvar+"'>"+
-									"<span id='price_eur'>"+priceToken.toFixed(decimals)+" "+currencySym+"</span> <span id='percent_change'>("+token[4]+"%)</span>"+
+									"<span id='price_eur"+fontColor+"'>"+priceToken.toFixed(decimals)+" "+currencySym+"</span> <span id='percent_change"+fontColor+"'>("+token[4]+"%)</span>"+
 								"</div>"+
 								"<div id='wallet_infos' class=''>"+
-								"<span id='price_eur'>"+priceWallet.toFixed(2)+" "+currencySym+"</span> <span id='percent_change'>("+token[7].toFixed(decimals)+token[1]+")</span>"+
+								"<span id='price_eur"+fontColor+"'>"+priceWallet.toFixed(2)+" "+currencySym+"</span> <span id='percent_change"+fontColor+"'>("+nbToken+token[1]+")</span>"+
 								"</div>"+
 								"<div id='token_type' class=''>"+
-								"<span id='token_ico' class='"+ token_color + "'>" + token_type + "</span>"+
+								"<span id='token_ico' class='"+ token_color + "'></span>"+
 								"</div>"+
 							"</div>"+
 							
@@ -513,6 +536,7 @@
 		"<div class='rowBlank'>"+
 		"</div>";		
 		$("#"+tokenName).html(tokenInfo);
+		$("#"+tokenName).css("background-color", headerColor);
 	}
 
 	function tokenInfo_ForkDelta_offline(tokenName, token) {
@@ -577,6 +601,69 @@
 		"</div>";		
 		$("#"+tokenName).html(tokenInfo);
 	}
+
+	function tokenInfo_Unknown_offline(tokenName, token) {
+		//currency = $("#currencyChoice").val();
+		var tokenInfo = new Array();
+		var pump = "";
+		var curr_convert = "";
+		var priceToken = 0;
+		priceToken = calculPriceToken(token, "EUR");
+// console.log(token);
+		verifyBump_Token(token[0]);
+		
+		// var priceWallet = token[10] * token[7];
+		// if(token[4] > 0) { 
+			// colorvar = "percent_change_green" 
+			// colorName = "tokename_green";
+		// }
+		// else { 
+			// colorvar = "percent_change_red" 
+			// colorName = "tokename_red";
+		// }
+		// if(token[4] > 15 && token[4] < 30) { 
+			// pump = "pump"; 
+		// }
+		// else if(token[4] >= 30) { colorName = ""; pump = "bigpump"; }
+		// else if(token[4] < -15 && token[4] > -40) { pump = "pump"; }
+		// else if(token[4] <= -40) {  colorName = ""; pump = "bigdump"; }
+
+		// walletBalance += priceWallet;
+		
+		// if(token[8].length > 10) { 
+			// if(token[1].length >3) { lenTokenName = 5; }
+			// else { lenTokenName = 8; }
+			// affTokenName = token[8].substring(0,lenTokenName) + "..."; 
+		// }
+		// else { affTokenName = token[8]; }
+		// console.log(token);
+		var tokenInfo = "<div class='cellule'>"+
+							"<div class='tokenicon' id=icon><img src='' /></div>"+
+							"<div class='tokeninfo' id=text>"+
+								"<div id='"+colorName+"' class='"+pump+"'>"+affTokenName+" ("+token[1]+")</div>"+
+								"<div id='token_infos' class='"+colorvar+"'>"+
+									"<span id='price_eur'>L: "+parseFloat(token[4]).toFixed(13)+" E</span><br /><span id='percent_change'>A: "+parseFloat(token[5]).toFixed(13)+" E</span><br /><span id='percent_change'>B: "+parseFloat(token[10]).toFixed(13)+" E</span>"+
+								"</div>"+
+								"<div id='wallet_infos' class=''>"+
+								"<span id='price_eur'> "+currencySym+"</span> <span id='percent_change'>("+token[7]+token[1]+")</span>"+
+								"</div>"+
+							"</div>"+
+							
+		
+						"</div>"+
+		"<div class='rowInfos'>"+
+		"<div id='rank' class='Column'>RANK<br></div><div id='market_cap' class='Column'>MARKET CAP<br>$"+nFormatter(token[2], 2)+"</div><div id='volume' class='Column'>VOLUME (24H)<br>$"+nFormatter(token[3], 2)+"</div>"+
+		"</div>"+
+		"<div class='sparkline1d'>"+
+		// "<div id='sparktext'>1d:</div><div id='sparkImg1d' class='Column'><img class='sparkline' src='"+cmc_sparkLine1d+idImage+".png' /></div>"+
+		"</div>"+
+		"<div class='sparkline7d'>"+
+		// "<div id='sparktext'>7d:</div><div id='sparkImg7d' class='Column'><img class='sparkline' src='"+cmc_sparkLine7d+idImage+".png' /></div>"+
+		"</div>"+
+		"<div class='rowBlank'>"+
+		"</div>";		
+		$("#"+tokenName).html(tokenInfo);
+	}
 	
 	function tokenInfo_IDEXmarket(token, idImage, nbTokens, convert) {
 		$.post('https://api.idex.market/returnTicker',
@@ -601,7 +688,7 @@
 			var lastvisit = new Date(JSON.parse(localStorage.getItem('cs_lastvisit')));
 			var diff = new Date(new Date() - lastvisit);
 			var minutes = diff.getTime()/1000/60;
-			if(minutes >= 15) {
+			if(minutes >= 30) {
 				console.log("Load CMC General Infos");
 				// console.log("Get Last Visit : "+lastvisit + " ("+parseInt(minutes)+"min)");
 				var jqxhr = $.getJSON(cmc_urlAPIinformation+currency);
@@ -651,8 +738,39 @@
 				// console.log(cmcInfos);
 				$("#lastupdate").html(dateConvert);
 				if(currency == "EUR") {
-					$("#gl_MC").html(nFormatter(cmcInfos.total_market_cap_eur, 4));
 					$("#gl_Vol").html(nFormatter(cmcInfos.total_24h_volume_eur, 4));
+					if(cmcInfos.total_24h_volume_eur < 10000000000) {
+						$("#cmc_vol").css("background-color", "red");
+						$("#cmc_vol").css("color", "white");
+					}
+					else if(cmcInfos.total_24h_volume_eur >= 10000000000 && cmcInfos.total_24h_volume_eur <= 20000000000) {
+						$("#cmc_vol").css("color", "red");
+					}
+					else if(cmcInfos.total_24h_volume_eur >= 30000000000 && cmcInfos.total_24h_volume_eur < 35000000000) {
+						$("#cmc_vol").css("color", "green");
+					}
+					else if(cmcInfos.total_24h_volume_eur >= 35000000000) {
+						$("#cmc_vol").css("background-color", "green");
+						$("#cmc_vol").css("color", "white");
+					}
+					
+					$("#gl_MC").html(nFormatter(cmcInfos.total_market_cap_eur, 4));
+					if(cmcInfos.total_market_cap_eur < 100000000000) {
+						$("#cmc_mc").css("background-color", "red");
+						$("#cmc_mc").css("color", "white");
+					}
+					else if(cmcInfos.total_market_cap_eur >= 100000000000 && cmcInfos.total_market_cap_eur <= 200000000000) {
+						// $("#cmc_mc").css("background-color", "green");
+						$("#cmc_mc").css("color", "red");
+					}
+					else if(cmcInfos.total_market_cap_eur >= 300000000000 && cmcInfos.total_market_cap_eur < 350000000000) {
+						// $("#cmc_mc").css("background-color", "green");
+						$("#cmc_mc").css("color", "green");
+					}
+					else if(cmcInfos.total_market_cap_eur >= 350000000000) {
+						$("#cmc_mc").css("background-color", "green");
+						$("#cmc_mc").css("color", "white");
+					}
 				}
 				if(currency == "USD"){
 					$("#gl_MC").html(nFormatter(cmcInfos.total_market_cap_usd, 4));
@@ -675,8 +793,29 @@
 				$("#curr_symb2").html(currencySym);
 				$("#curr_symb3").html(currencySym);
 				
-				if(cmcInfos.bitcoin_percentage_of_market_cap > 50) { $("#gl_BTCdom").css("color", "red"); }
-				else { $("#gl_BTCdom").css("color", "green"); }
+
+				if(cmcInfos.bitcoin_percentage_of_market_cap < 10) {
+					$("#cmc_dom").css("background-color", "red");
+					$("#cmc_dom").css("color", "white");
+				}
+				else if(cmcInfos.bitcoin_percentage_of_market_cap >= 10 && cmcInfos.bitcoin_percentage_of_market_cap <= 30) {
+					$("#gl_BTCdom").css("color", "red");
+				}
+				else if(cmcInfos.bitcoin_percentage_of_market_cap >= 30 && cmcInfos.bitcoin_percentage_of_market_cap < 60) {
+					$("#gl_BTCdom").css("color", "green");
+				}
+				else if(cmcInfos.bitcoin_percentage_of_market_cap >= 60) {
+					$("#cmc_dom").css("background-color", "red");
+					$("#cmc_dom").css("color", "white");
+				}
+				
+
+				// if(cmcInfos.bitcoin_percentage_of_market_cap > 50) { 
+					// $("#gl_BTCdom").css("color", "red"); 
+				// }
+				// else { 
+					// $("#gl_BTCdom").css("color", "green"); 
+				// }
 				
 				$("#gl_BTCdom").html(cmcInfos.bitcoin_percentage_of_market_cap);
 			}
@@ -702,6 +841,7 @@
 	function GenerateCoinsInfos_offline() {
 		var cells = { };
 		var nbCoins = smallListCoins.length;
+		sortTokens(smallListCoins, indexItem, indexOrder);
 		$.each(smallListCoins, function(key, value) {
 			// console.log(key + " : " + value[1]);
 			if(value != null) {
@@ -729,10 +869,27 @@
 		return cells;
 	}
 
+	function GenerateUnknownTokensInfos_offline() {
+		var cells = { };
+		// console.log(lstGoodTokens);
+		var nbCoins = unkTokens.length;
+		$.each(unkTokens, function(key, value) {
+			// console.log(key + " : " + value[1]);
+			// console.log(value);
+			if(value != null) {
+				// var objCoin = lstForkDeltaTokens[value[1]];
+				tokenInfo_Unknown_offline(value[0], value);
+			}
+		});
+		console.log("Nb Unknown Tokens : "+nbCoins);
+		return cells;
+	}
+
 	function GenerateTokensInfos_offline() {
 		var cells = { };
 		// console.log(lstGoodTokens);
 		var nbCoins = smallListTokens.length;
+		sortTokens(smallListTokens, indexItem, indexOrder);
 		$.each(smallListTokens, function(key, value) {
 			// console.log(key + " : " + value[1]);
 			if(value != null) {
@@ -811,6 +968,7 @@
 				// tokenInfo_IDEXmarket(coinName, value[2], parseFloat(value[4]), value[3]);
 			}
 		});
+		
 		return cells;
 	}
 
@@ -833,10 +991,10 @@
 		}
 		else {
 			last_walletBalances = JSON.parse(localStorage.getItem("cs_balances"));
-			gain_loss = parseFloat(last_walletBalances.EUR) - walletBalance;
+			gain_loss = walletBalance - parseFloat(last_walletBalances.EUR);
 		}
 		
-		// console.log("wall: "+ walletBalance +" | g/l: " + gain_loss);
+		// console.log("wall: "+ walletBalance +" | last: " + last_walletBalances.EUR + " | g/l: " + gain_loss);
 	}
 
 	function sortTokens(lst_Tokens, index, order) {
@@ -855,18 +1013,21 @@
 	
 	function sortChoice(Choice) {
 		if(Choice == "Balance") {
-			sortTokens(smallListTokens, 3, "DESC");
-			sortTokens(smallListCoins, 3, "DESC");
+			indexItem = 3;
+			indexOrder = "DESC";
 		}
 		else if(Choice == "24H") {
-			sortTokens(smallListTokens, 2, "DESC");
-			sortTokens(smallListCoins, 2, "DESC");
+			indexItem = 2;
+			indexOrder = "DESC";
 		}
 		else {
-			sortTokens(smallListTokens, 1, "ASC");
-			sortTokens(smallListCoins, 1, "ASC");
+			indexItem = 1;
+			indexOrder = "ASC";
 		}
-		// console.log(smallListCoins);
+		console.log(smallListCoins);
+		sortTokens(smallListCoins, indexItem, indexOrder);
+		sortTokens(smallListTokens, indexItem, indexOrder);
+		console.log(smallListCoins);
 		configScreener.viewOrder = Choice;
 		localStorage.setItem('cs_configuration', JSON.stringify(configScreener));
 		refreshTables();
@@ -874,28 +1035,37 @@
 	
 	function verifyForkDelta() {
 		var listFDTokens = new Array();
-		$.ajax({
-			type: "GET",
-			url: "forkdelta.json",
-			dataType: "text",
-			async: false,
-			success: function(data) { 
-				// console.log(JSON.parse(data));
-				listFDTokens = JSON.parse(data);
-			}
-		});
-		// var cpt = lstGoodTokens.length;
-		
-		$.each(listFDTokens, function(key, value) {
-			// console.log(value.tokenAddr);
-			if((unkTokens.filter(p => p[7] == value.tokenAddr)).length > 0) {
-				var indexToken = unkTokens.findIndex(p => p[7] == value.tokenAddr);
-				var token = unkTokens.filter(p => p[7] == value.tokenAddr);
-				var totalTokens = parseFloat(Number(value.bid)) * token[0][6];
-				lstForkDeltaTokens.push([token[0][0], token[0][1], value.quoteVolume, value.baseVolume, value.last, value.ask, 0, parseFloat(token[0][6]), token[0][0], 0, parseFloat(Number(value.bid)), token[0][7]]);
-				// smallListForkDeltaTokens.push([token[0][0], 0, parseFloat(token[0][5]), totalTokens]);
-			}
-		});
+		try {
+			$.ajax({
+				type: "GET",
+				url: "forkdelta.json",
+				dataType: "text",
+				async: false,
+				success: function(data) { 
+					// console.log(JSON.parse(data));
+					listFDTokens = JSON.parse(data);
+				},
+				error: function(error) { 
+
+				}
+			});
+			// var cpt = lstGoodTokens.length;
+			
+			$.each(listFDTokens, function(key, value) {
+				// console.log(value.tokenAddr);
+				if((unkTokens.filter(p => p[7] == value.tokenAddr)).length > 0) {
+					var indexToken = unkTokens.findIndex(p => p[7] == value.tokenAddr);
+					var token = unkTokens.filter(p => p[7] == value.tokenAddr);
+					var totalTokens = parseFloat(Number(value.bid)) * token[0][6];
+					lstForkDeltaTokens.push([token[0][0], token[0][1], value.quoteVolume, value.baseVolume, value.last, value.ask, 0, parseFloat(token[0][6]), token[0][0], 0, parseFloat(Number(value.bid)), token[0][7]]);
+					unkTokens.splice(indexToken, 1);
+					// smallListForkDeltaTokens.push([token[0][0], 0, parseFloat(token[0][5]), totalTokens]);
+				}
+			});
+		}
+		catch(e) {
+
+		}	
 	}
 	
 	</script>

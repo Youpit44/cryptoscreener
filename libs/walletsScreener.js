@@ -91,12 +91,7 @@ function getWallet_NEO(address) {
 			});
 		}
 	});
-	smallListCoins.sort(function(a,b){
-		return a[1] - b[1];
-	});
-	smallListTokens.sort(function(a,b){
-		return a[1] - b[1];
-	});
+
 	// console.log(smallListTokens);
 	return false;
 
@@ -119,8 +114,9 @@ function getWallet_ArcTic(address) {
 	});
 	var indexToken = lstAllTokensCMC.findIndex(p => (p.id).toLowerCase() == "arcticcoin");
 	var token = lstAllTokensCMC.filter(p => (p.id).toLowerCase() == "arcticcoin");
+	var totalTokens = parseFloat(value) * token[0].price_eur;
 	lstGoodCoins[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(value), token[0].name, token[0].price_usd, token[0].price_eur, "Not a token"] ;
-	smallListCoins.push([(token[0].id).toUpperCase(), parseInt(token[0].rank)]);
+	smallListCoins.push([(token[0].id).toUpperCase(), parseInt(token[0].rank), parseFloat(token[0]["percent_change_24h"]), totalTokens]);
 	return value;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

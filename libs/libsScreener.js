@@ -34,6 +34,7 @@
 
 function generateTable_offline(lstCoins, divInsert) {
 	//Build an array containing Customer records.
+	sortTokens(lstCoins, indexItem, indexOrder);
 	var nbToken = lstCoins.length;
 	var cptToken = 0;
 	var numberOfRows = Math.floor(window.innerHeight / 20);
@@ -248,4 +249,8 @@ function initScreenerConfiguration() {
 		// console.log(lastvisit);
 	}
 
+}
+
+function isInt(n) {
+	return n % 1 === 0;
 }

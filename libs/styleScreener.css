@@ -1,10 +1,12 @@
 ﻿html * {
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	background-color: #efeded;
+	/* background: url("metal-texture.jpg") repeat-x 0 0  #efeded; */
 }
 a:link {
     text-decoration: none;
 	color: inherit;
+	background-color: transparent;
 }
 a:hover {
 	text-decoration: underline;
@@ -23,23 +25,108 @@ th {
 }
 div #tokename_green{
 	color: green;
+	background-color: transparent;
 }
 div #tokename_red{
 	color: red;
+	background-color: transparent;
 }
 .pump {
 	font-weight: bold;
 }
-.bigpump {
+.bigpump1 {
 	background-color: green;
 	color: white;
 	font-weight: bold;
 }
-.bigdump {
-	background-color: red;
+
+.bigpump {
+	background-color: transparent;
+	color: green;
+	font-weight: bold;
+	-webkit-animation-name: blinker;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+
+	-moz-animation-name: blinker;
+	-moz-animation-duration: 1s;
+	-moz-animation-timing-function: linear;
+	-moz-animation-iteration-count: infinite;
+
+	animation-name: blinker;
+	animation-duration: 1s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+.megapump {
+	background-color: transparent;
 	color: white;
 	font-weight: bold;
+	-webkit-animation-name: blinker;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+	
+	-moz-animation-name: blinker;
+	-moz-animation-duration: 1s;
+	-moz-animation-timing-function: linear;
+	-moz-animation-iteration-count: infinite;
+	
+	animation-name: blinker;
+	animation-duration: 1s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
 }
+.megadump {
+	color:red; 
+	animation: blinker 2s infinite;
+}
+@-moz-keyframes blinker {  
+	0% { opacity: 1.0; }
+	50% { opacity: 0.0; }
+	100% { opacity: 1.0; }
+}
+@-webkit-keyframes blinker {  
+	0% { opacity: 1.0; }
+	50% { opacity: 0.0; }
+	100% { opacity: 1.0; }
+}
+@keyframes blinker {  
+	0% { opacity: 1.0; }
+	50% { opacity: 0.0; }
+	100% { opacity: 1.0; }
+}
+/*.bigdump {
+	background-color: transparent;
+	color: red;
+	font-weight: bold;
+	-webkit-animation-name: blinker;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+
+	-moz-animation-name: blinker;
+	-moz-animation-duration: 1s;
+	-moz-animation-timing-function: linear;
+	-moz-animation-iteration-count: infinite;
+
+	animation-name: blinker;
+	animation-duration: 1s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}*/
+
+.bigdump {
+	color:red; 
+	animation: colorblink 1s infinite;
+}
+@keyframes colorblink { 
+	0% { }
+	50% { color:white; } 
+}
+
+
 div #rank{
 	width:40px;
 	text-align: center;
@@ -62,22 +149,34 @@ div .cellule{
 div .tokenicon{
 	display: table-cell;
 	width:30%;
+	background-color: transparent;
 }
 div .tokenicon img {
 	width: 90%;
 	height: auto;
+	background-color: transparent;
 }
 div .tokeninfo{
 	display: table-cell;
 	/* text-align: center; */
 	vertical-align: top;
 	padding-top: 5px;
+	background-color: transparent;
 }
 div #token_infos{
 	font-size: 12px;
+	background-color: transparent;
 }
 div #wallet_infos{
 	font-size: 10px;
+	background-color: transparent;
+}
+#price_eur, #percent_change {
+	background-color: transparent;
+}
+#price_eur_white, #percent_change_white {
+	background-color: transparent;
+	color: white;
 }
 #sparkline1d {
 	display: table;
@@ -96,33 +195,42 @@ div #wallet_infos{
 	
 }
 div #token_type{
+	background: transparent;
 	float: right;
 	position: relative;
 	top: -50px;
 	right: 0px;
 	font-size: 8px;
+	z-index: 10;
+	margin-bottom: -15px;
 }
 .circle_eth {
-	height: 12px;
+	background: url("http://spootnik.fr/wscryptos/coins/32x32/ethereum.png") repeat-x 0 0 transparent;
+/*	height: 12px;
 	width: 14px;
 	background-color: #858687;
-	border-radius: 50%;
-	display: inline-block;
-	vertical-align: bottom;
-	text-align: center;
-	padding-top: 2px;
-	color: white;
+	border-radius: 50%; */
+	height: 18px;
+    width: 16px;
+    display: inline-block;
+    vertical-align: bottom;
+    text-align: center;
+    padding-top: 2px;
+    color: white;
+    background-size: 20px 19px;
+	opacity: 0.7;
 }
 .circle_neo {
-	height: 12px;
-	width: 14px;
-	background-color: #74bc2a;
-	border-radius: 50%;
-	display: inline-block;
-	vertical-align: bottom;
-	text-align: center;
-	padding-top: 2px;
-	color: white;
+	background: url("http://spootnik.fr/wscryptos/coins/32x32/neo.png") repeat-x 0 0 transparent;
+	height: 18px;
+    width: 16px;
+    display: inline-block;
+    vertical-align: bottom;
+    text-align: center;
+    padding-top: 2px;
+    color: white;
+    background-size: 20px 19px;
+	opacity: 0.7;
 }
 div .sparkline1d{
 	display: inline;
@@ -155,7 +263,9 @@ div .sparkline7d{
 	/* border-style: inset;
 	border-right: 1px;
 	border-width: 1px; */
-	
+}
+#header .column span{
+	background-color: transparent;
 }
 #gain_loss {
 	font-size: 9px;
