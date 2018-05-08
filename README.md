@@ -21,7 +21,13 @@ Il utise les API de coinmarcketcap.com, ForkDelta pour les tokens ERC20, l'API d
 L'utilisation est simple, il faut juste copier le fichier "[index.html](index.html)" et son dossier de librairies "[libs](libs/)" dans un dossier et double-cliquer sur le fichier "[index.html](index.html)" .  
 Votre navigateur par défaut s'ouvrira sur la page avec des données de tests. 
   
----  
+---
+## Pour fonctionner correctement :  
+### Il fortement conseiller d'utiliser le navigateur "**Chrome**" et d'ajouter l'option :  
+  **--allow-file-access-from-files**  
+Cette option permet le chargement des données en local. Le syndrome du "**cross domain**" peut aussi survenir avec certain navigateur autre que "**Chrome**". Pour limiter cet effet vous pouvez télécharger la base [Coinmarketcap.com](https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=EUR) au format JSON et la sauvegarder sous le nom de "[cmc.json](https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=EUR)" dans le dossier principal avec l'index.html.  
+  
+---
 ## Pour un fonctionnement semi-automatique :  
 Il faut exporter votre Wallet Ethereum au format ".CSV" par le biais du site [DeltaBalances.github.io](https://deltabalances.github.io/). Le seul à proposer cette possibilité. Veilliez a bien selectionner toutes les options, **exchanges compris** !    
 Sauvegarder le fichier exporté dans le dossier de l'index.html sous le nom "Tokens.csv".   
