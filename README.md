@@ -1,13 +1,15 @@
-# crypto-screener  
+# CryptoScreener - Tatooine  
 ![Capture Crypto-Screener](https://raw.githubusercontent.com/Youpit44/cryptoscreener/master/docs/Capture.PNG)  
 ## ATTENTION : Nouvelle version !! La documentation ci-dessous reste à completer, mais permet d'éxécuter le script de suivi.
 ### Nouveautés :  
+  *Refonte de l'interface (BootStrap 4)  
+  *Traitement asynchrone des données  
   *Mode semi-automatique ou manuel  
   *Vérification des tokens ERC20 non reconnu sur CMC  
   *Utilisation des cookies pour stocker les données des tokens  
   *Réductions de l'appel de l'API CMC à 15 min  
-  *Utilisation de l'API de ForkDelta  
-  *Chargement de l'export du wallet ETH de [DeltaBalances.github.io](https://deltabalances.github.io/)   
+  *Utilisation de l'API de ForkDelta  **en cours**  
+  *Chargement de l'export du wallet ETH de [DeltaBalances.github.io](https://deltabalances.github.io/)   **en cours**  
   *Traitement séparé entre les Coins (type BTC, ETH, NEO) et les Tokens (type Erc20, Neo, ...)  
   *Mode Online ou Offline  
   
@@ -15,15 +17,16 @@
 ### Support des Wallets NEO et ARCTIC-COIN (pour le moment... :) )  
   
 ---    
-Deuxième essai de dashboard de suivi des cryptos-monnaies suivant un choix défini.  
-Il utise les API de coinmarcketcap.com, ForkDelta pour les tokens ERC20, l'API de NEO et d'ArcTic. D'autres suivront suivant les besoins.  
+Troisième essai du dashboard de suivi des cryptos-monnaies suivant un choix défini.  
+Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les tokens ERC20, l'API de NEO et d'ArcTic. D'autres suivront suivant les besoins.  
   
 L'utilisation est simple, il faut juste copier le fichier "[index.html](index.html)" et son dossier de librairies "[libs](libs/)" dans un dossier et double-cliquer sur le fichier "[index.html](index.html)" .  
 Votre navigateur par défaut s'ouvrira sur la page avec des données de tests. 
   
 ---
 ## Pour fonctionner correctement :  
-### Il fortement conseiller d'utiliser le navigateur "**Chrome**" et d'ajouter l'option :  
+### Il fortement conseiller d'utiliser le navigateur "**Chrome**" et d'ajouter l'extension "Web-Server local" disponible ici :  
+et d'ajouter les options suivantes au racourcci  :  
   **--allow-file-access-from-files**  
 Cette option permet le chargement des données en local. Le syndrome du "**cross domain**" peut aussi survenir avec certain navigateur autre que "**Chrome**". Pour limiter cet effet vous pouvez télécharger la base [Coinmarketcap.com](https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=EUR) au format JSON et la sauvegarder sous le nom de "[cmc.json](https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=EUR)" dans le dossier principal avec l'index.html.  
   
