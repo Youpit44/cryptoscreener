@@ -1,6 +1,10 @@
 # CryptoScreener - Tatooine  
 ![Capture Crypto-Screener](https://raw.githubusercontent.com/Youpit44/cryptoscreener/tatooine/docs/Capture.PNG)  
-## ATTENTION : Nouvelle version !! La documentation ci-dessous reste à completer, mais permet d'éxécuter le script de suivi.
+## ATTENTION : Nouvelle version !! Refonte complète de l'interface et du moteur de traitement.
+  
+---    
+**Troisième essai** du dashboard de suivi des cryptos-monnaies suivant un choix défini.  
+Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les tokens ERC20, l'API de NEO et d'ArcTic. D'autres suivront suivant les besoins.  
 ### Nouveautés :  
   *Refonte de l'interface (BootStrap 4)  
   *Traitement asynchrone des données  
@@ -12,10 +16,6 @@
   *Chargement de l'export du wallet ETH de [DeltaBalances.github.io](https://deltabalances.github.io/)   **en cours**  
   *Traitement séparé entre les Coins (type BTC, ETH, NEO) et les Tokens (type Erc20, Neo, ...)  
   *Mode Online ou Offline  
-  
----    
-**Troisième essai** du dashboard de suivi des cryptos-monnaies suivant un choix défini.  
-Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les tokens ERC20, l'API de NEO et d'ArcTic. D'autres suivront suivant les besoins.  
   
 ---
 ## Pour fonctionner correctement :  
