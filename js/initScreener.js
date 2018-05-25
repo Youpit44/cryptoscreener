@@ -148,6 +148,6 @@ var templateBadge = "<div id='_SLUG_' class='col-12 col-sm-6 col-md-2'>" +
     "<a class='nav-link small' href='#'>7d</a>" +
     "</li>" + "</ul>" +
     "</div><div class='col-md-9 float-right'>" +
-    "<img id='imgGraph' class='img-fluid mx-auto d-block' src='" + cmc_sparkLine7d + "1.png' /></div></div>" +
+    "<img id='imgGraph' class='img-fluid mx-auto d-block' src='" + cmc_sparkLine7d + "_ID_FLAG_.png' /></div></div>" +
     "</div>" +
     "</div>";
