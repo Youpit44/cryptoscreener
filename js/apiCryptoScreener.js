@@ -1,0 +1,64 @@
+function init_CoinMarketCap_Global() {
+    //console.log(cmc_urlAPIinformation+currency);
+    var cmcInfos;
+    console.log("Init: CMC General Infos");
+    // console.log("Get Last Visit : "+lastvisit + " ("+parseInt(minutes)+"min)");
+    var jqxhr = $.getJSON(cmc_urlAPIinformation + "EUR");
+    jqxhr.done(function(data) {
+        cmcInfos = data;
+        localStorage.setItem('cs_CMCinfos', JSON.stringify(data));
+    });
+}
+
+function init_CoinMarketCap_ListID_tokens() {
+    //https://s2.coinmarketcap.com/generated/search/quick_search.json
+    var lst_CMC_ID_Tokens;
+    console.log("Init: CMC Search Infos");
+    $.ajax({
+        url: cmc_urlAPIQuickSearch,
+        type: "GET",
+        dataType: 'json',
+        async: false,
+        //crossDomain: true,
+        success: function(data) {
+            //console.log(data);
+            lst_CMC_ID_Tokens = data;
+        }
+    });
+    localStorage.setItem('cs_CMClistID', JSON.stringify(lst_CMC_ID_Tokens));
+}
+
+function init_CoinMarketCap_Tokens() {
+    var lst_CMC_All_Tokens = [];
+    console.log("Init: CMC Tokens Infos");
+    $.ajax({
+        url: cmc_urlAPI + '?limit=0&convert=EUR',
+        dataType: 'json',
+        async: false,
+        success: function(data) {
+            lst_CMC_All_Tokens = data;
+        }
+    });
+    localStorage.setItem('cs_CMCtokens', JSON.stringify(lst_CMC_All_Tokens));
+}
+
+function loadCMC_Tokens() {
+    var listAllTokens = [];
+    if (isTimeToGet(coolDown.cmc_tokens)) {
+        console.log("Load CMC Tokens Infos");
+        $.ajax({
+            url: cmc_urlAPI + '?limit=0&convert=EUR',
+            dataType: 'json',
+            async: false,
+            success: function(data) {
+                listAllTokens = data;
+            }
+        });
+        localStorage.setItem('cs_CMCtokens', JSON.stringify(listAllTokens));
+    } else {
+        console.log("Read CMC Tokens Infos");
+        listAllTokens = JSON.parse(localStorage.getItem('cs_CMCtokens'));
+        // console.log(listAllTokens);
+    }
+    return listAllTokens;
+}
