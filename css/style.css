@@ -1,0 +1,153 @@
+body {
+    padding-top: 5rem;
+}
+
+.starter-template {
+    padding: 3rem 1.5rem;
+    text-align: center;
+}
+
+
+/* Sticky footer styles
+-------------------------------------------------- */
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    line-height: 60px;
+    /* Vertically center the text there */
+    background-color: #f5f5f5;
+}
+
+
+/* Custom page CSS
+  -------------------------------------------------- */
+
+
+/* Not required for template or sticky footer method. */
+
+body>.container {
+    /* padding: 60px 15px 0; */
+}
+
+.footer>.container {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+code {
+    font-size: 80%;
+}
+
+div.card {
+    margin-bottom: 10px;
+    margin-right: -20px;
+    width: 100%;
+}
+
+div.card-body {
+    padding: 5px;
+}
+
+.badge-pill {
+    font-size: 60%;
+    transform: rotate(22deg);
+    margin-right: -20px;
+    margin-top: -15px;
+}
+
+div.dropdown-menu.show {
+    padding-left: 10px;
+}
+
+div.col-md-9 {
+    padding: 0 15px 0 0;
+    padding-left: 20px;
+}
+
+div.card-header {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+p.card-text {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+}
+
+h6.card-title {
+    margin-bottom: 0;
+}
+
+div.col-md-4.text-center {
+    font-size: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+div.col-md-3.text-center {
+    font-size: 10px;
+    padding-top: 0;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#rowTokenInfos {
+    padding-top: 3px;
+}
+
+div.col-12.col-sm-6.col-md-2 {
+    padding-right: 0;
+}
+
+div.row #rtHeaders,
+#rtDatas {
+    margin-left: 0;
+}
+
+#badgePchange {
+    font-size: 90%;
+}
+
+.card-footer {
+    display: none;
+}
+
+hr {
+    margin-bottom: 2px;
+}
+
+#headerCard {
+    padding-bottom: 3px;
+}
+
+div.card-footer {
+    padding: 0;
+}
+
+#dayGraph {
+    padding: 0;
+}
+
+#imgGraph {
+    padding-top: 12px;
+}
+
+#separation {
+    margin-top: -3px;
+    margin-bottom: 8px;
+}
