@@ -22,7 +22,8 @@ Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les to
 ### Il fortement conseiller d'utiliser le navigateur "**Chrome**" et d'ajouter l'extension "Web-Server local" disponible sur le [Store de Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb)  
 et d'ajouter les options suivantes au racourcci  :  
   **--allow-file-access-from-files**  
-Cette option permet le chargement des données en local. Le syndrome du "**cross domain**" peut aussi survenir avec certain navigateur autre que "**Chrome**". Pour limiter cet effet vous pouvez télécharger la base [Coinmarketcap.com](https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=EUR) au format JSON et la sauvegarder sous le nom de "[cmc.json](https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=EUR)" dans le dossier principal avec l'index.html.  
+  **--disable-web-security**  
+Ces options permettent le chargement des données en local. Le syndrome du "**cross domain**" peut aussi survenir avec certain navigateur autre que "**Chrome**". Pour limiter cet effet vous pouvez télécharger la base [Coinmarketcap.com](https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=EUR) au format JSON et la sauvegarder sous le nom de "[cmc.json](https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=EUR)" dans le dossier principal avec l'index.html.  
   
 ---
 Si vous désirez des modifications, n'hesitez pas à laissez une issue pour me notifier de votre demande, évolution ou même support.  
