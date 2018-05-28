@@ -63,6 +63,7 @@ var _decimals = {
 };
 
 var walletBalances = {
+    lasttime: 0,
     BTC: 0,
     ETH: 0,
     LTC: 0,
@@ -88,7 +89,7 @@ var configScreener = {
     walletName: "tokens.csv",
     graphDisplay: true,
     graphMode: "7d",
-    version: 0.53
+    version: 0.54
 };
 
 var colorBadge = {
@@ -112,42 +113,108 @@ var colorCard = {
 };
 
 
-var templateBadge = "<div id='_SLUG_' class='col-12 col-sm-6 col-md-2'>" +
+var templateBadge = "<div id='_SLUG_' class='col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2'>" +
     "<div class='card'>" +
     "<div id='headerCard' class='card-header'>" +
     "<div class='row'>" +
-    "<div class='col-md-3'><img class='' src='" + cmc_urlStaticIMG + "_ID_FLAG_.png' /></div>" +
-    "<div class='col-md-9'>" +
+    "<div class='col-3 col-md-3'><img class='' src='" + cmc_urlStaticIMG + "_ID_FLAG_.png' data-toggle='tooltip' title='_SUPPLY_' /></div>" +
+    "<div class='col-9 col-md-9'>" +
     "<h6 class='card-title font-weight-bold'>_TOKEN_ <span class='small font-weight-light'><sup>_SHT_</sup></span><span id='tokenPill' class=''></span></h6>" +
     "<p class='card-text'>_TokenP_ <span id='badgePchange' class='float-right badge'>_PChange_%</span></p>" +
-    "<p class='card-text'><span class='float-left small'>_S_: _NBToken_</span></p><hr>" +
-    "<p class='card-text'><span class='float-left small'><img width='10' src='https://coinmarketcap.com/favicon.ico' /> _WalletP_</span><span class='float-right small'><img width='10' src='https://idex.market/favicon.ico' /> _WalletP_</span></p>" +
+    "<p class='card-text'>" +
+    "<span class='float-left small'><b>_NBToken_</b> _S_</span><span class='float-right small align-baseline'><img class='align-baseline' width='10' src='https://coinmarketcap.com/favicon.ico' /> _WalletP_CMC_</span>" +
+    "</p><hr>" +
+    "<p class='card-text'>" +
+    "<span id='walletPrice_TokenStore' class='float-left small align-baseline'><img class='align-baseline' width='10' src='https://token.store/favicon.ico' /> _WalletP_TS_</span>" +
+    "<span id='walletPrice_Idex' class='float-right small align-baseline'><img class='align-baseline' width='10' src='https://idex.market/favicon.ico' /> _WalletP_IDEX_</span>" +
+    "</p>" +
     "</div>" +
     "</div>" +
     "</div>" +
     "<div class='card-body' id='rowTokenInfos'>" +
     "<div id='rtHeaders' class='row'>" +
-    "<div class='col-md-3 text-center'>RANK</div>" +
-    "<div class='col-md-4 text-center'>MARKET CAP</div>" +
-    "<div class='col-md-4 text-center'>VOLUME (24H)</div>" +
+    "<div class='col-3 col-md-3 text-center'><b>RANK</b></div>" +
+    "<div class='col-4 col-md-4 text-center'><b>MARKET CAP</b></div>" +
+    "<div class='col-4 col-md-4 text-center'><b>VOLUME (24H)</b></div>" +
     "</div>" +
     "<div id='rtDatas' class='row'>" +
-    "<div class='col-md-3 text-center'>_RANK_</div>" +
-    "<div class='col-md-4 text-center'>_Currency__MCAP_</div>" +
-    "<div class='col-md-4 text-center'>_Currency__VOLUME_</div>" +
+    "<div class='col-3 col-md-3 text-center'>_RANK_</div>" +
+    "<div class='col-4 col-md-4 text-center'>_Currency__MCAP_</div>" +
+    "<div class='col-4 col-md-4 text-center'>_Currency__VOLUME_</div>" +
     "</div>" +
     //<!-- <a href='#' class='card-link'>link</a>
     //<a href='#' class='card-link'>link</a> -->
     "</div>" +
     "<div class='card-footer'>" +
-    "<div id='dayGraph' class='col-md-3 float-left'><ul class='nav flex-column'>" +
+    "<div id='dayGraph' class='col-3 col-md-3 float-left'><ul class='nav flex-column'>" +
     "<li class='nav-item'>" +
     "<a class='nav-link small' href='#'>1d</a>" +
     "</li>" +
     "<li class='nav-item'>" +
     "<a class='nav-link small' href='#'>7d</a>" +
     "</li>" + "</ul>" +
-    "</div><div class='col-md-9 float-right'>" +
+    "</div><div class='col-9 col-md-9 float-right'>" +
     "<img id='imgGraph' class='img-fluid mx-auto d-block' src='" + cmc_sparkLine7d + "_ID_FLAG_.png' /></div></div>" +
     "</div>" +
     "</div>";
+
+var all_ExternalLinks = {
+    Etherscan: "https://etherscan.io/address/",
+    Ethplorer: "https://ethplorer.io/address/",
+    DeltaBalances: "https://deltabalances.github.io/index.html#",
+    MyEtherWallet: "https://www.myetherwallet.com",
+    MyCrypto: "https://mycrypto.com",
+    NeoTracker: "https://neotracker.io/wallet",
+    WavesPlatform: "https://beta.wavesplatform.com",
+    CMC: "https://coinmarketcap.com/",
+    ForkDelta: "https://forkdelta.github.io/",
+    EtherDelta: "https://etherdelta.com/",
+    IDEX: "https://idex.market/",
+    DDEX: "https://ddex.io/trade",
+    Switcheo: "https://switcheo.exchange/",
+    MetaMask: "https://metamask.io/",
+
+
+
+
+}
+
+var _history = {
+    "0.54": "Ajout des Supply en tooltip, d'une gestion des log/debug, tooltip sur de nouveaux elements.",
+    "0.53": "Correction des derniers bugs avant livraison dans la branche Tatooine sur GitHub.",
+    "0.52": "Amélioration de l'interface utilisateur, ajout des liens dans les menus.",
+    "0.51": "Vérification de l'installation et des mises à jours de CS.",
+    "0.5": "Réorganisation des variables, noms, portés. Nettoyage du code.",
+    "0.4": "Refonte du moteur de traitement du wallet local.",
+    "0.3": "Ajout des icones et graphiques relatif au token.",
+    "0.2": "Définition des Cartes d'affichage des Tokens.",
+    "0.1": "Initialisation de la nouvelle version."
+}
+var titleApp = "CryptoScreener";
+var projectApp = "Tatooine";
+
+var walletAddress = {
+    ETH: "",
+    BTC: "",
+    LTC: ""
+};
+
+var modal_installation = "Bienvenue dans l'installation de CryptoScreener. <br> Il est indispensable d'utiliser le navigateur «Chrome» disponible ici : <a href='https://www.google.com/chrome/' target='_blank'>https://www.google.com/chrome/</a><br>" +
+    "<br> Ajouter au raccourcci de Chrome les options suivantes :<br>" +
+    "<span class='border small'><samp>--allow-file-access-from-files<br>" +
+    "--disable-web-security</samp></span><br> Ces options permettent le chargement des données en local. Le syndrome du «cross domain» peut aussi survenir avec certain navigateur autre que «Chrome». Pour limiter cet" +
+    "effet vous pouvez télécharger la base Coinmarketcap.com au format JSON et la sauvegarder sous le nom de '<a href='https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=EUR' target='_blank'>cmc.json</a>' dans le dossier principal" +
+    "avec l'index.html.<br>" +
+    "<br> Pour les utlisateurs de Mac, utilisez la ligne de commande ci-dessous pour lancer «Chrome» avec les options indiquées : <br>" +
+    "<span class='border small'><samp>open /Applications/Google\ Chrome.app --args --allow-file-access-from-files --disable-web-security</samp></span>";
+
+var modal_faq = "<h4>Menu «Indispensable» :</h4>" +
+    "Regroupe un ensemble de liens utiles voir indispensable dans le monde des cryptos moannaies." +
+    "<h4>Menu «Markets» :</h4>" +
+    "<h4>Menu «Télégram» :</h4>" +
+    "<h4>Menu «Wallets» :</h4>" +
+    "<h4>Menu «Options» :</h4>" +
+    "  <b>Mode Online :</b> <i>non disponible pour le moment</i> <br>" +
+    "  <b>Wallet Local :</b> Charge l'extraction de votre wallet ethereum de DeltaBalances.<br>" +
+    "  <b>Graphiques :</b> Affiche les graphiques 7 jours de tout les tokens.<br><br>" +
+    "  <b>Wallet Ethereum :</b> Enregistre votre adresse ethereum pour l'ajouter aux liens comme <b>Etherscan.io</b> ou <b>Ethplorer.io</b>.";

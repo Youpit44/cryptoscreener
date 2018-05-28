@@ -1,31 +1,34 @@
 function initScreenerConfiguration() {
+    configScreener = JSON.parse(localStorage.getItem('cs_configuration'));
+    walletAddress = JSON.parse(localStorage.getItem('cs_wallets'));
     // localStorage.clear();
     // 
-    if (localStorage.getItem("cs_configuration") === null) {
-        localStorage.setItem('cs_configuration', JSON.stringify(configScreener));
-        console.log("Set Init Configuration");
-    } else {
-        var last_configScreener = JSON.parse(localStorage.getItem('cs_configuration'));
-        if (last_configScreener.version == configScreener.version) {
-            configScreener = last_configScreener;
-            console.log("Init Configuration");
-            // console.log(configScreener);
-        } else {
-            console.log("Set New Configuration v" + configScreener.version);
-            localStorage.setItem('cs_configuration', JSON.stringify(configScreener));
-        }
-    }
+    // if (localStorage.getItem("cs_configuration") === null) {
+    //     localStorage.setItem('cs_configuration', JSON.stringify(configScreener));
+    //     console.log("Set Init Configuration");
+    // } else {
+    //     var last_configScreener = JSON.parse(localStorage.getItem('cs_configuration'));
+    //     if (last_configScreener.version == configScreener.version) {
+    //         configScreener = last_configScreener;
+    //         console.log("Init Configuration");
+    //         // console.log(configScreener);
+    //     } else {
+    //         console.log("Set New Configuration v" + configScreener.version);
+    //         localStorage.setItem('cs_configuration', JSON.stringify(configScreener));
+    //     }
+    // }
 
-    if (localStorage.getItem("cs_lastvisit") === null) {
-        localStorage.setItem('cs_lastvisit', JSON.stringify(new Date()));
-        console.log("Init Last Visit");
-    } else {
-        lastvisit = new Date(JSON.parse(localStorage.getItem('cs_lastvisit')));
-        var diff = new Date(new Date() - lastvisit);
-        var minutes = diff.getTime() / 1000 / 60;
-        console.log("Get Last Visit : " + lastvisit + " (" + parseInt(minutes) + "min)");
-        // console.log(lastvisit);
-    }
+    // if (localStorage.getItem("cs_lastvisit") === null) {
+    //     localStorage.setItem('cs_lastvisit', JSON.stringify(new Date()));
+    //     console.log("Init Last Visit");
+    // } else {
+    lastvisit = new Date(JSON.parse(localStorage.getItem('cs_lastvisit')));
+    var diff = new Date(new Date() - lastvisit);
+    var minutes = diff.getTime() / 1000 / 60;
+    //console.log("Get Last Visit : " + lastvisit + " (" + parseInt(minutes) + "min)");
+    logInfo("Get Last Visit : " + lastvisit + " (" + parseInt(minutes) + "min)");
+    // console.log(lastvisit);
+    // }
 }
 
 function convertDate(timestamp) {
@@ -134,17 +137,19 @@ function filterBySlug(obj) {
     return 0;
 }
 
-function sortTokens(lst_Tokens, index, order) {
+function sortTokens(_Tokens, index, order) {
     if (order == "ASC") {
-        lst_Tokens.sort(function(a, b) {
+        _Tokens.sort(function(a, b) {
+            console.log("A - " + index + " : " + a[index])
             return a[index] - b[index];
         });
     } else {
-        lst_Tokens.sort(function(a, b) {
+        _Tokens.sort(function(a, b) {
+            console.log("D - " + index + " : " + a[index])
             return b[index] - a[index];
         });
     }
-    return lst_Tokens;
+    return _Tokens;
 }
 
 function isTimeToGet(wait_minutes) {
@@ -186,8 +191,8 @@ function isReady() {
     if (localStorage.getItem("cs_CMCtokens") === null) {
         ready = false;
     }
-    if (localStorage.getItem("cs_ETHwallet") === null) {
-        //ready = false;
+    if (localStorage.getItem("cs_wallets") === null) {
+        ready = false;
     }
     if (localStorage.getItem("cs_balances") === null) {
         ready = false;
@@ -198,7 +203,7 @@ function isReady() {
 function install_CryptoScreener() {
     var ready = false;
     console.log("Installation CryptoScreener v" + configScreener.version);
-    console.log("Initialisation Variables Session" + configScreener.version);
+    console.log("Initialisation Variables Session");
 
     if (localStorage.getItem("cs_lastvisit") === null) {
         ready = true;
@@ -222,9 +227,11 @@ function install_CryptoScreener() {
         init_CoinMarketCap_Tokens();
         ready = true;
     }
-    // if (localStorage.getItem("cs_ETHwallet") === null) {
-    //     ready = false;
-    // }
+    if (localStorage.getItem("cs_wallets") === null) {
+        localStorage.setItem('cs_wallets', JSON.stringify(walletAddress));
+        console.log("Init: Wallet Addresses");
+        ready = false;
+    }
     if (localStorage.getItem("cs_balances") === null) {
         localStorage.setItem('cs_balances', JSON.stringify(walletBalances));
         console.log("Init: Wallet Balances");
@@ -234,6 +241,7 @@ function install_CryptoScreener() {
 }
 
 function changeCurrency(type) {
+    walletBalance = 0;
     let old_currency = currency;
     currency = type;
     currencySym = symbol[currency];
@@ -246,4 +254,13 @@ function changeCurrency(type) {
     $("#lstCoins").html("");
     $("#lstTokens").html("");
     makeCard();
+    verifyBalances();
+}
+
+function cooldown_Wallet() {
+    if (walletBalances.lasttime > 1) {
+        walletBalances.lasttime = new Date();
+        localStorage.setItem('cs_balances', JSON.stringify(walletBalances));
+    }
+
 }

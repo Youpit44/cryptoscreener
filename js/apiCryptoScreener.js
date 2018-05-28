@@ -62,3 +62,28 @@ function loadCMC_Tokens() {
     }
     return listAllTokens;
 }
+
+function loadCMC_ListID_tokens() {
+    //https://s2.coinmarketcap.com/generated/search/quick_search.json
+    var lst_CMC_ID_Tokens;
+    if (isTimeToGet(coolDown.cmc_tokens)) {
+        console.log("Load CMC Search Infos");
+        $.ajax({
+            url: cmc_urlAPIQuickSearch,
+            type: "GET",
+            dataType: 'json',
+            async: false,
+            //crossDomain: true,
+            success: function(data) {
+                //console.log(data);
+                lst_CMC_ID_Tokens = data;
+            }
+        });
+        localStorage.setItem('cs_CMClistID', JSON.stringify(lst_CMC_ID_Tokens));
+    } else {
+        console.log("Read CMC Search Infos");
+        lst_CMC_ID_Tokens = JSON.parse(localStorage.getItem('cs_CMClistID'));
+        // console.log(listAllTokens);
+    }
+    return lst_CMC_ID_Tokens;
+}
