@@ -36,11 +36,11 @@ Il faut exporter votre Wallet Ethereum au format ".CSV" par le biais du site [De
 Sauvegarder le fichier exporté dans le dossier de l'index.html sous le nom "Tokens.csv".   
   
 ## Pour un fonctionnement manuel :  
-__Il faut modifier le fichier "[configScreener.js](libs/configScreener.js)" après l'entête suivante :__  
+__Il faut modifier le fichier "[configCryptoScreener.js](js/configCryptoScreener.js)" après l'entête suivante :__  
   ////////////////////////////////////////////////////////////////////////////////////////////////////  
   // LISTE DES COINS A MODIFIER  
   ////////////////////////////////////////////////////////////////////////////////////////////////////  
-### Capture du fichier "[configScreener.js](libs/configScreener.js)" :  
+### Capture du fichier "[configCryptoScreener.js](js/configCryptoScreener.js)" :  
 ![Capture Configuration Crypto-Screener](https://raw.githubusercontent.com/Youpit44/cryptoscreener/master/docs/Config.PNG)  
   
 1) Complèter la/les lignes suivantes pour ajouter vous coins type Bitcoin, Ethereum, Neo, Waves, ..... un par ligne comme l'exemple ci-dessus : 
