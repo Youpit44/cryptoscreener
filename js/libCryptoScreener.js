@@ -26,7 +26,7 @@ function initScreenerConfiguration() {
     var diff = new Date(new Date() - lastvisit);
     var minutes = diff.getTime() / 1000 / 60;
     //console.log("Get Last Visit : " + lastvisit + " (" + parseInt(minutes) + "min)");
-    logInfo("Get Last Visit : " + lastvisit + " (" + parseInt(minutes) + "min)");
+    logInfo(lastvisit + " (" + parseInt(minutes) + "min)", "Get Last Visit");
     // console.log(lastvisit);
     // }
 }
@@ -98,7 +98,7 @@ function processDataSimple(allText) {
         }
         lines.push(tarr);
     }
-    console.log(lines);
+    //console.log(lines);
 }
 
 function isInt(n) {
@@ -140,12 +140,12 @@ function filterBySlug(obj) {
 function sortTokens(_Tokens, index, order) {
     if (order == "ASC") {
         _Tokens.sort(function(a, b) {
-            console.log("A - " + index + " : " + a[index])
+            //console.log("A - " + index + " : " + a[index])
             return a[index] - b[index];
         });
     } else {
         _Tokens.sort(function(a, b) {
-            console.log("D - " + index + " : " + a[index])
+            //console.log("D - " + index + " : " + a[index])
             return b[index] - a[index];
         });
     }
@@ -206,35 +206,40 @@ function install_CryptoScreener() {
     console.log("Initialisation Variables Session");
 
     if (localStorage.getItem("cs_lastvisit") === null) {
-        ready = true;
         localStorage.setItem('cs_lastvisit', JSON.stringify(new Date()));
-        console.log("Init: Last Visit");
+        //console.log("Init: Last Visit");
+        logInfo("Last Visit", "Init");
+        ready = true;
     }
     if (localStorage.getItem("cs_configuration") === null) {
-        ready = true;
         localStorage.setItem('cs_configuration', JSON.stringify(configScreener));
-        console.log("Init: Configuration");
+        //console.log("Init: Configuration");
+        logInfo("Configuration", "Init");
+        ready = true;
     }
     if (localStorage.getItem("cs_CMClistID") === null) {
         init_CoinMarketCap_ListID_tokens();
+        logInfo("CMC Search Infos", "Init");
         ready = true;
     }
     if (localStorage.getItem("cs_CMCinfos") === null) {
         init_CoinMarketCap_Global();
+        logInfo("CMC General Infos", "Init");
         ready = true;
     }
     if (localStorage.getItem("cs_CMCtokens") === null) {
         init_CoinMarketCap_Tokens();
+        logInfo("CMC Tokens Infos", "Init");
         ready = true;
     }
     if (localStorage.getItem("cs_wallets") === null) {
         localStorage.setItem('cs_wallets', JSON.stringify(walletAddress));
-        console.log("Init: Wallet Addresses");
+        logInfo("Wallet Addresses", "Init");
         ready = false;
     }
     if (localStorage.getItem("cs_balances") === null) {
         localStorage.setItem('cs_balances', JSON.stringify(walletBalances));
-        console.log("Init: Wallet Balances");
+        logInfo("Wallet Balances", "Init");
         ready = true;
     }
     return ready;
@@ -248,9 +253,14 @@ function changeCurrency(type) {
     decimals = _decimals[currency];
     configScreener.currencyDefault = currency;
     localStorage.setItem('cs_configuration', JSON.stringify(configScreener));
-    console.log("Set New Configuration v" + configScreener.version);
-    console.log("Change Default Currency " + old_currency + " to " + currency);
+    logInfo("Set New Configuration v" + configScreener.version);
+    // console.log("Set New Configuration v" + configScreener.version);
+    logInfo("Change Default Currency " + old_currency + " to " + currency);
+    // console.log("Change Default Currency " + old_currency + " to " + currency);
     info_CoinMarketCap_Global();
+    smallListCoins = sortTokens(smallListCoins, (configScreener.viewOrder).toLowerCase(), indexOrder);
+    smallListTokens = sortTokens(smallListTokens, (configScreener.viewOrder).toLowerCase(), indexOrder);
+
     $("#lstCoins").html("");
     $("#lstTokens").html("");
     makeCard();
@@ -260,7 +270,7 @@ function changeCurrency(type) {
 function cooldown_Wallet() {
     if (walletBalances.lasttime > 1) {
         walletBalances.lasttime = new Date();
+        logInfo("Set New Balance " + currencySym + walletBalances, "Store");
         localStorage.setItem('cs_balances', JSON.stringify(walletBalances));
     }
-
 }

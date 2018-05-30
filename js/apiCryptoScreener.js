@@ -1,8 +1,6 @@
 function init_CoinMarketCap_Global() {
-    //console.log(cmc_urlAPIinformation+currency);
     var cmcInfos;
     console.log("Init: CMC General Infos");
-    // console.log("Get Last Visit : "+lastvisit + " ("+parseInt(minutes)+"min)");
     var jqxhr = $.getJSON(cmc_urlAPIinformation + "EUR");
     jqxhr.done(function(data) {
         cmcInfos = data;
@@ -13,7 +11,6 @@ function init_CoinMarketCap_Global() {
 function init_CoinMarketCap_ListID_tokens() {
     //https://s2.coinmarketcap.com/generated/search/quick_search.json
     var lst_CMC_ID_Tokens;
-    console.log("Init: CMC Search Infos");
     $.ajax({
         url: cmc_urlAPIQuickSearch,
         type: "GET",
@@ -21,7 +18,6 @@ function init_CoinMarketCap_ListID_tokens() {
         async: false,
         //crossDomain: true,
         success: function(data) {
-            //console.log(data);
             lst_CMC_ID_Tokens = data;
         }
     });
@@ -30,7 +26,6 @@ function init_CoinMarketCap_ListID_tokens() {
 
 function init_CoinMarketCap_Tokens() {
     var lst_CMC_All_Tokens = [];
-    console.log("Init: CMC Tokens Infos");
     $.ajax({
         url: cmc_urlAPI + '?limit=0&convert=EUR',
         dataType: 'json',
