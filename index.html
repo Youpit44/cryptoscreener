@@ -1,1073 +1,1062 @@
-﻿<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="fr">
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <title>Welcome to the CryptoScreener !</title>
-	<link rel="stylesheet" type="text/css" href="./libs/styleScreener.css">
-	<script type="text/javascript" src="./libs/initScreener.js"></script>
-	<script type="text/javascript" src="./libs/configScreener.js"></script>
-	<script type="text/javascript" src="./libs/web3.min.js"></script>
-	<script type="text/javascript" src="./libs/libsScreener.js"></script>
-	<script type="text/javascript" src="./libs/walletsScreener.js"></script>
-	<!-- <script type="text/javascript" src="./libs/human_standard_token_abi.js"></script> -->
-	<script type="text/javascript">
-		if(infura_KEY != "") {
-			window.addEventListener('load', function () {
-				if (typeof web3 !== 'undefined') {
-				console.log('Web3 Detected! ' + web3.currentProvider.constructor.name)
-				window.web3 = new Web3(web3.currentProvider);
-				} else {
-				console.log('No Web3 Detected... using HTTP Provider')
-				window.web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/"+infura_KEY));
-				}
-			})
-		}
-	</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/png" href="./docs/favicon.png"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="./js/bootstrap/4.1.1/css/bootstrap.min.css">
+    <!-- integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="./css/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>CryptoScreener - </title>
 </head>
+
 <body>
-	<div id="header" class="inline">
-		<div id="cmc_mc" class="column">M.Cap: <span id="gl_MC"></span> <span id="curr_symb1"></span></div>
-		<div id="cmc_vol" class="column">24h Vol: <span id="gl_Vol"></span> <span id="curr_symb2"></span></div>
-		<div id="cmc_dom" class="column">BTC Dom: <span id="gl_BTCdom"></span> %</div>
-		<div class="column">Bal: <span id="wallet_Balance"></span> <span id="curr_symb3"></span>  <span id="gain_loss"></span>|
-			<select id="currencyChoice" onchange="choiceCurrency(this.value)">
-				<option selected="selected" value="EUR">EUR</option>
-				<option value="USD">USD</option>
-				<option value="BTC">BTC</option>
-				<option value="ETH">ETH</option>
-				<option value="NEO">NEO</option>
-			</select>
-		</div>
-		<div class="column">
-			<span id="lastupdate" class="dateheure"></span> |
-			1d:<input id="oneDayGraph" name="OneDay" value="oneday" type="checkbox" onchange="changeDayGraph(this)" /> |
-			<!-- 7d:<input id="sevenDayGraph" name="SevenDays" value="sevenday"type="checkbox" onchange="changeDayGraph(this)" /> | -->
-<!--			@<input id="onlineMode" name="onlineMode" value="true"type="checkbox" onchange="changeOnlineMode(this)" /> -->
-			<select id="sortChoice" onchange="sortChoice(this.value)">
-				<option value="Rank">Rank</option>
-				<option value="Balance">Balance</option>
-				<option selected="selected" value="24H">%24H</option>
-			</select>
-		</div>
-	</div>
-	<div id="dvTableCoins"></div>
-	<hr/>
-	<div id="dvTableTokens"></div>
-	<hr/>
-	<div id="dvTableTokensFD"></div>
-	<hr/>
-	<div id="dvTableUnknownTokens"></div>
-	<hr/>
-	<!-- <input type="button" value="Refresh Table" onclick="refreshTables()" />
-	<button type="button" onClick="getBalance();">Get Balance</button> -->
-	<div id="output"></div>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">CryptoScreener</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script>
-	var table = $("#mytable");
-	var currency = $("#currencyChoice").val();
-	var currencySym = "€";
-	var decimals = 5;
-	var gain_loss = 0;
-	var indexOrder = "DESC";
-	var indexItem = 2;
-	
-	$(document).ready(startApp());
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Indispensables</a>
+                    <div id="lnk_indisp" class="dropdown-menu" aria-labelledby="dropdown01">
+                        <div class="dropdown-header">Explorateur Ethereum</div>
+                        <a class="dropdown-item" id="Etherscan" href="#" target="_blank">Etherscan.io</a>
+                        <a class="dropdown-item" id="Ethplorer" href="#" target="_blank">Ethplorer.io</a>
+                        <a class="dropdown-item" id="DeltaBalances" href="#" target="_blank">DeltaBalances.github.io</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" id="CMC" href="#" target="_blank">CoinMarketCap.com</a>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-header">Decentralised Exchange (DEX)</div>
+                        <a class="dropdown-item" id="EtherDelta" href="#" target="_blank">EtherDelta</a>
+                        <a class="dropdown-item" id="ForkDelta" href="#" target="_blank">ForkDelta</a>
+                        <a class="dropdown-item" id="IDEX" href="#" target="_blank">IDEX</a>
+                        <a class="dropdown-item" id="DDEX" href="#" target="_blank">DDEX</a>
+                        <a class="dropdown-item" id="Switcheo" href="#" target="_blank">Switcheo</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Markets</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <div class="dropdown-header">Liens avec Référent</div>
+                        <a class="dropdown-item" id="" href="https://www.coinbase.com/join/5a17d1399f4b6201f9ccf8b8" target="_blank">Coinbase</a>
+                        <a class="dropdown-item" id="" href="https://www.binance.com/?ref=20298188" target="_blank">Binance</a>
+                        <a class="dropdown-item" id="" href="https://www.kucoin.com/#/?r=25g2f" target="_blank">Kucoin</a>
+                        <a class="dropdown-item" id="" href="https://www.huobi.br.com/fr-fr/topic/invited/?invite_code=e9de3" target="_blank">Huobi-Pro</a>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-header">Liens sans Référent</div>
+                        <a class="dropdown-item" id="" href="https://www.coinbase.com/dashboard" target="_blank">Coinbase</a>
+                        <a class="dropdown-item" id="" href="https://www.binance.com" target="_blank">Binance</a>
+                        <a class="dropdown-item" id="" href="https://www.kucoin.com" target="_blank">Kucoin</a>
+                        <a class="dropdown-item" id="" href="https://www.huobi.pro/fr-fr/" target="_blank">Huobi-Pro</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Télégram</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" id="" href="https://t.me/cryptogainschat" target="_blank">Cryptogains.fr - Chat</a>
+                        <a class="dropdown-item" id="" href="https://t.me/cryptogainsairdrops2" target="_blank">Cryptogains.fr - Airdrop</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dd_Wallets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wallets</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <div class="dropdown-header">Ethereum</div>
+                        <a class="dropdown-item" id="MyEtherWallet" href="#" target="_blank">MyEtherWallet</a>
+                        <a class="dropdown-item" id="MyCrypto" href="#" target="_blank">MyCrypto</a>
+                        <a class="dropdown-item" id="MetaMask" href="#" target="_blank">MetaMask</a>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-header">Divers</div>
+                        <a class="dropdown-item" id="NeoTracker" href="#" target="_blank">Neo Tracker</a>
+                        <a class="dropdown-item" id="WavesPlatform" href="#" target="_blank">Waves Platform</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dd_Options" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <div class="form-check">
+                            <label class="form-check-label"><input id="cb_ModeCS" type="checkbox" class="form-check-input" value="">Mode Online</label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label" data-toggle='tooltip' title='Charge votre Wallet extrait de DeltaBlances'><input id="cb_LocalWallet" type="checkbox" class="form-check-input" value="">Wallet Local</label>
+                        </div>
+                        <!-- <div class="form-check disabled">
+                            <label class="form-check-label"><input type="checkbox" class="form-check-input" value="" disabled>Reset</label>
+                        </div> -->
+                        <div class="form-check">
+                            <label class="form-check-label" data-toggle='tooltip' title='Affichage des graphiques 7 jours de tout les tokens.'><input id="cb_graphDay" type="checkbox" class="form-check-input" value="">Graphiques</label>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-header">Tri</div>
+                        <div class="form-check">
+                            <label class="form-check-label"><input type="radio" id="radio_Rank" class="form-check-input" name="optradio">Rank</label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label"><input type="radio" id="radio_Balance" class="form-check-input" name="optradio">Balance</label>
+                        </div>
+                        <div class="form-check disabled">
+                            <label class="form-check-label"><input type="radio" id="radio_24H" class="form-check-input" name="optradio">24H</label>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-header">Wallet Ethereum :</div>
+                        <div class="form-group">
+                            <input id="input_addEth" type="text" class="form-control">
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="currencyChoice" data-toggle="dropdown">EUR</a>
+                    <div id="currencyChoice" class="dropdown-menu">
+                        <a id="currEUR" class="dropdown-item active" href="#">EUR</a>
+                        <a id="currUSD" class="dropdown-item" href="#">USD</a>
+                        <a id="currBTC" class="dropdown-item" href="#">BTC</a>
+                        <!-- <a id="currETH" class="dropdown-item" href="#">ETH</a>
+                        <a id="currLTC" class="dropdown-item disabled" href="#">LTC</a>
+                        <a id="currNEO" class="dropdown-item disabled" href="#">NEO</a> -->
+                    </div>
+                </li>
+            </ul>
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <span class="btn btn-light">Bal: <span id="wallet_Balance" class="badge">0</span></span>
+                </li>
+                <li class="nav-item">
+                    <span id="bt_glMC" class="btn btn-info">M.Cap: <span id="gl_MC" class="badge badge-light">0</span></span>
+                </li>
+                <li class="nav-item">
+                    <span id="bt_glVol" class="btn btn-info">24h Vol: <span id="gl_Vol" class="badge badge-light">0</span></span>
+                </li>
+                <li class="nav-item">
+                    <span id="bt_glBTCDom" class="btn btn-secondary">BTC Dom: <span id="gl_BTCdom" class="badge badge-light">0%</span></span>
+                </li>
+            </ul>
+            <!--<form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form> -->
+        </div>
+    </nav>
+    <div id="alertRubbon" class="">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <span id="alert_msg"></span>
+    </div>
 
-	function startApp() {
-		initScreenerConfiguration();
-		
-		//loadIDEX_Tokens();
-		
-		
-		console.log("Online Mode: "+configScreener.onlineMode);
-		// if(configScreener.onlineMode) {
-			lstAllTokensCMC = loadCMC_Tokens();
-		// }
-		// else {
-			// lstAllTokensCMC = readCMC_Tokens();
-		// }
-		
-		if(configScreener.otherWallet) {
-			loadWallet_online();
-		}
-		
-		GenerateCoinsInfos();
-		
-		if(configScreener.localWallet) {
-			readTokensWalletFile(configScreener.walletName);
-		}
-		//verifyForkDelta();
-		
-		// Charge les infos du marché Global de CoinMarketCap (CCC)
-		info_CoinMarketCap_Global();
+    <main role="main" class="container-fluid">
+        <div id="lstCoins" class="row"></div>
+        <hr id="separation" />
+        <div id="lstTokens" class="row"></div>
+    </main>
+    <!-- /.container -->
 
-		if(configScreener.onlineMode) {
-			//////////////////////////////////////////////////////////////////
-			// MODE ON LINE /////////////////////////////////////////////////
-			generateTable(lstCoins, "dvTableCoins");
-			generateTable(lstTokens, "dvTableTokens");
-			var newCells = GenerateTokensInfos();
-			//////////////////////////////////////////////////////////////////
-		}
-		else {
-			//////////////////////////////////////////////////////////////////
-			// MODE OFF LINE /////////////////////////////////////////////////
-			generateTable_offline(smallListCoins, "dvTableCoins");
-			GenerateCoinsInfos_offline();
-			generateTable_offline(smallListTokens, "dvTableTokens");
-			GenerateTokensInfos_offline();
-			generateTable_offline(lstForkDeltaTokens, "dvTableTokensFD");
-			GenerateForkDeltaTokensInfos_offline();
-			// generateTable_offline(unkTokens, "dvTableUnknownTokens");
-			// GenerateUnknownTokensInfos_offline();
-			//////////////////////////////////////////////////////////////////
-		}
-		changeWalletBalance();
-		$("#wallet_Balance").html(walletBalance.toFixed(2));
-		$("#gain_loss").html(gain_loss.toFixed(2));
-		if(gain_loss > 0) {
-			$("#gain_loss").css('color', 'green');
-		}
-		else {
-			$("#gain_loss").css('color', 'red');
-		}
-		$("#oneDayGraph").prop('checked', true);
-		
-		// console.log(unkTokens);
-		
-	}
+    <footer class="footer">
+        <div class="row no-gutters">
+            <div class="col-1 col-md-1">
+                <div class="dropup float-left">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                      Aide
+                                    </button>
+                    <div id="dd_Help" class="dropdown-menu dropdown-menu-left">
+                        <a class="dropdown-item" data-toggle="modal" data-target="#modal_Help" href="#"><span data-toggle='tooltip' title="Aide à l'installation de CryptoScreener sur Windows ou MacOS.">Installation</span></a>
+                        <a class="dropdown-item" data-toggle="modal" data-target="#modal_Help" href="#"><span data-toggle='tooltip' title="Explication des menus de l'application."></span>Menu</span></a>
+                        <a class="dropdown-item" data-toggle="modal" data-target="#modal_Help" href="#"><span data-toggle='tooltip' title="Question et réponses."></span>FAQ</span></a>
+                    </div>
+                </div>
+                <!-- <button type="button" data-toggle="modal" title="Popover Header" class="btn btn-primary btn-lg float-right" data-target="#modal_Help">Aide</button> -->
+            </div>
+            <div class="col-10 col-md-10" style="line-height: 100%;">
+                <div class="d-flex flex-column">
+                    <div class="p-2 small text-center" style="padding-left: 10px">2018 / Youpit44 (at) GitHub.com</div>
+                    <div id="all_Wallets" class="p-2 small text-center" style="padding-left: 10px">-</div>
+                </div>
+            </div>
+            <div class="col-1 col-md-1" style="padding-left: 10px;line-height: 100%;">
+                <div class="d-flex flex-column">
+                    <div class="p-2 small text-center" style="padding-left: 10px">
+                        <span id="modeCS" class="badge">offline</span>
+                    </div>
+                    <div class="p-2 small text-center" style="padding-left: 10px">
+                        <a class="" href="https://github.com/youpit44/cryptoscreener" target="_blank">v<span id="verCS">x.x</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-	function changeOnlineMode(choice) {
-		if(choice.value == "true") {
-			if(choice.checked) {
-				configScreener.onlineMode = true;
-				localStorage.setItem('cs_configuration', JSON.stringify(configScreener));
-			}
-			else {
-				configScreener.onlineMode = false;
-				localStorage.setItem('cs_configuration', JSON.stringify(configScreener));
-			}
-			refreshTables();
-		}
-	}
-	
-	function readTokensWalletFile(walletFile) {
-		var listAllTokens = [];
-		$.ajax({
-			type: "GET",
-			url: walletFile,
-			dataType: "text",
-			async: false,
-			success: function(data) { 
-				listAllTokens = processData(data);
-				var tokenName;
-				$.each(listAllTokens, function(key, values) {
-					$.each(values, function(header, value) {
-						var splitLine = value.split(":");
-						if(splitLine[0] == "Token") {
-							tokenName = splitLine[1];
-							if(tokenName.indexOf('(') > -1) {
-								tokenName = tokenName.substring(0, tokenName.indexOf('('));
-							}
-							var nbTokens = values[6].split(":");
-							var contractAddress = values[9].split(":");
-							if((lstAllTokensCMC.filter(p => p.symbol == tokenName)).length > 0) {
-								var indexToken = lstAllTokensCMC.findIndex(p => p.symbol == tokenName);
-								var token = lstAllTokensCMC.filter(p => p.symbol == tokenName);
-								var totalTokens = parseFloat(nbTokens[1]) * token[0].price_eur;
-								if((token[0].id).toUpperCase() == "ETHEREUM") {
-									lstCoins.push([(token[0].id).toUpperCase(), "coinmarketcap", indexToken + 1, "", parseFloat(nbTokens[1]), ""]);
-								}
-								else {
-									if(!exceptTokens.includes()) {
-										lstTokens.push([(token[0].id).toUpperCase(), "coinmarketcap", indexToken + 1, "", parseFloat(nbTokens[1]), ""]);
-									}
-								}
-								if((!exceptContract.includes(contractAddress[1])) && (!exceptTokens.includes(token[0].symbol))) {
-									if(contractAddress[1] != "Not a token") {
-										lstGoodTokens[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(nbTokens[1]), token[0].name, token[0].price_usd, token[0].price_eur, contractAddress[1]];
-										smallListTokens.push([(token[0].id).toUpperCase(), parseInt(token[0].rank), parseFloat(token[0]["percent_change_24h"]), totalTokens]);
-									}
-									else {
-										lstGoodCoins[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(nbTokens[1]), token[0].name, token[0].price_usd, token[0].price_eur, contractAddress[1]];
-										smallListCoins.push([(token[0].id).toUpperCase(), parseInt(token[0].rank), parseFloat(token[0]["percent_change_24h"]), totalTokens]);
-									}
-									// console.log(token);
-								}
-							}
-							else {
-								unkTokens.push([tokenName, tokenName, 0, 0, 0, 0, nbTokens[1], contractAddress[1]]);
-							}
-						}
-					});
-				});
-			}
-		});
-	}
+    </footer>
+    <!-- The Modal -->
+    <div class="modal" id="modal_Help">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
-	function filter_TokensWalletFileCMC() {
-		$.each(listAllTokens, function(key, value) {
-			var priceToken = 0;
-			var tokenSymbol = value[0];
-			
-			for(var i = 0; i < lstAllTokensCMC.length; i++)
-			{
-				if(lstAllTokensCMC[i].symbol == tokenSymbol)
-				{
-					console.log(lstAllTokensCMC[i].name);
-				}
-			}
-		});
-	}
+                <!-- Modal Header -->
+                <div id="help_header" class="modal-header">
+                    <h4 class="modal-title">CryptoScreener</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
 
-	function readCMC_Tokens() {
-		var listAllTokens = [];
-		var dateSync = new Date(JSON.parse(localStorage.getItem('date_cmc_tokens')));
-		var diff = new Date(new Date() - dateSync);
-		var days = diff.getTime()/1000/60;
-		$.ajax({
-			type: "GET",
-			url: "./cmc.json",
-			dataType: "json",
-			async: false,
-			success: function(data) { 
-				listAllTokens = data;
-			}
-		});
-		return listAllTokens;
-	}
+                <!-- Modal body -->
+                <div id="help_body" class="modal-body">
 
-	function loadCMC_Tokens() {
-		var listAllTokens = []; 
-		if (localStorage.getItem("cs_lastvisit") === null) {
-			localStorage.setItem('cs_lastvisit', JSON.stringify(new Date()));
-			// console.log("Init Last Visit");
-		}
-		else {
-			var lastvisit = new Date(JSON.parse(localStorage.getItem('cs_lastvisit')));
-			var diff = new Date(new Date() - lastvisit);
-			var minutes = diff.getTime()/1000/60;
-			if(minutes >= 15) {
-				console.log("Load CMC Tokens Infos");
-				$.ajax({
-					url: cmc_urlAPI+'?limit=0&convert=EUR',
-					dataType: 'json',
-					async: false,
-					success: function(data) {
-						listAllTokens = data;
-					}
-				});
-				localStorage.setItem('cs_CMCtokens', JSON.stringify(listAllTokens));
-			}
-			else {
-				console.log("Read CMC Tokens Infos");
-				listAllTokens = JSON.parse(localStorage.getItem('cs_CMCtokens'));
-				// console.log(listAllTokens);
-			}
+                </div>
 
-		}
-		return listAllTokens;
-	}
+                <!-- Modal footer -->
+                <div id="help_footer" class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+                </div>
 
-	function loadIDEX_Tokens() {
-		var listAllTokens = []; 
-		$.ajax({
-			method: 'POST',
-			url: 'https://api.idex.market/returnTicker',
-			json: {
-				market: 'ETH_SAN'
-			},
-			dataType: 'json',
-			async: false,
-			success: function(data) {
-				listAllTokens = JSON.parse(data);
-			}
-		});
-		console.log(listAllTokens);
-		return listAllTokens;
-	}
-	
-	function refreshTables() {
-		info_CoinMarketCap_Global();
-		if(configScreener.onlineMode) {
-			//////////////////////////////////////////////////////////////////
-			// MODE ON LINE /////////////////////////////////////////////////
-			// lstAllTokensCMC = loadCMC_Tokens();
-			// loadWallet_online();
-			// generateTable(lstCoins, "dvTableCoins");
-			// var newCells = GenerateCoinsInfos();
-			// var newCells = GenerateCoinsInfos();
-			// var newCells = GenerateTokensInfos();
-			//////////////////////////////////////////////////////////////////
-		}
-		else {
-			//////////////////////////////////////////////////////////////////
-			// MODE OFF LINE /////////////////////////////////////////////////
-			generateTable_offline(smallListCoins, "dvTableCoins");
-			GenerateCoinsInfos_offline();
-			generateTable_offline(smallListTokens, "dvTableTokens");
-			GenerateTokensInfos_offline();
-			// GenerateCoinsInfos_offline();
-			// GenerateTokensInfos_offline();
-			//////////////////////////////////////////////////////////////////
-		}
-	}
+            </div>
+        </div>
+    </div>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script> -->
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <!-- integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+    <script src="./js/popper.js/1.14.3/umd/popper.min.js"></script>
+    <!-- integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
+    <script src="./js/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <!-- integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script> -->
+    <script src="./js/initScreener.js"></script>
+    <script src="./js/apiCryptoScreener.js"></script>
+    <script src="./js/libCryptoScreener.js"></script>
+    <script src="./js/configCryptoScreener.js"></script>
+    <script>
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // VARIABLES  
+        //
+        var lst_CMC_ID_Tokens = new Array();
 
-	function changeDayGraph(choice) {
-		if(choice.value == "oneday") {
-			if(choice.checked) {
-				$(".sparkline1d").css("display", "inline");
-			}
-			else {
-				$(".sparkline1d").css("display", "none");
-			}
-		}
-		if(choice.value == "sevenday") {
-			if(choice.checked) {
-				$(".sparkline7d").css("display", "inline");
-			}
-			else {
-				$(".sparkline7d").css("display", "none");
-			}
-		}
-	}
+        var tokenName = "Bitcoin";
+        //var currency = "€";
 
-	function choiceCurrency(type) {
-		if(type == "EUR") {
-			currency = "EUR";
-			currencySym = "€";
-			decimals = 5;
-		}
-		if(type == "USD"){
-			currency = "USD";
-			currencySym = "$";
-			decimals = 5;
-		}
-		if(type == "BTC"){
-			currency = "BTC";
-			currencySym = "B";
-			decimals = 8;
-		}
-		if(type == "ETH"){
-			currency = "ETH";
-			currencySym = "E";
-			decimals = 7;
-		}
-		if(type == "LTC"){
-			currency = "LTC";
-			currencySym = "L";
-			decimals = 7;
-		}
-		if(type == "NEO"){
-			currency = "NEO";
-			currencySym = "N";
-			decimals = 7;
-		}
-		
-		info_CoinMarketCap_Global();
-		var newCells = GenerateTokensInfos();
-	}
+        var cmc_sparkLine7d = "https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/";
 
-	function tokenInfo_CoinMarketCap(token, idImage, nbTokens, convert) {
-		//currency = $("#currencyChoice").val();
-		var tokenInfo = new Array();
-		var pump = "";
-		var curr_convert = "";
-		var priceToken = 0;
-		if(convert == "") { curr_convert = currency; }
-		else { curr_convert = convert.toUpperCase(); }
+        var decimals = 0;
+        var lst_CMC_ID_Tokens = new Array();
+        var table = $("#mytable");
+        var currency = $("#currencyChoice").text().trim();
+        var currencySym = "€";
+        var gain_loss = 0;
+        var indexOrder = "ASC";
+        var indexItem = 2;
+        var walletETH;
 
-		var jqxhr = $.getJSON(cmc_urlAPI+token+'/?convert='+curr_convert);
-		jqxhr.done(function(data) {
-			if(token == "BITCOIN") { 
-				priceBTC = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
-			}
-			if(token == "ETHEREUM") { 
-				priceETH = (currency == "EUR" ? parseFloat(data[0].price_eur) : parseFloat(data[0].price_usd));
-			}
-			
-			priceToken = calculPriceToken(data, curr_convert.toUpperCase());
-			
-			verifyBump_Token(data[0]);
-			
-			var priceWallet = priceToken * nbTokens;
-			if(data[0]["percent_change_24h"] > 0) { 
-				colorvar = "percent_change_green" 
-				colorName = "tokename_green";
-			}
-			else { 
-				colorvar = "percent_change_red" 
-				colorName = "tokename_red";
-			}
-			if(data[0]["percent_change_24h"] > 15 && data[0]["percent_change_24h"] < 30) { 
-				pump = "pump"; 
-			}
-			else if(data[0]["percent_change_24h"] >= 30) { colorName = ""; pump = "bigpump"; }
-			else if(data[0]["percent_change_24h"] < -15 && data[0]["percent_change_24h"] > -40) { pump = "pump"; }
-			else if(data[0]["percent_change_24h"] <= -40) {  colorName = ""; pump = "bigdump"; }
-			
-			if(data[0].name.length > 10) { 
-				if(data[0].symbol.length >3) { lenTokenName = 5; }
-				else { lenTokenName = 8; }
-				affTokenName = data[0].name.substring(0,lenTokenName) + "..."; 
-			}
-			else { affTokenName = data[0].name; }
-			var tokenInfo = "<div class='cellule'>"+
-								"<div class='tokenicon' id=icon><img src='"+spootnik_urlStatic32IMG+data[0].id+".png' /></div>"+
-								"<div class='tokeninfo' id=text>"+
-									"<div id='"+colorName+"' class='"+pump+"'>"+affTokenName+" ("+data[0].symbol+")</div>"+
-									"<div id='token_infos' class='"+colorvar+"'>"+
-										"<span id='price_eur'>"+priceToken.toFixed(decimals)+" "+currencySym+"</span> <span id='percent_change'>("+data[0]["percent_change_24h"]+"%)</span>"+
-									"</div>"+
-									"<div id='wallet_infos' class=''>"+
-									"<span id='price_eur'>"+priceWallet.toFixed(decimals)+" "+currencySym+"</span> <span id='percent_change'>("+nbTokens+data[0].symbol+")</span>"+
-									"</div>"+
-								"</div>"+
-								
-			
-							"</div>"+
-			"<div class='rowInfos'>"+
-			"<div id='rank' class='Column'>RANK<br>"+data[0].rank+"</div><div id='market_cap' class='Column'>MARKET CAP<br>$"+nFormatter(data[0].market_cap_usd, 2)+"</div><div id='volume' class='Column'>VOLUME (24H)<br>$"+nFormatter(data[0]["24h_volume_usd"], 2)+"</div>"+
-			"</div>"+
-			"<div class='sparkline1d'>"+
-			// "<div id='sparktext'>1d:</div><div id='sparkImg1d' class='Column'><img class='sparkline' src='"+cmc_sparkLine1d+idImage+".png' /></div>"+
-			"</div>"+
-			"<div class='sparkline7d'>"+
-			// "<div id='sparktext'>7d:</div><div id='sparkImg7d' class='Column'><img class='sparkline' src='"+cmc_sparkLine7d+idImage+".png' /></div>"+
-			"</div>"+
-			"<div class='rowBlank'>"+
-			"</div>";		
-			$("#"+token).html(tokenInfo);
-		});
-	}
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // START APPLICATION
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        eventsCryptoScreener();
 
-	function tokenInfo_CoinMarketCap_offline(tokenName, token) {
-		//currency = $("#currencyChoice").val();
-		var tokenInfo = new Array();
-		var pump = "";
-		var curr_convert = "";
-		var priceToken = 0;
-		var token_color= "";
-		var fontColor = "";
-		var headerColor = "#ecece2";
-		priceToken = calculPriceToken(token, "EUR");
-// console.log(token);
-		verifyBump_Token(token[0]);
-		
-		var priceWallet = token[10] * token[7];
-		if(token[4] > 0) { 
-			colorvar = "percent_change_green" 
-			colorName = "tokename_green";
-		}
-		else { 
-			colorvar = "percent_change_red" 
-			colorName = "tokename_red";
-		}
-		if(token[4] > 15 && token[4] < 30) { 
-			pump = "pump"; 
-		}
-		else if(token[4] >= 30 && token[4] < 50) { colorName = ""; pump = "bigpump"; }
-		else if(token[4] >= 50) { 
-			colorName = ""; 
-			headerColor = "green"; 
-			pump = "megapump"; 
-			fontColor = "_white";
-		}
-		else if(token[4] < -15 && token[4] > -25) { pump = "pump"; }
-		else if(token[4] <= -25 && token[4] > -45) {  colorName = ""; pump = "bigdump"; }
-		else if(token[4] <= -45) {  
-			colorName = ""; 
-			headerColor = "red"; 
-			pump = "megadump"; 
-			fontColor = "_white";
-		}
-		
-		walletBalance += priceWallet;
-		
-		if(token[11].substring(0,2) == "0x") {
-			token_color = "circle_eth";
-		}
-		else if(token[11] == "NEO") {
-			token_color = "circle_neo";
-		}
-		
-		var nbToken = token[7];
-		if(isInt(nbToken)) {
-			nbToken = parseInt(token[7]);
-		}
-		else {
-			nbToken = parseFloat(token[7]).toFixed(2);
-		}
-		
-		if(token[8].length > 10) { 
-			if(token[1].length >3) { lenTokenName = 5; }
-			else { lenTokenName = 8; }
-			affTokenName = token[8].substring(0,lenTokenName) + "...(" + token[1] + ")"; 
-		}
-		else { affTokenName = token[8] + " (" + token[1] + ")"; }
-		// console.log(tokenName + " : " +affTokenName);
-		var tokenInfo = "<div class='cellule'>"+
-							"<div class='tokenicon' id=icon><img src='"+spootnik_urlStatic32IMG+token[0]+".png' /></div>"+
-							"<div class='tokeninfo' id=text>"+
-								"<div id='"+colorName+"' class='"+pump+"'><a href='https://coinmarketcap.com/currencies/"+ tokenName +"/' target='_blank'>"+affTokenName+"</a></div>"+
-								"<div id='token_infos' class='"+colorvar+"'>"+
-									"<span id='price_eur"+fontColor+"'>"+priceToken.toFixed(decimals)+" "+currencySym+"</span> <span id='percent_change"+fontColor+"'>("+token[4]+"%)</span>"+
-								"</div>"+
-								"<div id='wallet_infos' class=''>"+
-								"<span id='price_eur"+fontColor+"'>"+priceWallet.toFixed(2)+" "+currencySym+"</span> <span id='percent_change"+fontColor+"'>("+nbToken+token[1]+")</span>"+
-								"</div>"+
-								"<div id='token_type' class=''>"+
-								"<span id='token_ico' class='"+ token_color + "'></span>"+
-								"</div>"+
-							"</div>"+
-							
-		
-						"</div>"+
-		"<div class='rowInfos'>"+
-		"<div id='rank' class='Column'>RANK<br>"+token[2]+"</div><div id='market_cap' class='Column'>MARKET CAP<br>$"+nFormatter(token[5], 2)+"</div><div id='volume' class='Column'>VOLUME (24H)<br>$"+nFormatter(token[6], 2)+"</div>"+
-		"</div>"+
-		"<div class='sparkline1d'>"+
-		// "<div id='sparktext'>1d:</div><div id='sparkImg1d' class='Column'><img class='sparkline' src='"+cmc_sparkLine1d+idImage+".png' /></div>"+
-		"</div>"+
-		"<div class='sparkline7d'>"+
-		// "<div id='sparktext'>7d:</div><div id='sparkImg7d' class='Column'><img class='sparkline' src='"+cmc_sparkLine7d+idImage+".png' /></div>"+
-		"</div>"+
-		"<div class='rowBlank'>"+
-		"</div>";		
-		$("#"+tokenName).html(tokenInfo);
-		$("#"+tokenName).css("background-color", headerColor);
-	}
+        $(document).ready(startApp());
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // END APPLICATION
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	function tokenInfo_ForkDelta_offline(tokenName, token) {
-		//currency = $("#currencyChoice").val();
-		var tokenInfo = new Array();
-		var pump = "";
-		var curr_convert = "";
-		var priceToken = 0;
-		priceToken = calculPriceToken(token, "EUR");
-// console.log(token);
-		verifyBump_Token(token[0]);
-		
-		var priceWallet = token[10] * token[7];
-		if(token[4] > 0) { 
-			colorvar = "percent_change_green" 
-			colorName = "tokename_green";
-		}
-		else { 
-			colorvar = "percent_change_red" 
-			colorName = "tokename_red";
-		}
-		if(token[4] > 15 && token[4] < 30) { 
-			pump = "pump"; 
-		}
-		else if(token[4] >= 30) { colorName = ""; pump = "bigpump"; }
-		else if(token[4] < -15 && token[4] > -40) { pump = "pump"; }
-		else if(token[4] <= -40) {  colorName = ""; pump = "bigdump"; }
 
-		walletBalance += priceWallet;
-		
-		if(token[8].length > 10) { 
-			if(token[1].length >3) { lenTokenName = 5; }
-			else { lenTokenName = 8; }
-			affTokenName = token[8].substring(0,lenTokenName) + "..."; 
-		}
-		else { affTokenName = token[8]; }
-		// console.log(token);
-		var tokenInfo = "<div class='cellule'>"+
-							"<div class='tokenicon' id=icon><img src='' /></div>"+
-							"<div class='tokeninfo' id=text>"+
-								"<div id='"+colorName+"' class='"+pump+"'>"+affTokenName+" ("+token[1]+")</div>"+
-								"<div id='token_infos' class='"+colorvar+"'>"+
-									"<span id='price_eur'>L: "+parseFloat(token[4]).toFixed(13)+" E</span><br /><span id='percent_change'>A: "+parseFloat(token[5]).toFixed(13)+" E</span><br /><span id='percent_change'>B: "+parseFloat(token[10]).toFixed(13)+" E</span>"+
-								"</div>"+
-								"<div id='wallet_infos' class=''>"+
-								"<span id='price_eur'>"+priceWallet.toFixed(2)+" "+currencySym+"</span> <span id='percent_change'>("+token[7]+token[1]+")</span>"+
-								"</div>"+
-							"</div>"+
-							
-		
-						"</div>"+
-		"<div class='rowInfos'>"+
-		"<div id='rank' class='Column'>RANK<br></div><div id='market_cap' class='Column'>MARKET CAP<br>$"+nFormatter(token[2], 2)+"</div><div id='volume' class='Column'>VOLUME (24H)<br>$"+nFormatter(token[3], 2)+"</div>"+
-		"</div>"+
-		"<div class='sparkline1d'>"+
-		// "<div id='sparktext'>1d:</div><div id='sparkImg1d' class='Column'><img class='sparkline' src='"+cmc_sparkLine1d+idImage+".png' /></div>"+
-		"</div>"+
-		"<div class='sparkline7d'>"+
-		// "<div id='sparktext'>7d:</div><div id='sparkImg7d' class='Column'><img class='sparkline' src='"+cmc_sparkLine7d+idImage+".png' /></div>"+
-		"</div>"+
-		"<div class='rowBlank'>"+
-		"</div>";		
-		$("#"+tokenName).html(tokenInfo);
-	}
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // FUNCTIONS START 
+        //
+        function startApp() {
+            if (isReady()) {
+                $("#alert_msg").html("<strong>Initialiation ! </strong>Veuillez patientez pendant le chargement des données...");
+                $("#alertRubbon").addClass("alert alert-success alert-dismissible fade show");
+                if (isUpdate()) {
+                    majCryptoScreener();
+                }
+                //alert("marche ");
+                initScreenerConfiguration();
+                setScreenerParam();
+                info_CoinMarketCap_Global();
+                lst_CMC_ID_Tokens = loadCMC_ListID_tokens();
+                list_All_CMCTokens = loadCMC_Tokens();
 
-	function tokenInfo_Unknown_offline(tokenName, token) {
-		//currency = $("#currencyChoice").val();
-		var tokenInfo = new Array();
-		var pump = "";
-		var curr_convert = "";
-		var priceToken = 0;
-		priceToken = calculPriceToken(token, "EUR");
-// console.log(token);
-		verifyBump_Token(token[0]);
-		
-		// var priceWallet = token[10] * token[7];
-		// if(token[4] > 0) { 
-			// colorvar = "percent_change_green" 
-			// colorName = "tokename_green";
-		// }
-		// else { 
-			// colorvar = "percent_change_red" 
-			// colorName = "tokename_red";
-		// }
-		// if(token[4] > 15 && token[4] < 30) { 
-			// pump = "pump"; 
-		// }
-		// else if(token[4] >= 30) { colorName = ""; pump = "bigpump"; }
-		// else if(token[4] < -15 && token[4] > -40) { pump = "pump"; }
-		// else if(token[4] <= -40) {  colorName = ""; pump = "bigdump"; }
+                get_LocalWallet();
 
-		// walletBalance += priceWallet;
-		
-		// if(token[8].length > 10) { 
-			// if(token[1].length >3) { lenTokenName = 5; }
-			// else { lenTokenName = 8; }
-			// affTokenName = token[8].substring(0,lenTokenName) + "..."; 
-		// }
-		// else { affTokenName = token[8]; }
-		// console.log(token);
-		var tokenInfo = "<div class='cellule'>"+
-							"<div class='tokenicon' id=icon><img src='' /></div>"+
-							"<div class='tokeninfo' id=text>"+
-								"<div id='"+colorName+"' class='"+pump+"'>"+affTokenName+" ("+token[1]+")</div>"+
-								"<div id='token_infos' class='"+colorvar+"'>"+
-									"<span id='price_eur'>L: "+parseFloat(token[4]).toFixed(13)+" E</span><br /><span id='percent_change'>A: "+parseFloat(token[5]).toFixed(13)+" E</span><br /><span id='percent_change'>B: "+parseFloat(token[10]).toFixed(13)+" E</span>"+
-								"</div>"+
-								"<div id='wallet_infos' class=''>"+
-								"<span id='price_eur'> "+currencySym+"</span> <span id='percent_change'>("+token[7]+token[1]+")</span>"+
-								"</div>"+
-							"</div>"+
-							
-		
-						"</div>"+
-		"<div class='rowInfos'>"+
-		"<div id='rank' class='Column'>RANK<br></div><div id='market_cap' class='Column'>MARKET CAP<br>$"+nFormatter(token[2], 2)+"</div><div id='volume' class='Column'>VOLUME (24H)<br>$"+nFormatter(token[3], 2)+"</div>"+
-		"</div>"+
-		"<div class='sparkline1d'>"+
-		// "<div id='sparktext'>1d:</div><div id='sparkImg1d' class='Column'><img class='sparkline' src='"+cmc_sparkLine1d+idImage+".png' /></div>"+
-		"</div>"+
-		"<div class='sparkline7d'>"+
-		// "<div id='sparktext'>7d:</div><div id='sparkImg7d' class='Column'><img class='sparkline' src='"+cmc_sparkLine7d+idImage+".png' /></div>"+
-		"</div>"+
-		"<div class='rowBlank'>"+
-		"</div>";		
-		$("#"+tokenName).html(tokenInfo);
-	}
-	
-	function tokenInfo_IDEXmarket(token, idImage, nbTokens, convert) {
-		$.post('https://api.idex.market/returnTicker',
-		{
-			json: {
-				market: 'ETH_FDZ'
-			}
-			}, function(err, resp, body) {
-			console.log(body);
-		});
-	}
+                if (configScreener.localWallet) {
+                    read_walletETH_DeltaBalances(configScreener.walletName);
+                }
 
-	function info_CoinMarketCap_Global() {
-		//console.log(cmc_urlAPIinformation+currency);
-		var dateConvert = new Date();
-		if (localStorage.getItem("cs_lastvisit") === null) {
-			localStorage.setItem('cs_lastvisit', JSON.stringify(new Date()));
-			// console.log("Init Last Visit");
-		}
-		else {
-			var cmcInfos;
-			var lastvisit = new Date(JSON.parse(localStorage.getItem('cs_lastvisit')));
-			var diff = new Date(new Date() - lastvisit);
-			var minutes = diff.getTime()/1000/60;
-			if(minutes >= 30) {
-				console.log("Load CMC General Infos");
-				// console.log("Get Last Visit : "+lastvisit + " ("+parseInt(minutes)+"min)");
-				var jqxhr = $.getJSON(cmc_urlAPIinformation+currency);
-				jqxhr.done(function(data) {
-					cmcInfos = data;
-					dateConvert = convertDate(cmcInfos.last_updated);
-					// console.log(data);
-					$("#lastupdate").html(dateConvert);
-					if(currency == "EUR") {
-						$("#gl_MC").html(nFormatter(cmcInfos.total_market_cap_eur, 4));
-						$("#gl_Vol").html(nFormatter(cmcInfos.total_24h_volume_eur, 4));
-					}
-					if(currency == "USD"){
-						$("#gl_MC").html(nFormatter(cmcInfos.total_market_cap_usd, 4));
-						$("#gl_Vol").html(nFormatter(cmcInfos.total_24h_volume_usd, 4));
-					}
-					if(currency == "ETH"){
-						$("#gl_MC").html(nFormatter(cmcInfos.total_market_cap_eth, 4));
-						$("#gl_Vol").html(nFormatter(cmcInfos.total_24h_volume_eth, 4));
-					}
-					if(currency == "LTC"){
-						$("#gl_MC").html(nFormatter(cmcInfos.total_market_cap_ltc, 4));
-						$("#gl_Vol").html(nFormatter(cmcInfos.total_24h_volume_ltc, 4));
-					}
-					if(currency == "NEO"){
-						$("#gl_MC").html(nFormatter(cmcInfos.total_market_cap_neo, 4));
-						$("#gl_Vol").html(nFormatter(cmcInfos.total_24h_volume_neo, 4));
-					}
-					
-					$("#curr_symb1").html(currencySym);
-					$("#curr_symb2").html(currencySym);
-					$("#curr_symb3").html(currencySym);
-					
-					if(cmcInfos.bitcoin_percentage_of_market_cap > 50) { $("#gl_BTCdom").css("color", "red"); }
-					else { $("#gl_BTCdom").css("color", "green"); }
-					
-					$("#gl_BTCdom").html(cmcInfos.bitcoin_percentage_of_market_cap);
-					
-					localStorage.setItem('cs_lastvisit', JSON.stringify(new Date()));
-					localStorage.setItem('cs_CMCinfos', JSON.stringify(data));
-				});	
-			}
-			else {
-				console.log("Read CMC General Infos");
-				cmcInfos = JSON.parse(localStorage.getItem('cs_CMCinfos'));
-				dateConvert = convertDate(cmcInfos.last_updated);
-				// console.log(cmcInfos);
-				$("#lastupdate").html(dateConvert);
-				if(currency == "EUR") {
-					$("#gl_Vol").html(nFormatter(cmcInfos.total_24h_volume_eur, 4));
-					if(cmcInfos.total_24h_volume_eur < 10000000000) {
-						$("#cmc_vol").css("background-color", "red");
-						$("#cmc_vol").css("color", "white");
-					}
-					else if(cmcInfos.total_24h_volume_eur >= 10000000000 && cmcInfos.total_24h_volume_eur <= 20000000000) {
-						$("#cmc_vol").css("color", "red");
-					}
-					else if(cmcInfos.total_24h_volume_eur >= 30000000000 && cmcInfos.total_24h_volume_eur < 35000000000) {
-						$("#cmc_vol").css("color", "green");
-					}
-					else if(cmcInfos.total_24h_volume_eur >= 35000000000) {
-						$("#cmc_vol").css("background-color", "green");
-						$("#cmc_vol").css("color", "white");
-					}
-					
-					$("#gl_MC").html(nFormatter(cmcInfos.total_market_cap_eur, 4));
-					if(cmcInfos.total_market_cap_eur < 100000000000) {
-						$("#cmc_mc").css("background-color", "red");
-						$("#cmc_mc").css("color", "white");
-					}
-					else if(cmcInfos.total_market_cap_eur >= 100000000000 && cmcInfos.total_market_cap_eur <= 200000000000) {
-						// $("#cmc_mc").css("background-color", "green");
-						$("#cmc_mc").css("color", "red");
-					}
-					else if(cmcInfos.total_market_cap_eur >= 300000000000 && cmcInfos.total_market_cap_eur < 350000000000) {
-						// $("#cmc_mc").css("background-color", "green");
-						$("#cmc_mc").css("color", "green");
-					}
-					else if(cmcInfos.total_market_cap_eur >= 350000000000) {
-						$("#cmc_mc").css("background-color", "green");
-						$("#cmc_mc").css("color", "white");
-					}
-				}
-				if(currency == "USD"){
-					$("#gl_MC").html(nFormatter(cmcInfos.total_market_cap_usd, 4));
-					$("#gl_Vol").html(nFormatter(cmcInfos.total_24h_volume_usd, 4));
-				}
-				if(currency == "ETH"){
-					$("#gl_MC").html(nFormatter(cmcInfos.total_market_cap_eth, 4));
-					$("#gl_Vol").html(nFormatter(cmcInfos.total_24h_volume_eth, 4));
-				}
-				if(currency == "LTC"){
-					$("#gl_MC").html(nFormatter(cmcInfos.total_market_cap_ltc, 4));
-					$("#gl_Vol").html(nFormatter(cmcInfos.total_24h_volume_ltc, 4));
-				}
-				if(currency == "NEO"){
-					$("#gl_MC").html(nFormatter(cmcInfos.total_market_cap_neo, 4));
-					$("#gl_Vol").html(nFormatter(cmcInfos.total_24h_volume_neo, 4));
-				}
-				
-				$("#curr_symb1").html(currencySym);
-				$("#curr_symb2").html(currencySym);
-				$("#curr_symb3").html(currencySym);
-				
+                // console.log(smallListCoins);
 
-				if(cmcInfos.bitcoin_percentage_of_market_cap < 10) {
-					$("#cmc_dom").css("background-color", "red");
-					$("#cmc_dom").css("color", "white");
-				}
-				else if(cmcInfos.bitcoin_percentage_of_market_cap >= 10 && cmcInfos.bitcoin_percentage_of_market_cap <= 30) {
-					$("#gl_BTCdom").css("color", "red");
-				}
-				else if(cmcInfos.bitcoin_percentage_of_market_cap >= 30 && cmcInfos.bitcoin_percentage_of_market_cap < 60) {
-					$("#gl_BTCdom").css("color", "green");
-				}
-				else if(cmcInfos.bitcoin_percentage_of_market_cap >= 60) {
-					$("#cmc_dom").css("background-color", "red");
-					$("#cmc_dom").css("color", "white");
-				}
-				
+                changeCurrency(configScreener.currencyDefault);
 
-				// if(cmcInfos.bitcoin_percentage_of_market_cap > 50) { 
-					// $("#gl_BTCdom").css("color", "red"); 
-				// }
-				// else { 
-					// $("#gl_BTCdom").css("color", "green"); 
-				// }
-				
-				$("#gl_BTCdom").html(cmcInfos.bitcoin_percentage_of_market_cap);
-			}
-			// var dateConvert = convertDate(cmcInfos.last_updated);
+                verifyBalances();
 
-		}
-	}
 
-	function GenerateTokensInfos() {
-		var cells = { };
-		$.each(lstTokens, function(key, value) {
-			var tokenName = value[0];
-			if(value[1] == "coinmarketcap") {
-				tokenInfo_CoinMarketCap(tokenName, value[2], parseFloat(value[4]), value[3]);
-			}
-			else {
-				tokenInfo_IDEXmarket(tokenName, value[2], parseFloat(value[4]), value[3]);
-			}
-		});
-		return cells;
-	}
+            } else {
 
-	function GenerateCoinsInfos_offline() {
-		var cells = { };
-		var nbCoins = smallListCoins.length;
-		sortTokens(smallListCoins, indexItem, indexOrder);
-		$.each(smallListCoins, function(key, value) {
-			// console.log(key + " : " + value[1]);
-			if(value != null) {
-				var objCoin = lstGoodCoins[value[1]];
-				tokenInfo_CoinMarketCap_offline(value[0], objCoin);
-			}
-		});
-		console.log("Nb Coins : "+nbCoins);
-		return cells;
-	}
+                $("#alert_msg").html("<strong>Installation en cours...</strong> Chargement des données.");
+                $("#alertRubbon").addClass("alert alert-info alert-dismissible fade show");
+                install_CryptoScreener();
+                location.reload();
+            }
 
-	function GenerateForkDeltaTokensInfos_offline() {
-		var cells = { };
-		// console.log(lstGoodTokens);
-		var nbCoins = lstForkDeltaTokens.length;
-		$.each(lstForkDeltaTokens, function(key, value) {
-			// console.log(key + " : " + value[1]);
-			// console.log(value);
-			if(value != null) {
-				// var objCoin = lstForkDeltaTokens[value[1]];
-				tokenInfo_ForkDelta_offline(value[0], value);
-			}
-		});
-		console.log("Nb ForkDelta Tokens : "+nbCoins);
-		return cells;
-	}
 
-	function GenerateUnknownTokensInfos_offline() {
-		var cells = { };
-		// console.log(lstGoodTokens);
-		var nbCoins = unkTokens.length;
-		$.each(unkTokens, function(key, value) {
-			// console.log(key + " : " + value[1]);
-			// console.log(value);
-			if(value != null) {
-				// var objCoin = lstForkDeltaTokens[value[1]];
-				tokenInfo_Unknown_offline(value[0], value);
-			}
-		});
-		console.log("Nb Unknown Tokens : "+nbCoins);
-		return cells;
-	}
 
-	function GenerateTokensInfos_offline() {
-		var cells = { };
-		// console.log(lstGoodTokens);
-		var nbCoins = smallListTokens.length;
-		sortTokens(smallListTokens, indexItem, indexOrder);
-		$.each(smallListTokens, function(key, value) {
-			// console.log(key + " : " + value[1]);
-			if(value != null) {
-				var objCoin = lstGoodTokens[value[1]];
-				tokenInfo_CoinMarketCap_offline(value[0], objCoin);
-			}
-		});
-		console.log("Nb CMC Tokens : "+nbCoins);
-		return cells;
-	}
+            //console.log(walletBalance);
+            //makeCard();
+            $('.close').alert("close");
 
-	function GenerateCoinsInfos() {
-		var cells = { };
-		var nbCoins = 0;
-		$.each(lstCoins, function(key, value) {
-			var coinName = value[0].toLowerCase();
-			if(value[1] == "coinmarketcap") {
-				if(!configScreener.localWallet) {
-					if((lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName)).length > 0) {
-						var indexToken = lstAllTokensCMC.findIndex(p => (p.id).toLowerCase() == coinName);
-						var token = lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName);
-						var totalTokens = parseFloat(value[4]) * token[0].price_eur;
-						lstGoodCoins[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(value[4]), token[0].name, token[0].price_usd, token[0].price_eur, "Not a token"] ;
-						smallListCoins.push([(token[0].id).toUpperCase(), parseInt(token[0].rank), parseFloat(token[0]["percent_change_24h"]), totalTokens]);
-					}
-					else {
-						unkTokens.push([tokenName, tokenName, 0, 0, 0, 0, 0, ""]);
-					}							
-				}
-				else if(!func_GetWallet.includes(value[0])) {
-					if((lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName)).length > 0) {
-						var indexToken = lstAllTokensCMC.findIndex(p => (p.id).toLowerCase() == coinName);
-						var token = lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName);
-						var totalTokens = parseFloat(value[4]) * token[0].price_eur;
-						lstGoodCoins[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(value[4]), token[0].name, token[0].price_usd, token[0].price_eur, "Not a token"] ;
-						smallListCoins.push([(token[0].id).toUpperCase(), parseInt(token[0].rank), parseFloat(token[0]["percent_change_24h"]), totalTokens]);
-					}
-					else {
-						unkTokens.push([tokenName, tokenName, 0, 0, 0, 0, 0, ""]);
-					}							
-				}
-			}
-			else {
-				// tokenInfo_IDEXmarket(coinName, value[2], parseFloat(value[4]), value[3]);
-			}
-		});
-		$.each(lstTokens, function(key, value) {
-			var coinName = value[0].toLowerCase();
-			if(value[1] == "coinmarketcap") {
-				if(!configScreener.localWallet) {
-					if((lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName)).length > 0) {
-						var indexToken = lstAllTokensCMC.findIndex(p => (p.id).toLowerCase() == coinName);
-						var token = lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName);
-						var totalTokens = parseFloat(value[4]) * token[0].price_eur;
-						lstGoodTokens[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(value[4]), token[0].name, token[0].price_usd, token[0].price_eur, "0x"] ;
-						smallListTokens.push([(token[0].id).toUpperCase(), parseInt(token[0].rank), parseFloat(token[0]["percent_change_24h"]), totalTokens]);
-					}
-					else {
-						unkTokens.push([tokenName, tokenName, 0, 0, 0, 0, 0, ""]);
-					}							
-				}
-				else if(!func_GetWallet.includes(value[0])) {
-					if((lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName)).length > 0) {
-						var indexToken = lstAllTokensCMC.findIndex(p => (p.id).toLowerCase() == coinName);
-						var token = lstAllTokensCMC.filter(p => (p.id).toLowerCase() == coinName);
-						var totalTokens = parseFloat(value[4]) * token[0].price_eur;
-						lstGoodTokens[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(value[4]), token[0].name, token[0].price_usd, token[0].price_eur, "0x"] ;
-						smallListTokens.push([(token[0].id).toUpperCase(), parseInt(token[0].rank), parseFloat(token[0]["percent_change_24h"]), totalTokens]);
-					}
-					else {
-						unkTokens.push([tokenName, tokenName, 0, 0, 0, 0, 0, ""]);
-					}							
-				}
-			}
-			else {
-				// tokenInfo_IDEXmarket(coinName, value[2], parseFloat(value[4]), value[3]);
-			}
-		});
-		
-		return cells;
-	}
+        }
 
-	function loadWallet_online() {
-		$.each(lstCoins, function(key, value) {
-			if(value[0] == "NEO") {
-				getWallet_NEO(value[5]);
-			}
-			if(value[0] == "ARCTICCOIN") {
-				getWallet_ArcTic(value[5]);
-			}
-		});
-	}
+        function read_walletETH_DeltaBalances(walletFile) {
+            var listAllTokens = [];
+            $.ajax({
+                type: "GET",
+                url: walletFile,
+                dataType: "text",
+                async: false,
+                success: function(data) {
+                    listAllTokens = processData(data);
+                    var tokenName;
+                    $.each(listAllTokens, function(key, values) {
+                        $.each(values, function(header, value) {
+                            var splitLine = value.split(":");
+                            var idImgToken = 0;
+                            var rankToken = 0;
+                            var slug = "";
+                            var _symbol = "";
+                            var _tokenName = "";
+                            if (splitLine[0] == "Token") {
+                                tokenName = splitLine[1];
+                                if (tokenName.indexOf('(') > -1) {
+                                    tokenName = tokenName.substring(0, tokenName.indexOf('('));
+                                }
+                                var nbTokens = values[6].split(":");
+                                var contractAddress = values[9].split(":");
+                                //var totalTokens = parseFloat(nbTokens[1]) * token[0].price_eur;
+                                if (exceptTokens.indexOf(tokenName) == -1) {
+                                    var cmc_idToken = lst_CMC_ID_Tokens.filter(filterBySymbol, tokenName);
+                                    if (cmc_idToken[0] != null) {
+                                        idImgToken = cmc_idToken[0].id;
+                                        rankToken = cmc_idToken[0].rank;
+                                        slug = cmc_idToken[0].slug;
+                                        _symbol = cmc_idToken[0].symbol;
+                                        _tokenName = cmc_idToken[0].name;
+                                        // console.log(tokenName);
+                                        // console.log(cmc_idToken[0]);
+                                    } else {
+                                        _tokenName = (tokenName).toUpperCase();
+                                        _symbol = _tokenName;
+                                    }
+                                    if (contractAddress[1] != "Not a token") {
+                                        //lstGoodTokens[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(nbTokens[1]), token[0].name, token[0].price_usd, token[0].price_eur, contractAddress[1], cmc_idToken[0].id];
+                                        // if(contractAddress[1]){
+                                        //     getInfoERC20Token
+                                        // }
+                                        //smallListTokens.push([(tokenName).toUpperCase(), rankToken, idImgToken, parseFloat(nbTokens[1]), contractAddress[1]]);
+                                        var cmc_TokenInfo = list_All_CMCTokens.filter(filterByID, slug.toUpperCase());
+                                        var tokenInfo = 0;
+                                        var tokenPrice = 0;
+                                        var totalWallet = 0;
+                                        var change = 0;
+                                        if (cmc_TokenInfo.length > 0) {
+                                            tokenInfo = cmc_TokenInfo[0];
+                                            tokenPrice = parseFloat(tokenInfo["price_" + currency.toLowerCase()]);
+                                            totalWallet = tokenPrice * value[4];
+                                            change = parseFloat(tokenInfo["percent_change_24h"]);
+                                        }
+                                        smallListTokens.push({
+                                            name: _tokenName,
+                                            rank: rankToken,
+                                            symbol: _symbol,
+                                            slug: slug,
+                                            img: idImgToken,
+                                            nbtoken: parseFloat(nbTokens[1]),
+                                            contract: contractAddress[1],
+                                            wallet: "deltabalances",
+                                            "24h": change,
+                                            balance: totalWallet
+                                        });
 
-	function changeWalletBalance() {
-		walletBalances.EUR = walletBalance;
-		var last_walletBalances;
-		if (localStorage.getItem("cs_balances") === null) {
-			localStorage.setItem('cs_balances', JSON.stringify(walletBalances));
-		}
-		else {
-			last_walletBalances = JSON.parse(localStorage.getItem("cs_balances"));
-			gain_loss = walletBalance - parseFloat(last_walletBalances.EUR);
-		}
-		
-		// console.log("wall: "+ walletBalance +" | last: " + last_walletBalances.EUR + " | g/l: " + gain_loss);
-	}
+                                    } else {
+                                        //var cmc_idToken = lst_CMC_ID_Tokens.filter(filterBySlug, (value[0]).toUpperCase());
+                                        // console.log(values);
+                                        //lstGoodCoins[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(nbTokens[1]), token[0].name, token[0].price_usd, token[0].price_eur, contractAddress[1], cmc_idToken[0].id];
+                                        // smallListCoins.push([(tokenName).toUpperCase(), rankToken, idImgToken, parseFloat(nbTokens[1]), contractAddress[1]]);
+                                    }
+                                    // console.log(cmc_idToken);
+                                }
+                            }
+                        });
+                        //console.log(smallListTokens);
 
-	function sortTokens(lst_Tokens, index, order) {
-		if(order == "ASC") {
-			lst_Tokens.sort(function(a,b){
-				return a[index] - b[index];
-			});
-		}
-		else {
-			lst_Tokens.sort(function(a,b){
-				return b[index] - a[index];
-			});
-		}
-		return lst_Tokens;
-	}
-	
-	function sortChoice(Choice) {
-		if(Choice == "Balance") {
-			indexItem = 3;
-			indexOrder = "DESC";
-		}
-		else if(Choice == "24H") {
-			indexItem = 2;
-			indexOrder = "DESC";
-		}
-		else {
-			indexItem = 1;
-			indexOrder = "ASC";
-		}
-		console.log(smallListCoins);
-		sortTokens(smallListCoins, indexItem, indexOrder);
-		sortTokens(smallListTokens, indexItem, indexOrder);
-		console.log(smallListCoins);
-		configScreener.viewOrder = Choice;
-		localStorage.setItem('cs_configuration', JSON.stringify(configScreener));
-		refreshTables();
-	}
-	
-	function verifyForkDelta() {
-		var listFDTokens = new Array();
-		try {
-			$.ajax({
-				type: "GET",
-				url: "forkdelta.json",
-				dataType: "text",
-				async: false,
-				success: function(data) { 
-					// console.log(JSON.parse(data));
-					listFDTokens = JSON.parse(data);
-				},
-				error: function(error) { 
+                    });
+                }
+            });
 
-				}
-			});
-			// var cpt = lstGoodTokens.length;
-			
-			$.each(listFDTokens, function(key, value) {
-				// console.log(value.tokenAddr);
-				if((unkTokens.filter(p => p[7] == value.tokenAddr)).length > 0) {
-					var indexToken = unkTokens.findIndex(p => p[7] == value.tokenAddr);
-					var token = unkTokens.filter(p => p[7] == value.tokenAddr);
-					var totalTokens = parseFloat(Number(value.bid)) * token[0][6];
-					lstForkDeltaTokens.push([token[0][0], token[0][1], value.quoteVolume, value.baseVolume, value.last, value.ask, 0, parseFloat(token[0][6]), token[0][0], 0, parseFloat(Number(value.bid)), token[0][7]]);
-					unkTokens.splice(indexToken, 1);
-					// smallListForkDeltaTokens.push([token[0][0], 0, parseFloat(token[0][5]), totalTokens]);
-				}
-			});
-		}
-		catch(e) {
+            // console.log(smallListTokens);
+            smallListTokens = smallListTokens.reduce(function(item, e1) {
+                var matches = item.filter(function(e2) {
+                    return e1.name == e2.name;
+                });
+                if (matches.length == 0) {
+                    item.push(e1);
+                } else {
+                    exceptTokens.push(e1);
+                }
+                return item;
+            }, []);
 
-		}	
-	}
-	
-	</script>
+            // console.log(exceptTokens);
+            // console.log(smallListTokens);
+
+        }
+
+
+
+
+        function verifyBalances() {
+            var last_balance = JSON.parse(localStorage.getItem('cs_balances'));
+            changeWalletBalance();
+            let balance = currencySym + walletBalance.toFixed(decimals);
+
+            $("#wallet_Balance").html(balance);
+
+            if (walletBalance > last_balance.EUR) {
+                $("#wallet_Balance").addClass("badge-success");
+            } else {
+                $("#wallet_Balance").addClass("badge-danger");
+            }
+            cooldown_Wallet();
+        }
+
+        function makeCard() {
+            console.log("Load: " + smallListCoins.length + " Coins");
+            // console.log(smallListCoins);
+            $.each(smallListCoins, function(key, token) {
+                if (token.slug != "") {
+                    var _symbol = "";
+                    var max_supply = 0;
+                    var total_supply = 0;
+                    var available_supply = 0;
+
+                    var cmc_TokenInfo = list_All_CMCTokens.filter(filterByID, (token.slug).toUpperCase());
+                    var tokenInfo = cmc_TokenInfo[0];
+                    if (symbol[token.symbol]) {
+                        _symbol = symbol[token.symbol];
+                    } else {
+                        _symbol = token.symbol;
+                    }
+
+                    var tokenPrice = parseFloat(tokenInfo["price_" + currency.toLowerCase()]);
+
+                    var alt_currency = currency == "EUR" || currency == "USD" ? currency : "USD"
+                    var tokenMCap = nFormatter(parseFloat(tokenInfo["market_cap_" + alt_currency.toLowerCase()]), 3);
+                    var tokenVolume = nFormatter(parseFloat(tokenInfo["24h_volume_" + alt_currency.toLowerCase()]), 3);
+
+                    if (tokenInfo.max_supply) {
+                        max_supply = parseFloat(tokenInfo.max_supply);
+                    }
+                    if (tokenInfo.total_supply) {
+                        total_supply = parseFloat(tokenInfo.total_supply);
+                    }
+                    if (tokenInfo.available_supply) {
+                        available_supply = parseFloat(tokenInfo.available_supply);
+                    }
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    // Création d'un Token
+                    var setToken = {
+                        name: token.name,
+                        symbol: _symbol,
+                        short: token.symbol,
+                        slug: token.slug,
+                        price: tokenPrice.toFixed(decimals),
+                        percent_change: parseFloat(tokenInfo["percent_change_24h"]),
+                        rank: token.rank,
+                        mcap: tokenMCap,
+                        volume: tokenVolume,
+                        balance: token.nbtoken,
+                        icon: token.img,
+                        max_supply: max_supply,
+                        total_supply: total_supply,
+                        available_supply: available_supply,
+                        output_zone: "lstCoins",
+                        contract: token.contract
+                    };
+                    
+                    setTokenBadge(setToken);
+                    // console.log(cmc_TokenInfo[0]);
+                    //console.log(cmc_TokenInfo);
+                }
+            });
+
+            console.log("Load: " + smallListTokens.length + " Tokens");
+            $.each(smallListTokens, function(key, token) {
+                var _symbol = "";
+                var max_supply = 0;
+                var total_supply = 0;
+                var available_supply = 0;
+                var cmc_TokenInfo = list_All_CMCTokens.filter(filterByID, (token.slug).toUpperCase());
+                if (cmc_TokenInfo.length > 0) {
+                    var tokenInfo = cmc_TokenInfo[0];
+                    if (symbol[token.symbol]) {
+                        _symbol = symbol[token.symbol];
+                    } else {
+                        _symbol = token.symbol;
+                    }
+
+                    var tokenPrice = parseFloat(tokenInfo["price_" + currency.toLowerCase()]);
+
+                    var alt_currency = currency == "EUR" || currency == "USD" ? currency : "USD"
+                    var tokenMCap = nFormatter(parseFloat(tokenInfo["market_cap_" + alt_currency.toLowerCase()]), 3);
+                    var tokenVolume = nFormatter(parseFloat(tokenInfo["24h_volume_" + alt_currency.toLowerCase()]), 3);
+
+                    if (tokenInfo.max_supply) {
+                        max_supply = parseFloat(tokenInfo.max_supply);
+                    }
+                    if (tokenInfo.total_supply) {
+                        total_supply = parseFloat(tokenInfo.total_supply);
+                    }
+                    if (tokenInfo.available_supply) {
+                        available_supply = parseFloat(tokenInfo.available_supply);
+                    }
+
+                    //////////////////////////////////////////////////////////////////////////////////
+                    // Création d'un Token
+                    var setToken = {
+                        name: token.name,
+                        symbol: _symbol,
+                        short: token.symbol,
+                        slug: token.slug,
+                        price: tokenPrice.toFixed(decimals),
+                        percent_change: parseFloat(tokenInfo["percent_change_24h"]),
+                        rank: token.rank,
+                        mcap: tokenMCap,
+                        volume: tokenVolume,
+                        balance: token.nbtoken,
+                        icon: token.img,
+                        max_supply: max_supply,
+                        total_supply: total_supply,
+                        available_supply: available_supply,
+                        output_zone: "lstTokens",
+                        contract: token.contract
+                    };
+
+                    setTokenBadge(setToken);
+                }
+                // console.log(cmc_TokenInfo[0]);
+                // console.log(cmc_TokenInfo);
+            });
+        }
+
+        function get_LocalWallet() {
+            var nbCoins = 0;
+            $.each(lstCoins, function(key, value) {
+                //console.log(value);
+                var coinName = value[0].toLowerCase();
+                if (value[1] == "coinmarketcap") {
+                    var cmc_idToken = lst_CMC_ID_Tokens.filter(filterBySlug, (value[0]).toUpperCase());
+                    var cmc_TokenInfo = list_All_CMCTokens.filter(filterByID, (cmc_idToken[0].slug).toUpperCase());
+                    var tokenInfo = cmc_TokenInfo[0];
+                    var tokenPrice = parseFloat(tokenInfo["price_" + currency.toLowerCase()]);
+                    var totalWallet = tokenPrice * value[4];
+                    // console.log(cmc_TokenInfo[0]);
+                    smallListCoins.push({
+                        name: cmc_idToken[0].name,
+                        rank: cmc_idToken[0].rank,
+                        symbol: (cmc_idToken[0].symbol).toUpperCase(),
+                        slug: cmc_idToken[0].slug,
+                        img: cmc_idToken[0].id,
+                        nbtoken: value[4],
+                        contract: "Not Token",
+                        wallet: "local",
+                        "24h": parseFloat(tokenInfo["percent_change_24h"]),
+                        balance: totalWallet
+
+                    });
+                    if (value[5] != "") {
+                        list_Wallets_Online.push({
+                            name: cmc_idToken[0].name,
+                            balance: value[4],
+                            address: value[5]
+                        })
+                    }
+                } else {
+                    // tokenInfo_IDEXmarket(coinName, value[2], parseFloat(value[4]), value[3]);
+                }
+            });
+            // console.log(smallListCoins);
+            $.each(lstTokens, function(key, value) {
+                var coinName = value[0].toLowerCase();
+                if (value[1] == "coinmarketcap") {
+                    //if (exceptTokens.indexOf((value[0]).toUpperCase()) > -1) {
+                    var cmc_idToken = lst_CMC_ID_Tokens.filter(filterBySlug, (value[0]).toUpperCase());
+                    var cmc_TokenInfo = list_All_CMCTokens.filter(filterByID, (cmc_idToken[0].slug).toUpperCase());
+                    var tokenInfo = cmc_TokenInfo[0];
+                    var tokenPrice = parseFloat(tokenInfo["price_" + currency.toLowerCase()]);
+                    var totalWallet = tokenPrice * value[4];
+                    smallListTokens.push({
+                        name: cmc_idToken[0].name,
+                        rank: cmc_idToken[0].rank,
+                        symbol: (cmc_idToken[0].symbol).toUpperCase(),
+                        slug: cmc_idToken[0].slug,
+                        img: cmc_idToken[0].id,
+                        nbtoken: value[4],
+                        contract: "",
+                        wallet: "local",
+                        "24h": parseFloat(tokenInfo["percent_change_24h"]),
+                        balance: totalWallet
+                    });
+                    //}
+                } else {
+                    // tokenInfo_IDEXmarket(coinName, value[2], parseFloat(value[4]), value[3]);
+                }
+            });
+            // console.log(smallListCoins);
+
+            return false;
+        }
+
+
+        function setScreenerParam() {
+            $(document).attr("title", titleApp + " - " + projectApp + " version");
+
+            currency = configScreener.currencyDefault;
+            // console.log(currency);
+            $("#currencyChoice").text(currency);
+            $(".dropdown-item").removeClass("active");
+            $("#curr" + currency).addClass("active");
+            if (configScreener.onlineMode) {
+                $("#modeCS").text("online");
+                $("#modeCS").addClass("badge-success");
+                $("#cb_ModeCS").prop("checked", "checked");
+            } else {
+                $("#modeCS").text("offline");
+                $("#modeCS").addClass("badge-danger");
+            }
+            $("#verCS").text(configScreener.version);
+            if (configScreener.localWallet) {
+                $("#cb_LocalWallet").prop("checked", "checked");
+            }
+            if (configScreener.graphDisplay) {
+                $("#cb_graphDay").prop("checked", "checked");
+                // $(".card-footer").css("display", "block");
+            }
+
+            //var itemOrder = "ASC";
+            if (configScreener.viewOrder == "Rank") {
+                indexOrder = "ASC";
+                $("#radio_Rank").prop('checked', true);
+            } else if (configScreener.viewOrder == "24H") {
+                indexOrder = "DESC";
+                $("#radio_24H").prop('checked', true);
+            } else {
+                $("#radio_Balance").prop('checked', true);
+                indexOrder = "DESC";
+            }
+
+            // $.each()
+            //$("#all_Wallets").text(localStorage.getItem('cs_balances'));
+
+
+            $("#input_addEth").val(walletAddress.ETH);
+
+            // Create Dynamic link to Eth Wallet Explorer
+            $("#Etherscan").attr("href", all_ExternalLinks.Etherscan + walletAddress.ETH);
+            $("#Ethplorer").attr("href", all_ExternalLinks.Ethplorer + walletAddress.ETH);
+            $("#DeltaBalances").attr("href", all_ExternalLinks.DeltaBalances + walletAddress.ETH);
+
+            $("#CMC").attr("href", all_ExternalLinks.CMC);
+            $("#ForkDelta").attr("href", all_ExternalLinks.ForkDelta);
+            $("#EtherDelta").attr("href", all_ExternalLinks.EtherDelta);
+            $("#IDEX").attr("href", all_ExternalLinks.IDEX);
+            $("#DDEX").attr("href", all_ExternalLinks.DDEX);
+            $("#Switcheo").attr("href", all_ExternalLinks.Switcheo);
+
+            $("#MyEtherWallet").attr("href", all_ExternalLinks.MyEtherWallet);
+            $("#MyCrypto").attr("href", all_ExternalLinks.MyCrypto);
+            $("#MetaMask").attr("href", all_ExternalLinks.MetaMask);
+            $("#NeoTracker").attr("href", all_ExternalLinks.NeoTracker);
+            $("#WavesPlatform").attr("href", all_ExternalLinks.WavesPlatform);
+
+            // Préparation de la PopUp d'Aide :
+            $("#help_body").append("<hr>");
+            $("#help_header h4").append(" v" + configScreener.version);
+            $.each(_history, function(ver, history) {
+                $("#help_body").append("<span class='small'><b>v" + ver + ":</b> " + history + "</span><br>");
+            });
+
+        }
+
+        function setTokenBadge(token) {
+            var totalWallet = token.price * token.balance;
+            walletBalance += totalWallet;
+            console.log(token);
+            var affTokenName = "";
+            var signChange = "";
+            var pump = false;
+            var dump = false;
+            var badgeText = "";
+            var cl_badge = "";
+            var cl_card = "";
+            var cl_change = "";
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Création du ToolTip des Supply du token
+            var tooltip_supply = "Supply: ";
+            tooltip_supply += token.max_supply > 0 ? "&#010; Max: " + nFormatter(token.max_supply, 3) : "";
+            tooltip_supply += token.total_supply > 0 ? "&#010; Total: " + nFormatter(token.total_supply, 3) : "";
+            tooltip_supply += token.available_supply > 0 ? "&#010; Available: " + nFormatter(token.available_supply, 3) : "";
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Création du ToolTip du Contract Address
+            var tooltip_contract = token.contract != "Not Token" ? "Contract: " + token.contract : "";
+
+            if (token.percent_change > 0) {
+                signChange = "+";
+            }
+
+            if (token.name.length > 12) {
+                let lenTokenName = 12;
+                if (token.short.length > 3) {
+                    lenTokenName = 10;
+                }
+                affTokenName = token.name.substring(0, lenTokenName) + "...";
+            } else {
+                affTokenName = token.name;
+            }
+
+
+            tokenBadge = templateBadge.replace(/_TOKEN_/gi, affTokenName);
+            tokenBadge = tokenBadge.replace(/_SLUG_/gi, token.slug);
+            tokenBadge = tokenBadge.replace(/_SHT_/gi, token.short);
+            tokenBadge = tokenBadge.replace(/_S_/gi, token.symbol);
+            tokenBadge = tokenBadge.replace(/_TokenP_/g, currencySym + token.price);
+            tokenBadge = tokenBadge.replace(/_WalletP_CMC_/, currencySym + totalWallet.toFixed(decimals));
+            tokenBadge = tokenBadge.replace(/_WalletP_IDEX_/, currencySym + totalWallet.toFixed(decimals));
+            tokenBadge = tokenBadge.replace(/_WalletP_TS_/, currencySym + totalWallet.toFixed(decimals));
+            tokenBadge = tokenBadge.replace(/_Currency_/g, currencySym);
+
+            var alt_currency = currency == "EUR" || currency == "USD" ? symbol.EUR : symbol.USD;
+            tokenBadge = tokenBadge.replace(/_CurrMCAP_/g, alt_currency);
+
+            tokenBadge = tokenBadge.replace(/_RANK_/, token.rank);
+            tokenBadge = tokenBadge.replace(/_MCAP_/, token.mcap);
+            tokenBadge = tokenBadge.replace(/_VOLUME_/, token.volume);
+            tokenBadge = tokenBadge.replace(/_SUPPLY_/, tooltip_supply);
+            tokenBadge = tokenBadge.replace(/_CONTRACT_/, tooltip_contract);
+
+            // tokenBadge = tokenBadge.replace(/_PChange_/g, pricechange);
+            tokenBadge = tokenBadge.replace(/_PChange_/g, signChange + token.percent_change);
+            if(token.balance > 0 && !isInt(token.balance)) {
+                var precision = (token.balance + "").split(".")[1].length;
+                if(precision > 5) {
+                    token.balance = token.balance.toFixed(_decimals.CARD);
+                }
+            }
+            tokenBadge = tokenBadge.replace(/_NBToken_/, token.balance);
+            tokenBadge = tokenBadge.replace(/_ID_FLAG_/, token.icon);
+            $("#" + token.output_zone).append(tokenBadge);
+            //$("#"+tokenName+" #headerCard").addClass(colorCard.warning);
+
+            switch (true) {
+                case (token.percent_change <= -50):
+                    dump = true;
+                    badgeText = "DUMP";
+                    cl_badge = colorBadge.danger;
+                    cl_card = colorCard.danger;
+                    break;
+                case (token.percent_change <= -30):
+                    dump = true;
+                    badgeText = "DUMP";
+                    cl_badge = colorBadge.danger;
+                    cl_change = colorBadge.danger;
+                    break;
+                case (token.percent_change <= -15):
+                    cl_badge = colorBadge.danger;
+                    cl_change = colorBadge.danger;
+                    break;
+                case (token.percent_change < 0):
+                    cl_badge = colorBadge.danger;
+                    cl_change = colorBadge.danger;
+                    break;
+                case (token.percent_change >= 50):
+                    pump = true;
+                    badgeText = "PUMP";
+                    cl_card = colorCard.success;
+                    cl_badge = colorBadge.success;
+                    break;
+                case (token.percent_change >= 10):
+                    pump = true;
+                    badgeText = "PUMP";
+                    cl_badge = colorBadge.success;
+                    cl_change = colorBadge.success;
+                    break;
+                case (token.percent_change >= 0):
+                    cl_change = colorBadge.success;
+                    break;
+                default:
+                    break;
+            }
+
+            if (dump == true || pump == true) {
+                $("#" + token.slug + " #tokenPill").html(badgeText);
+                $("#" + token.slug + " #tokenPill").addClass("badge badge-pill float-right " + cl_badge);
+                $("#" + token.slug + " #headerCard").addClass(cl_card);
+            }
+            if (token.percent_change > 0) {
+                $("#" + token.slug + " #headerCard").css("background-color", "rgb(222, 254, 222)");
+            } else {
+                $("#" + token.slug + " #headerCard").css("background-color", "rgb(255, 236, 240)");
+
+            }
+
+            $("#" + token.slug + " #badgePchange").addClass(cl_change);
+
+            if (!configScreener.onlineMode) {
+                $("#" + token.slug + " #walletPrice_TokenStore").hide();
+                $("#" + token.slug + " #walletPrice_Idex").hide();
+            }
+
+            if (configScreener.graphDisplay) {
+                $("#" + token.output_zone + " .card-footer").css("display", "block");
+            }
+            // console.log(tokenName + " " + cl_change);
+        }
+
+        function info_CoinMarketCap_Global() {
+            //console.log(cmc_urlAPIinformation+currency);
+            var dateConvert = new Date();
+            var cmcInfos;
+            if (isTimeToGet(coolDown.cmc_global)) {
+                console.log("Load CMC General Infos");
+                // console.log("Get Last Visit : "+lastvisit + " ("+parseInt(minutes)+"min)");
+                $.ajax({
+                    url: cmc_urlAPIinformation + currency,
+                    type: "GET",
+                    dataType: 'json',
+                    async: false,
+                    //crossDomain: true,
+                    success: function(data) {
+                        //console.log(data);
+                        cmcInfos = data;
+                    }
+                });
+            } else {
+                console.log("Read CMC General Infos");
+                cmcInfos = JSON.parse(localStorage.getItem('cs_CMCinfos'));
+                dateConvert = convertDate(cmcInfos.last_updated);
+            }
+            // console.log(cmcInfos["total_market_cap_" + currency.toLowerCase()]);
+            // $("#lastupdate").html(dateConvert);
+            // $("#gl_MC").html(cmcInfos["total_market_cap_" + currency.toLowerCase()], 4);
+            $("#gl_MC").html(currencySym + nFormatter(cmcInfos["total_market_cap_" + currency.toLowerCase()], 4));
+            $("#gl_Vol").html(currencySym + nFormatter(cmcInfos["total_24h_volume_" + currency.toLowerCase()], 4));
+
+
+            if (cmcInfos["total_24h_volume_" + currency.toLowerCase()] < 10000000000) {
+                $("#bt_glVol").addClass("btn-danger");
+                // $("#bt_glVol").css("color", "white");
+            } else if (cmcInfos["total_24h_volume_" + currency.toLowerCase()] >= 10000000000 && cmcInfos["total_24h_volume_" + currency.toLowerCase()] <= 20000000000) {
+                $("#bt_glVol").addClass("btn-danger");
+            } else if (cmcInfos["total_24h_volume_" + currency.toLowerCase()] >= 30000000000 && cmcInfos["total_24h_volume_" + currency.toLowerCase()] < 35000000000) {
+                $("#bt_glVol").addClass("btn-success");
+            } else if (cmcInfos["total_24h_volume_" + currency.toLowerCase()] >= 35000000000) {
+                $("#bt_glVol").addClass("btn-success");
+                // $("#bt_glVol").css("color", "white");
+            }
+
+            // $("#gl_MC").html(nFormatter(cmcInfos.total_market_cap_eur, 4)); 282843326504
+            if (cmcInfos["total_market_cap_" + currency.toLowerCase()] < 100000000000) {
+                $("#bt_glMC").addClass("btn-danger");
+                // $("#bt_glMC").css("color", "white");
+            } else if (cmcInfos["total_market_cap_" + currency.toLowerCase()] >= 100000000000 && cmcInfos["total_market_cap_" + currency.toLowerCase()] <= 200000000000) {
+                // $("#cmc_mc").css("background-color", "green");
+                $("#bt_glMC").addClass("btn-danger");
+            } else if (cmcInfos["total_market_cap_" + currency.toLowerCase()] >= 300000000000 && cmcInfos["total_market_cap_" + currency.toLowerCase()] < 350000000000) {
+                // $("#cmc_mc").css("background-color", "green");
+                $("#bt_glMC").addClass("btn-success");
+            } else if (cmcInfos["total_market_cap_" + currency.toLowerCase()] >= 350000000000) {
+                // $("#bt_glMC").css("background-color", "green");
+                $("#bt_glMC").addClass("btn-success");
+            }
+
+
+            // $("#curr_symb1").html(currencySym);
+            // $("#curr_symb2").html(currencySym);
+            // $("#curr_symb3").html(currencySym);
+
+
+
+            if (cmcInfos.bitcoin_percentage_of_market_cap > 50) {
+                $("#bt_glBTCDom").addClass("btn-danger");
+            } else {
+                $("#bt_glBTCDom").addClass("btn-success");
+            }
+
+            $("#gl_BTCdom").html(cmcInfos.bitcoin_percentage_of_market_cap + "%");
+
+            // var dateConvert = convertDate(cmcInfos.last_updated);
+
+
+        }
+
+        function changeWalletBalance() {
+            walletBalances.EUR = walletBalance;
+            var last_walletBalances;
+            if (localStorage.getItem("cs_balances") === null) {
+                localStorage.setItem('cs_balances', JSON.stringify(walletBalances));
+            } else {
+                last_walletBalances = JSON.parse(localStorage.getItem("cs_balances"));
+                gain_loss = walletBalance - parseFloat(last_walletBalances.EUR);
+            }
+
+            // console.log("wall: "+ walletBalance +" | last: " + last_walletBalances.EUR + " | g/l: " + gain_loss);
+        }
+
+        function eventsCryptoScreener() {
+            $(".dropdown").on("show.bs.dropdown", function(event) {
+                var idChoice = $(event.relatedTarget).attr('id'); // Get the text of the element
+                var textChoice = $(event.relatedTarget).text(); // Get the text of the element
+                if (idChoice == "currencyChoice") {
+                    //$(event.relatedTarget).text("toto");
+                }
+                // console.log(textChoice);
+                //$(event.relatedTarget).text("toto");
+                // alert(x);
+            });
+
+            $(".dropdown-menu a").click(function() {
+                // console.log($(this).parent().attr('id'));
+                if ($(this).parent().attr('id') == "currencyChoice") {
+                    var selCurrency = $(this).text();
+                    $("#currencyChoice").text(selCurrency);
+                    $(".dropdown-item").removeClass("active");
+                    $("#curr" + selCurrency).addClass("active");
+                    changeCurrency(selCurrency);
+                }
+                if ($(this).parent().attr('id') == "dd_Help") {
+                    var selectionAide = $(this).text();
+                    //console.log(selectionAide);
+                    if (selectionAide == "Installation") {
+                        $("#help_body").html(modal_installation);
+                        $("#help_body").append("<hr>");
+                        $.each(_history, function(ver, history) {
+                            $("#help_body").append("<span class='small'><b>v" + ver + ":</b> " + history + "</span><br>");
+                        });
+                    } else if (selectionAide == "FAQ") {
+                        $("#help_body").html(modal_faq);
+                    }
+                }
+            });
+
+            $(".form-check-input").change(function() {
+                var choiceButton = $(this).parent().text();
+                if (choiceButton == "Mode Online") {
+                    configScreener.onlineMode = $(this).prop("checked");
+                    if (configScreener.onlineMode) {
+                        $("#modeCS").text("online");
+                        $("#modeCS").removeClass("badge-danger");
+                        $("#modeCS").addClass("badge-success");
+                    } else {
+                        $("#modeCS").text("offline");
+                        $("#modeCS").removeClass("badge-success");
+                        $("#modeCS").addClass("badge-danger");
+                    }
+                    clean_AllCards();
+                    logInfo("Change: Mode " + $("#modeCS").text());
+                }
+
+                if (choiceButton == "Wallet Local") {
+                    configScreener.localWallet = $(this).prop("checked");
+                    smallListCoins = [];
+                    smallListTokens = [];
+                    walletBalance = 0;
+                    get_LocalWallet();
+                    if (configScreener.localWallet) {
+                        read_walletETH_DeltaBalances(configScreener.walletName);
+                    }
+                    clean_AllCards();
+                    verifyBalances();
+                }
+                if (choiceButton == "Graphiques") {
+                    configScreener.graphDisplay = $(this).prop("checked");
+                    clean_AllCards();
+                }
+                // Gestion des Tris des tokens
+                if (choiceButton == "Rank" || choiceButton == "Balance" || choiceButton == "24H") {
+                    indexOrder = "DESC";
+                    if (choiceButton == "Rank") {
+                        indexOrder = "ASC";
+                    }
+
+                    sortTokens(smallListCoins, choiceButton.toLowerCase(), indexOrder);
+                    sortTokens(smallListTokens, choiceButton.toLowerCase(), indexOrder);
+
+                    configScreener.viewOrder = choiceButton;
+
+                    clean_AllCards();
+                }
+
+                $('#dd_Options').dropdown("toggle");
+                localStorage.setItem('cs_configuration', JSON.stringify(configScreener));
+                //console.log(choiceButton);
+            });
+
+            // Validation de l'adresse ethereum dans les options :
+            $('#input_addEth').keypress(function(event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13') {
+                    alert("Sauvegarde de votre adresse Ethereum");
+                    $('#dd_Options').dropdown("toggle");
+                    walletAddress.ETH = $('#input_addEth').val();
+                    logInfo("Set new ETH address");
+                    localStorage.setItem('cs_wallets', JSON.stringify(walletAddress));
+
+                    // Create Dynamic link to Eth Wallet Explorer
+                    $("#Etherscan").attr("href", all_ExternalLinks.Etherscan + walletAddress.ETH);
+                    $("#Ethplorer").attr("href", all_ExternalLinks.Ethplorer + walletAddress.ETH);
+                    $("#DeltaBalances").attr("href", all_ExternalLinks.DeltaBalances + walletAddress.ETH);
+                }
+            });
+
+        }
+
+        function majCryptoScreener() {
+            $("#alert_msg").html("<strong>Attention !</strong> Mise à jour en cours.....");
+            $("#alertRubbon").addClass("alert alert-info alert-dismissible fade show");
+            var ready = false;
+            var last_configScreener = JSON.parse(localStorage.getItem('cs_configuration'));
+            console.log("MAJ CryptoScreener v" + last_configScreener.version + " to v" + configScreener.version);
+            //console.log("Initialisation Variables Session" + configScreener.version);
+            $.each(last_configScreener, function(element) {
+                if (element != "version") {
+                    configScreener[element] = last_configScreener[element];
+                }
+                //console.log("Maj: " + element + " = " + last_configScreener[element]);
+            });
+            localStorage.setItem('cs_configuration', JSON.stringify(configScreener));
+        }
+
+        function verifyCryptoSCreener() {
+
+        }
+
+        function infoCryptoScreener() {
+
+        }
+
+        function logInfo(message, header) {
+            if (header === undefined) {
+                console.log(message);
+                //$("#all_Wallets").html(message);
+            } else {
+                console.log(header + ": " + message);
+                $("#all_Wallets").html(header + ": " + message);
+            }
+        }
+
+        function clean_AllCards() {
+            $("#lstCoins").html("");
+            $("#lstTokens").html("");
+            makeCard();
+        }
+    </script>
 </body>
+
 </html>
