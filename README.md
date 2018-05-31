@@ -4,20 +4,31 @@
   
     
 **Troisième essai** du dashboard de suivi des cryptos-monnaies suivant un choix défini.  
-Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les tokens ERC20, l'API de NEO et d'ArcTic. D'autres suivront suivant les besoins.  
-### Nouveautés :  
-  *Refonte de l'interface Responsive multi-devices (BootStrap 4)  
-  *Traitement asynchrone des données  
-  *Mode semi-automatique ou manuel  
-  *Vérification des tokens ERC20 non reconnu sur CMC  
-  *Utilisation des cookies pour stocker les données des tokens  
-  *Réductions de l'appel de l'API CMC à 15 min  
-  *Tri sur le prix, volume, rang, ....   
-  *Utilisation de l'API de ForkDelta  **en cours**  
-  *Chargement de l'export du wallet ETH de [DeltaBalances.github.io](https://deltabalances.github.io/)   **en cours**  
-  *Traitement séparé entre les Coins (type BTC, ETH, NEO) et les Tokens (type Erc20, Neo, ...)  
-  *Mode Online ou Offline  
+Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les tokens ERC20, l'API de NEO et d'ArcTic. D'autres suivront suivant les besoins. 
+   
+### Fonctionnalités :  
+  * Prise en charge de toutes les crypto-monnaies référencées par CoinMarketCap.com (price, rank, icon, marketcap, supply, ...),  
+  * Récupération des balances des cryptos suivantes : NEO et ses NEP, ETH et ses ERC20, Advanced Technology Coin (ARC), (pour le moment) ....  
+  * Gestion de votre balance pour chaque crypto, calcul global de votre porte-feuille d'actifs et convertion vers EUR, USD ou BTC,  
+  * Affichage au format carte suivant un tri sur le rang, le volume 24h en % et votre balance (nombre de token en votre possession),  
+  * Portail de liens vers les principaux sites d'informations, d'exchanges ou de wallets.  
+
+### Dernier changement :  
+  * Refonte de l'interface Responsive multi-devices (BootStrap 4),  
+  * Traitement asynchrone des données,  
+  * Mode semi-automatique ou manuel,  
+  * Utilisation des cookies pour stocker les données des tokens,  
+  * Réductions de l'appel de l'API CMC à 15 min,  
+  * Tri sur le prix, volume, rang,  
+  * Chargement de l'export du wallet ETH de [DeltaBalances.github.io](https://deltabalances.github.io/),  
+  * Traitement séparé entre les Coins (type BTC, ETH, NEO) et les Tokens (type Erc20, Neo, ...),  
+  * Mode Offline.  
   
+### Prochainement :  
+  * Mode Online complet,  
+  * Utilisation de l'API de ForkDelta, IDEX et de TokenStore,  
+  * Vérification des tokens ERC20 non reconnu sur CMC.  
+
 ---
 ## Pour fonctionner correctement :  
 ### Il fortement conseiller d'utiliser le navigateur "**Chrome**" et d'ajouter l'extension "Web-Server local" disponible sur le [Store de Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb)  
