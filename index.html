@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" type="image/png" href="./css/favicon.png"/>
+    <link rel="shortcut icon" type="image/png" href="./css/favicon.png" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="./js/bootstrap/4.1.1/css/bootstrap.min.css">
@@ -327,8 +327,8 @@
                                 if (tokenName.indexOf('(') > -1) {
                                     tokenName = tokenName.substring(0, tokenName.indexOf('('));
                                 }
-                                var nbTokens = values[6].split(":");
-                                var contractAddress = values[9].split(":");
+                                var nbTokens = values[7].split(":");
+                                var contractAddress = values[10].split(":");
                                 //var totalTokens = parseFloat(nbTokens[1]) * token[0].price_eur;
                                 if (exceptTokens.indexOf(tokenName) == -1) {
                                     var cmc_idToken = lst_CMC_ID_Tokens.filter(filterBySymbol, tokenName);
@@ -358,7 +358,7 @@
                                         if (cmc_TokenInfo.length > 0) {
                                             tokenInfo = cmc_TokenInfo[0];
                                             tokenPrice = parseFloat(tokenInfo["price_" + currency.toLowerCase()]);
-                                            totalWallet = tokenPrice * value[4];
+                                            totalWallet = tokenPrice * parseFloat(nbTokens[1]);
                                             change = parseFloat(tokenInfo["percent_change_24h"]);
                                         }
                                         smallListTokens.push({
@@ -373,7 +373,7 @@
                                             "24h": change,
                                             balance: totalWallet
                                         });
-
+                                        // console.log(_tokenName + " " + tokenPrice + " " + parseFloat(nbTokens[1]) + " = " + totalWallet);
                                     } else {
                                         //var cmc_idToken = lst_CMC_ID_Tokens.filter(filterBySlug, (value[0]).toUpperCase());
                                         // console.log(values);
@@ -479,7 +479,7 @@
                         output_zone: "lstCoins",
                         contract: token.contract
                     };
-                    
+
                     setTokenBadge(setToken);
                     // console.log(cmc_TokenInfo[0]);
                     //console.log(cmc_TokenInfo);
@@ -687,7 +687,7 @@
         function setTokenBadge(token) {
             var totalWallet = token.price * token.balance;
             walletBalance += totalWallet;
-            console.log(token);
+            // console.log(token);
             var affTokenName = "";
             var signChange = "";
             var pump = false;
@@ -736,21 +736,22 @@
             tokenBadge = tokenBadge.replace(/_CurrMCAP_/g, alt_currency);
 
             tokenBadge = tokenBadge.replace(/_RANK_/, token.rank);
-            tokenBadge = tokenBadge.replace(/_MCAP_/, token.mcap);
+            tokenBadge = token.mcap != "NaN" ? tokenBadge.replace(/_MCAP_/, token.mcap) : tokenBadge.replace(/_MCAP_/, "-");
             tokenBadge = tokenBadge.replace(/_VOLUME_/, token.volume);
             tokenBadge = tokenBadge.replace(/_SUPPLY_/, tooltip_supply);
             tokenBadge = tokenBadge.replace(/_CONTRACT_/, tooltip_contract);
 
             // tokenBadge = tokenBadge.replace(/_PChange_/g, pricechange);
             tokenBadge = tokenBadge.replace(/_PChange_/g, signChange + token.percent_change);
-            if(token.balance > 0 && !isInt(token.balance)) {
+            if (token.balance > 0 && !isInt(token.balance)) {
                 var precision = (token.balance + "").split(".")[1].length;
-                if(precision > 5) {
+                if (precision > 5) {
                     token.balance = token.balance.toFixed(_decimals.CARD);
                 }
             }
             tokenBadge = tokenBadge.replace(/_NBToken_/, token.balance);
-            tokenBadge = tokenBadge.replace(/_ID_FLAG_/, token.icon);
+            tokenBadge = tokenBadge.replace(/_ID_FLAG_/g, token.icon);
+
             $("#" + token.output_zone).append(tokenBadge);
             //$("#"+tokenName+" #headerCard").addClass(colorCard.warning);
 
@@ -985,8 +986,8 @@
                         indexOrder = "ASC";
                     }
 
-                    sortTokens(smallListCoins, choiceButton.toLowerCase(), indexOrder);
-                    sortTokens(smallListTokens, choiceButton.toLowerCase(), indexOrder);
+                    smallListCoins = sortTokens(smallListCoins, choiceButton.toLowerCase(), indexOrder);
+                    smallListTokens = sortTokens(smallListTokens, choiceButton.toLowerCase(), indexOrder);
 
                     configScreener.viewOrder = choiceButton;
 

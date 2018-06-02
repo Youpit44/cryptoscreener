@@ -114,7 +114,7 @@ var colorCard = {
 };
 
 
-var templateBadge = "<div id='_SLUG_' class='col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2'>" +
+var templateBadge = "<div id='_SLUG_' class='col-12 col-sm-6 col-md-6 col-lg-2 col-xl-2'>" +
     "<div class='card'>" +
     "<div id='headerCard' class='card-header'>" +
     "<div class='row'>" +

@@ -138,6 +138,7 @@ function filterBySlug(obj) {
 }
 
 function sortTokens(_Tokens, index, order) {
+    // console.log(_Tokens);
     if (order == "ASC") {
         _Tokens.sort(function(a, b) {
             //console.log("A - " + index + " : " + a[index])
@@ -145,7 +146,8 @@ function sortTokens(_Tokens, index, order) {
         });
     } else {
         _Tokens.sort(function(a, b) {
-            //console.log("D - " + index + " : " + a[index])
+            // console.log(a);
+            // console.log("D - " + index + " : " + a[index])
             return b[index] - a[index];
         });
     }
