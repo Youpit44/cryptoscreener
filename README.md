@@ -1,6 +1,7 @@
 # CryptoScreener - Tatooine  
 ![Capture Crypto-Screener](https://raw.githubusercontent.com/Youpit44/cryptoscreener/tatooine/docs/v_Tatooine.png)  
-## ATTENTION : Nouvelle version !! Refonte complète de l'interface et du moteur de traitement.
+## ATTENTION : Ajout du nouvelle exchanges sur [DeltaBalances.github.io](https://deltabalances.github.io/).
+**Pensez à refaire un export en cochant toutes les cases des exchanges.**  
   
     
 **Troisième essai** du dashboard de suivi des cryptos-monnaies suivant un choix défini.  
@@ -14,6 +15,7 @@ Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les to
   * Portail de liens vers les principaux sites d'informations, d'exchanges ou de wallets.  
 
 ### Dernier changement :  
+  * **Prise en compte du nouveau format** d'export .CSV de [DeltaBalances.github.io](https://deltabalances.github.io/) (ajout d'un nouvel exchange 'Enclaves'),  
   * Refonte de l'interface Responsive multi-devices (BootStrap 4),  
   * Traitement asynchrone des données,  
   * Mode semi-automatique ou manuel,  
