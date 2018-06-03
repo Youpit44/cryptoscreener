@@ -14,34 +14,46 @@ Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les to
   * Affichage au format carte suivant un tri sur le rang, le volume 24h en % et votre balance (nombre de token en votre possession),  
   * Portail de liens vers les principaux sites d'informations, d'exchanges ou de wallets.  
 
+### Support des Wallets en cours et à venir :  
+- [x] Ethereum : [NEO](https://neotracker.io/wallet)  
+- [x] Neo : [NEO](https://neotracker.io/wallet)  
+- [x] ArcTic Coin : [NEO](https://neotracker.io/wallet)  
+- [ ] LiteCoin : * * à venir* *   
+- [ ] BitCoin : * * à venir* *   
+- [ ] Waves : * * à venir* *   
+- [ ] ...   
+  
 ### Dernier changement :  
-  * Affichage des **Supply** du token dans une infobulle sur l'icone du token,  
-  * Récupération et affichage du prix du token ERC20 de la plateforme [IDEX](https://idex.market/),  
-  * **Prise en compte du nouveau format** d'export .CSV de [DeltaBalances.github.io](https://deltabalances.github.io/) (ajout d'un nouveau DEX [Enclaves](http://enclaves.io/),  
-  * Refonte de l'interface Responsive multi-devices (BootStrap 4),  
-  * Traitement asynchrone des données,  
-  * Mode semi-automatique ou manuel,  
-  * Utilisation des cookies pour stocker les données des tokens,  
-  * Réductions de l'appel de l'API CMC à 15 min,  
-  * Tri sur le prix, volume, rang,  
-  * Lien direct vers CmC sur le nom du token,  
-  * Chargement de l'export du wallet ETH de [DeltaBalances.github.io](https://deltabalances.github.io/),  
-  * Traitement séparé entre les Coins (type BTC, ETH, NEO) et les Tokens (type Erc20, Neo, ...),  
-  * Mode Offline.  
+- [x] Prise en charge du Wallet [NEO](https://neotracker.io/wallet) et de ses NEP ainsi que du Wallet [ArcTic Coin](https://arcticcoin.org/),  
+- [x] Affichage des **Supply** du token dans une infobulle sur l'icone du token,  
+- [x] Récupération et affichage du prix du token ERC20 de la plateforme [IDEX](https://idex.market/),  
+- [x] **Prise en compte du nouveau format** d'export .CSV de [DeltaBalances.github.io](https://deltabalances.github.io/) (ajout d'un nouveau DEX [Enclaves](http://enclaves.io/),  
+- [x] Refonte de l'interface Responsive multi-devices (BootStrap 4),  
+- [x] Traitement asynchrone des données,  
+- [x] Mode semi-automatique ou manuel,  
+- [x] Utilisation des cookies pour stocker les données des tokens,  
+- [x] Réductions de l'appel de l'API CMC à 15 min,  
+- [x] Tri sur le prix, volume, rang,  
+- [x] Lien direct vers CmC sur le nom du token,  
+- [x] Chargement de l'export du wallet ETH de [DeltaBalances.github.io](https://deltabalances.github.io/),  
+- [x] Traitement séparé entre les Coins (type BTC, ETH, NEO) et les Tokens (type Erc20, Neo, ...),  
+- [x] Mode Offline.  
   
 ### Prochainement :  
-  * Mode Online complet __20%__,  
-  * Utilisation de l'API de ForkDelta et de TokenStore __30%__,  
-  * Vérification des tokens ERC20 non reconnu sur CMC __50%__.  
+- [ ] Mode Online complet : * *20%* *,  
+- [ ] Utilisation de l'API de ForkDelta et de TokenStore : * *30%* *,  
+- [ ] Vérification des tokens ERC20 non reconnu sur CMC : * *50%* *.  
 
 ---
 ## Pour fonctionner correctement :  
 ### Il fortement conseiller d'utiliser le navigateur "**Chrome**" et d'ajouter l'extension "Web-Server local" disponible sur le [Store de Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb)  
-__N'oubliez pas de configurer l'extension WebServer pour lui indiquer le dossier contenant l'indexl.html.__  
+> N'oubliez pas de configurer l'extension WebServer pour lui indiquer le dossier contenant l'indexl.html.  
 
 Ajouter les options suivantes au racourcci de "**Chrome**" pour réduire les sécurités :  
-  **--allow-file-access-from-files**  
-  **--disable-web-security**  
+```
+  --allow-file-access-from-files  
+  --disable-web-security  
+```
 Ces options permettent le chargement des données en local. Le syndrome du "**cross domain**" peut aussi survenir avec certain navigateur autre que "**Chrome**". Pour limiter cet effet vous pouvez télécharger la base [Coinmarketcap.com](https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=EUR) au format JSON et la sauvegarder sous le nom de "[cmc.json](https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=EUR)" dans le dossier principal avec l'index.html.  
   
 ---
@@ -61,8 +73,10 @@ __Il faut modifier le fichier "[configCryptoScreener.js](js/configCryptoScreener
 ### Capture du fichier "[configCryptoScreener.js](js/configCryptoScreener.js)" :  
 ![Capture Configuration Crypto-Screener](https://raw.githubusercontent.com/Youpit44/cryptoscreener/master/docs/Config.PNG)  
   
-1) Complèter la/les lignes suivantes pour ajouter vous coins type Bitcoin, Ethereum, Neo, Waves, ..... un par ligne comme l'exemple ci-dessus : 
+1) Complèter la/les lignes suivantes pour ajouter vous coins type **Bitcoin, Ethereum, Neo, Waves, .....** un par ligne comme l'exemple ci-dessus :  
+```
   *lstCoins.push(["__BITCOIN__", "__coinmarketcap__", __0__, __""__, __0.09__, __""__]);*  
+```
 **BITCOIN** : nom du coin à suivre  
 **coinmarketcap** : api à utiliser  
 **O** : ne sert plus  
@@ -70,8 +84,10 @@ __Il faut modifier le fichier "[configCryptoScreener.js](js/configCryptoScreener
 **0.09** : nombre de coins que vous possedez (0 si vous ne voulez pas utiliser cette option)  
 **""** :  mettre la clé publique de votre wallet (sert pour recupérer les balances de vos Wallets, uniquement **NEO** et **ArcTic-Coin** pour le moment)    
            
-2) Complèter la/les lignes suivantes pour ajouter vous tokens compatible ERC20 d'Ethereum, un par ligne comme l'exemple ci-dessus : 
+2) Complèter la/les lignes suivantes pour ajouter vous tokens compatible **ERC20 d'Ethereum**, un par ligne comme l'exemple ci-dessus :  
+```
   *lstTokens.push(["__HAVVEN__", "__coinmarketcap__", __0__, __""__, __200.50__]);*  
+```
 **HAVVEN** : nom du token à suivre  
 **coinmarketcap** : api à utiliser  
 **O** : ne sert plus  
@@ -86,4 +102,9 @@ Première version Tatooine :
 ---  
 Si vous désirez des modifications, n'hesitez pas à laissez une issue pour me notifier de votre demande, évolution ou même support.  
 @Youpit  
-**Eth: 0x2a0bc682Cf0A70E4489089E550383dC9F28aF34B**
+```
+**Eth:** 0x2a0bc682Cf0A70E4489089E550383dC9F28aF34B  
+**Ltc:** LdJGoMUsvzZtD47yXJ1WuH5kBpGiGDtFdvVM  
+**Neo:** AZNU7GrAcVe5XXQaqzpyh3HmX2nVGyuthd  
+**Waves:** 3PMY2vMw1EaQfZF9FMBj2ssatTUjn9P9WJT  
+```
