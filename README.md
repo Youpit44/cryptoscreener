@@ -1,6 +1,6 @@
 # CryptoScreener - Tatooine  
 ![Capture Crypto-Screener](https://raw.githubusercontent.com/Youpit44/cryptoscreener/tatooine/docs/v_Tatooine.png)  
-## ATTENTION : Ajout du nouvelle exchanges sur [DeltaBalances.github.io](https://deltabalances.github.io/).
+## ATTENTION : Ajout d'un nouveau DEX sur [DeltaBalances.github.io](https://deltabalances.github.io/).
 **Pensez à refaire un export en cochant toutes les cases des exchanges.**  
   
     
@@ -15,26 +15,31 @@ Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les to
   * Portail de liens vers les principaux sites d'informations, d'exchanges ou de wallets.  
 
 ### Dernier changement :  
-  * **Prise en compte du nouveau format** d'export .CSV de [DeltaBalances.github.io](https://deltabalances.github.io/) (ajout d'un nouvel exchange 'Enclaves'),  
+  * Affichage des **Supply** du token dans une infobulle sur l'icone du token,  
+  * Récupération et affichage du prix du token ERC20 de la plateforme [IDEX](https://idex.market/),  
+  * **Prise en compte du nouveau format** d'export .CSV de [DeltaBalances.github.io](https://deltabalances.github.io/) (ajout d'un nouveau DEX [Enclaves](http://enclaves.io/),  
   * Refonte de l'interface Responsive multi-devices (BootStrap 4),  
   * Traitement asynchrone des données,  
   * Mode semi-automatique ou manuel,  
   * Utilisation des cookies pour stocker les données des tokens,  
   * Réductions de l'appel de l'API CMC à 15 min,  
   * Tri sur le prix, volume, rang,  
+  * Lien direct vers CmC sur le nom du token,  
   * Chargement de l'export du wallet ETH de [DeltaBalances.github.io](https://deltabalances.github.io/),  
   * Traitement séparé entre les Coins (type BTC, ETH, NEO) et les Tokens (type Erc20, Neo, ...),  
   * Mode Offline.  
   
 ### Prochainement :  
-  * Mode Online complet,  
-  * Utilisation de l'API de ForkDelta, IDEX et de TokenStore,  
-  * Vérification des tokens ERC20 non reconnu sur CMC.  
+  * Mode Online complet __20%__,  
+  * Utilisation de l'API de ForkDelta et de TokenStore __30%__,  
+  * Vérification des tokens ERC20 non reconnu sur CMC __50%__.  
 
 ---
 ## Pour fonctionner correctement :  
 ### Il fortement conseiller d'utiliser le navigateur "**Chrome**" et d'ajouter l'extension "Web-Server local" disponible sur le [Store de Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb)  
-et d'ajouter les options suivantes au racourcci  :  
+__N'oubliez pas de configurer l'extension WebServer pour lui indiquer le dossier contenant l'indexl.html.__  
+
+Ajouter les options suivantes au racourcci de "**Chrome**" pour réduire les sécurités :  
   **--allow-file-access-from-files**  
   **--disable-web-security**  
 Ces options permettent le chargement des données en local. Le syndrome du "**cross domain**" peut aussi survenir avec certain navigateur autre que "**Chrome**". Pour limiter cet effet vous pouvez télécharger la base [Coinmarketcap.com](https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=EUR) au format JSON et la sauvegarder sous le nom de "[cmc.json](https://api.coinmarketcap.com/v1/ticker/?limit=0&convert=EUR)" dans le dossier principal avec l'index.html.  
