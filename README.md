@@ -77,7 +77,7 @@ __Il faut modifier le fichier "[configCryptoScreener.js](js/configCryptoScreener
   
 1) Complèter la/les lignes suivantes pour ajouter vous coins type **Bitcoin, Ethereum, Neo, Waves, .....** un par ligne comme l'exemple ci-dessus :  
 ```
-  lstCoins.push(["__BITCOIN__", "__coinmarketcap__", __0__, __""__, __0.09__, __""__]);  
+  lstCoins.push(["BITCOIN", "coinmarketcap", 0, "", 0.09, ""]);  
 ```
 > **BITCOIN** : nom du coin à suivre  
 > **coinmarketcap** : api à utiliser  
@@ -88,7 +88,7 @@ __Il faut modifier le fichier "[configCryptoScreener.js](js/configCryptoScreener
            
 2) Complèter la/les lignes suivantes pour ajouter vous tokens compatible **ERC20 d'Ethereum**, un par ligne comme l'exemple ci-dessus :  
 ```
-  lstTokens.push(["__HAVVEN__", "__coinmarketcap__", __0__, __""__, __200.50__]);
+  lstTokens.push(["HAVVEN", "coinmarketcap", 0, "", 200.50]);
 ```
 > **HAVVEN** : nom du token à suivre  
 > **coinmarketcap** : api à utiliser  
