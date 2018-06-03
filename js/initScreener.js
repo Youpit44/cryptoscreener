@@ -1,20 +1,15 @@
 ﻿var lstTokens = new Array();
 var lstCoins = new Array();
-// var unkTokens = new Array();
+var lstUnkTokens = new Array();
 var exceptTokens = new Array();
 var exceptContract = new Array();
-// var lstGoodTokens = new Array();
 // var lstForkDeltaTokens = new Array();
-// var lstGoodCoins = new Array();
 var smallListTokens = new Array();
 // var smallListForkDeltaTokens = new Array();
 var smallListCoins = new Array();
-
 var list_Wallets_Online = new Array();
-
 var list_All_CMCTokens = new Array();
-
-// var func_GetWallet = ["NEO","ARCTICCOIN"];
+var list_All_IDEXTokens = new Array();
 
 ////// Variable pour : COINMARKETCAP :-------------------------------------------------------------------------------
 var cmc_urlAPI = "https://api.coinmarketcap.com/v1/ticker/";
@@ -22,6 +17,7 @@ var cmc_urlAPIinformation = "https://api.coinmarketcap.com/v1/global/?convert=";
 var cmc_urlStaticIMG = "https://s2.coinmarketcap.com/static/img/coins/64x64/";
 var cmc_urlStatic32IMG = "https://s2.coinmarketcap.com/static/img/coins/32x32/";
 var cmc_urlAPIQuickSearch = "https://s2.coinmarketcap.com/generated/search/quick_search.json";
+var cmc_urlCurrencies = "https://coinmarketcap.com/currencies/";
 
 var cmc_sparkLine7d = "https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/";
 var cmc_sparkLine1d = "https://s2.coinmarketcap.com/generated/sparklines/web/1d/usd/";
@@ -31,6 +27,8 @@ var spootnik_urlStatic32IMG = "http://spootnik.fr/wscryptos/coins/32x32/";
 // API KEYS
 var urlInfura = "https://mainnet.infura.io/";
 var infura_KEY = "";
+// Activation du Web3
+var apiWebJS = false;
 //-------------------------------------------------------------------------------------------------------------------
 // WALLET
 // var ethAddress = "";
@@ -113,6 +111,14 @@ var colorCard = {
     secondary: "bg-secondary"
 };
 
+exceptTokens.push("PRO");
+exceptContract = [(
+    "0x940d73c91db9f82440702f6cc8323a8c60583777" /* TEFOOD (1er tokens)  */ ,
+    "0xbe428c3867f05dea2a89fc76a102b544eac7f772" /* Token CyberVeinToken */ ,
+    "0xd6e49800decb64c0e195f791348c1e87a5864fd7" /* Token ReceiptCoin */
+    /* "0x12fb5d5802c3b284761d76c3e723ea913877afba"  Token Hydro */
+)];
+
 
 var templateBadge = "<div id='_SLUG_' class='col-12 col-xs-6 col-sm-6 col-md-6 col-lg-3 col-xl-2'>" +
     "<div class='card'>" +
@@ -120,13 +126,14 @@ var templateBadge = "<div id='_SLUG_' class='col-12 col-xs-6 col-sm-6 col-md-6 c
     "<div class='row'>" +
     "<div class='col-3 col-md-3'><img class='' src='" + cmc_urlStaticIMG + "_ID_FLAG_.png' data-toggle='tooltip' title='_SUPPLY_' /></div>" +
     "<div class='col-9 col-md-9'>" +
-    "<h6 class='card-title font-weight-bold' data-toggle='tooltip' title='_CONTRACT_'>_TOKEN_ <span class='small font-weight-light'><sup>_SHT_</sup></span><span id='tokenPill' class=''></span></h6>" +
+    "<h6 class='card-title font-weight-bold' data-toggle='tooltip' title='_CONTRACT_'><a href='" + cmc_urlCurrencies + "_SLUG_' target='_blank'>_TOKEN_</a> <span class='small font-weight-light'><sup>_SHT_</sup></span><span id='tokenPill' class=''></span></h6>" +
     "<p class='card-text'>_TokenP_ <span id='badgePchange' class='float-right badge'>_PChange_%</span></p>" +
     "<p class='card-text'>" +
-    "<span class='float-left small'><b>_NBToken_</b> _S_</span><span class='float-right small align-baseline'><b>_WalletP_CMC_</b> <img class='align-baseline' width='10' src='https://coinmarketcap.com/favicon.ico' /></span>" +
+    // "<span class='float-left small'><b>_NBToken_</b> _S_</span><span class='float-right small align-baseline'><b>_WalletP_CMC_</b> <img class='align-baseline' width='10' src='https://coinmarketcap.com/favicon.ico' /></span>" +
+    "<span class='float-left small'><b>_NBToken_</b> _S_</span>" +
     "</p><hr>" +
     "<p class='card-text'>" +
-    "<span id='walletPrice_TokenStore' class='float-left small align-baseline'><img class='align-baseline' width='10' src='https://token.store/favicon.ico' /> _WalletP_TS_</span>" +
+    "<span id='walletPrice_TokenStore' class='float-left small align-baseline'><img class='align-baseline' width='10' src='https://coinmarketcap.com/favicon.ico' /> <b>_WalletP_CMC_</b></span>" +
     "<span id='walletPrice_Idex' class='float-right small align-baseline'>_WalletP_IDEX_ <img class='align-baseline' width='10' src='https://idex.market/favicon.ico' /></span>" +
     "</p>" +
     "</div>" +

@@ -276,3 +276,27 @@ function cooldown_Wallet() {
         localStorage.setItem('cs_balances', JSON.stringify(walletBalances));
     }
 }
+
+function loadWallet_online() {
+    $.each(lstCoins, function(key, value) {
+        switch (value[0]) {
+            case "NEO":
+                // if (value[0] == "NEO") {
+                value[4] = get_Wallet_NEO(value[5]);
+                lstCoins[key] = value;
+                break;
+
+            case "ARCTICCOIN":
+                value[4] = get_Balance_ArcTic(value[5]);
+                lstCoins[key] = value;
+                // console.log(lstCoins[key]);
+                break;
+
+            case "ETHEREUM":
+                value[4] = get_Balance_ETH(value[5]);
+                lstCoins[key] = value;
+                // console.log(valx);
+                break;
+        }
+    });
+}

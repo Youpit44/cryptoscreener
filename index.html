@@ -152,6 +152,8 @@
         <div id="lstCoins" class="row"></div>
         <hr id="separation" />
         <div id="lstTokens" class="row"></div>
+        <hr id="separation" />
+        <div id="lstUnkTokens" class="row"></div>
     </main>
     <!-- /.container -->
 
@@ -269,18 +271,26 @@
                     majCryptoScreener();
                 }
                 //alert("marche ");
+
+
+
                 initScreenerConfiguration();
                 setScreenerParam();
                 info_CoinMarketCap_Global();
                 lst_CMC_ID_Tokens = loadCMC_ListID_tokens();
                 list_All_CMCTokens = loadCMC_Tokens();
+                list_All_IDEXTokens = get_TokenPrice_IDEX();
 
+                //console.log(list_All_IDEXTokens["ETH_HYDRO"]);
+
+                if (configScreener.onlineMode && configScreener.otherWallet) {
+                    loadWallet_online();
+                }
                 get_LocalWallet();
 
                 if (configScreener.localWallet) {
                     read_walletETH_DeltaBalances(configScreener.walletName);
                 }
-
                 // console.log(smallListCoins);
 
                 changeCurrency(configScreener.currencyDefault);
@@ -330,7 +340,7 @@
                                 var nbTokens = values[7].split(":");
                                 var contractAddress = values[10].split(":");
                                 //var totalTokens = parseFloat(nbTokens[1]) * token[0].price_eur;
-                                if (exceptTokens.indexOf(tokenName) == -1) {
+                                if (((exceptTokens.indexOf(tokenName) == -1) && (exceptContract.indexOf(contractAddress[1]) == -1))) {
                                     var cmc_idToken = lst_CMC_ID_Tokens.filter(filterBySymbol, tokenName);
                                     if (cmc_idToken[0] != null) {
                                         idImgToken = cmc_idToken[0].id;
@@ -445,6 +455,7 @@
                     }
 
                     var tokenPrice = parseFloat(tokenInfo["price_" + currency.toLowerCase()]);
+                    priceToken[token.symbol] = tokenPrice;
 
                     var alt_currency = currency == "EUR" || currency == "USD" ? currency : "USD"
                     var tokenMCap = nFormatter(parseFloat(tokenInfo["market_cap_" + alt_currency.toLowerCase()]), 3);
@@ -493,6 +504,17 @@
                 var total_supply = 0;
                 var available_supply = 0;
                 var cmc_TokenInfo = list_All_CMCTokens.filter(filterByID, (token.slug).toUpperCase());
+                var idex_Symbol = "ETH_" + token.symbol;
+                var idex_Price = 0;
+                // console.log(idex_Symbol);
+
+                //var idex_TokenInfo = 
+                //list_All_IDEXTokens.filter(filterByID, (token.slug).toUpperCase());
+                if (list_All_IDEXTokens[idex_Symbol] != null) {
+                    //console.log(list_All_IDEXTokens[idex_Symbol]);
+                    idex_Price = parseFloat(list_All_IDEXTokens[idex_Symbol].last) * priceToken.ETH;
+                }
+
                 if (cmc_TokenInfo.length > 0) {
                     var tokenInfo = cmc_TokenInfo[0];
                     if (symbol[token.symbol]) {
@@ -535,7 +557,8 @@
                         total_supply: total_supply,
                         available_supply: available_supply,
                         output_zone: "lstTokens",
-                        contract: token.contract
+                        contract: token.contract,
+                        priceIdex: idex_Price
                     };
 
                     setTokenBadge(setToken);
@@ -550,7 +573,7 @@
             $.each(lstCoins, function(key, value) {
                 //console.log(value);
                 var coinName = value[0].toLowerCase();
-                if (value[1] == "coinmarketcap") {
+                if ((value[1] == "coinmarketcap") && (value[4] > 0)) {
                     var cmc_idToken = lst_CMC_ID_Tokens.filter(filterBySlug, (value[0]).toUpperCase());
                     var cmc_TokenInfo = list_All_CMCTokens.filter(filterByID, (cmc_idToken[0].slug).toUpperCase());
                     var tokenInfo = cmc_TokenInfo[0];
@@ -584,7 +607,7 @@
             // console.log(smallListCoins);
             $.each(lstTokens, function(key, value) {
                 var coinName = value[0].toLowerCase();
-                if (value[1] == "coinmarketcap") {
+                if ((value[1] == "coinmarketcap") && (value[4] > 0)) {
                     //if (exceptTokens.indexOf((value[0]).toUpperCase()) > -1) {
                     var cmc_idToken = lst_CMC_ID_Tokens.filter(filterBySlug, (value[0]).toUpperCase());
                     var cmc_TokenInfo = list_All_CMCTokens.filter(filterByID, (cmc_idToken[0].slug).toUpperCase());
@@ -686,6 +709,7 @@
 
         function setTokenBadge(token) {
             var totalWallet = token.price * token.balance;
+            var totalIDEX = token.priceIdex > 0 ? token.priceIdex * token.balance : "-";
             walletBalance += totalWallet;
             // console.log(token);
             var affTokenName = "";
@@ -728,7 +752,8 @@
             tokenBadge = tokenBadge.replace(/_S_/gi, token.symbol);
             tokenBadge = tokenBadge.replace(/_TokenP_/g, currencySym + token.price);
             tokenBadge = tokenBadge.replace(/_WalletP_CMC_/, currencySym + totalWallet.toFixed(decimals));
-            tokenBadge = tokenBadge.replace(/_WalletP_IDEX_/, currencySym + totalWallet.toFixed(decimals));
+            //tokenBadge = tokenBadge.replace(/_WalletP_IDEX_/, currencySym + totalIDEX.toFixed(decimals));
+            tokenBadge = totalIDEX > 0 ? tokenBadge.replace(/_WalletP_IDEX_/, currencySym + totalIDEX.toFixed(decimals)) : tokenBadge.replace(/_WalletP_IDEX_/, totalIDEX);
             tokenBadge = tokenBadge.replace(/_WalletP_TS_/, currencySym + totalWallet.toFixed(decimals));
             tokenBadge = tokenBadge.replace(/_Currency_/g, currencySym);
 
@@ -737,8 +762,8 @@
 
             tokenBadge = tokenBadge.replace(/_RANK_/, token.rank);
             tokenBadge = token.mcap != "NaN" ? tokenBadge.replace(/_MCAP_/, token.mcap) : tokenBadge.replace(/_MCAP_/, "-");
-            tokenBadge = tokenBadge.replace(/_VOLUME_/, token.volume);
-            tokenBadge = tokenBadge.replace(/_SUPPLY_/, tooltip_supply);
+            tokenBadge = token.mcap != "NaN" ? tokenBadge.replace(/_VOLUME_/, token.volume) : tokenBadge.replace(/_VOLUME_/, "-");
+            tokenBadge = tokenBadge.replace(/_SUPPLY_/g, tooltip_supply);
             tokenBadge = tokenBadge.replace(/_CONTRACT_/, tooltip_contract);
 
             // tokenBadge = tokenBadge.replace(/_PChange_/g, pricechange);
@@ -760,7 +785,7 @@
                     dump = true;
                     badgeText = "DUMP";
                     cl_badge = colorBadge.danger;
-                    cl_card = colorCard.danger;
+                    cl_card = colorCard.warning;
                     break;
                 case (token.percent_change <= -30):
                     dump = true;
@@ -780,9 +805,9 @@
                     pump = true;
                     badgeText = "PUMP";
                     cl_card = colorCard.success;
-                    cl_badge = colorBadge.success;
+                    cl_badge = colorBadge.warning;
                     break;
-                case (token.percent_change >= 10):
+                case (token.percent_change >= 30):
                     pump = true;
                     badgeText = "PUMP";
                     cl_badge = colorBadge.success;
