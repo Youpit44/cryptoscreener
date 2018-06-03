@@ -15,9 +15,9 @@ Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les to
   * Portail de liens vers les principaux sites d'informations, d'exchanges ou de wallets.  
 
 ### Support des Wallets en cours et à venir :  
-- [x] Ethereum : [NEO](https://neotracker.io/wallet)  
-- [x] Neo : [NEO](https://neotracker.io/wallet)  
-- [x] ArcTic Coin : [NEO](https://neotracker.io/wallet)  
+- [x] Ethereum : [DeltaBalances.github.io](https://deltabalances.github.io/), [Ethplorer.io](https://Ethplorer.io/)  
+- [x] Neo : [NeoScan.io](https://neoscan.io)  
+- [x] ArcTic Coin : [ArcTiccoin.org](http://explorer.arcticcoin.org/)  
 - [ ] LiteCoin : * * à venir* *   
 - [ ] BitCoin : * * à venir* *   
 - [ ] Waves : * * à venir* *   
@@ -40,9 +40,9 @@ Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les to
 - [x] Mode Offline.  
   
 ### Prochainement :  
-- [ ] Mode Online complet : * *20%* *,  
-- [ ] Utilisation de l'API de ForkDelta et de TokenStore : * *30%* *,  
-- [ ] Vérification des tokens ERC20 non reconnu sur CMC : * *50%* *.  
+- [ ] Mode Online complet : *20%*,  
+- [ ] Utilisation de l'API de ForkDelta et de TokenStore : *30%*,  
+- [ ] Vérification des tokens ERC20 non reconnu sur CMC : *50%*.  
 
 ---
 ## Pour fonctionner correctement :  
@@ -67,32 +67,34 @@ Sauvegarder le fichier exporté dans le dossier de l'index.html sous le nom "Tok
   
 ## Pour un fonctionnement manuel :  
 __Il faut modifier le fichier "[configCryptoScreener.js](js/configCryptoScreener.js)" après l'entête suivante :__  
+```
   ////////////////////////////////////////////////////////////////////////////////////////////////////  
   // LISTE DES COINS A MODIFIER  
   ////////////////////////////////////////////////////////////////////////////////////////////////////  
+```
 ### Capture du fichier "[configCryptoScreener.js](js/configCryptoScreener.js)" :  
 ![Capture Configuration Crypto-Screener](https://raw.githubusercontent.com/Youpit44/cryptoscreener/master/docs/Config.PNG)  
   
 1) Complèter la/les lignes suivantes pour ajouter vous coins type **Bitcoin, Ethereum, Neo, Waves, .....** un par ligne comme l'exemple ci-dessus :  
 ```
-  *lstCoins.push(["__BITCOIN__", "__coinmarketcap__", __0__, __""__, __0.09__, __""__]);*  
+  lstCoins.push(["__BITCOIN__", "__coinmarketcap__", __0__, __""__, __0.09__, __""__]);  
 ```
-**BITCOIN** : nom du coin à suivre  
-**coinmarketcap** : api à utiliser  
-**O** : ne sert plus  
-**""** : ne rien mettre pour le moment  
-**0.09** : nombre de coins que vous possedez (0 si vous ne voulez pas utiliser cette option)  
-**""** :  mettre la clé publique de votre wallet (sert pour recupérer les balances de vos Wallets, uniquement **NEO** et **ArcTic-Coin** pour le moment)    
+> **BITCOIN** : nom du coin à suivre  
+> **coinmarketcap** : api à utiliser  
+> **O** : ne sert plus  
+> **""** : ne rien mettre pour le moment  
+> **0.09** : nombre de coins que vous possedez (0 si vous ne voulez pas utiliser cette option)  
+> **""** :  mettre la clé publique de votre wallet (sert pour recupérer les balances de vos Wallets, uniquement **NEO** et **ArcTic-Coin** pour le moment)    
            
 2) Complèter la/les lignes suivantes pour ajouter vous tokens compatible **ERC20 d'Ethereum**, un par ligne comme l'exemple ci-dessus :  
 ```
-  *lstTokens.push(["__HAVVEN__", "__coinmarketcap__", __0__, __""__, __200.50__]);*  
+  lstTokens.push(["__HAVVEN__", "__coinmarketcap__", __0__, __""__, __200.50__]);
 ```
-**HAVVEN** : nom du token à suivre  
-**coinmarketcap** : api à utiliser  
-**O** : ne sert plus  
-**""** : ne rien mettre pour le moment  
-**200.50** : nombre de tokens que vous possedez (0 si vous ne voulez pas utiliser cette option)  
+> **HAVVEN** : nom du token à suivre  
+> **coinmarketcap** : api à utiliser  
+> **O** : ne sert plus  
+> **""** : ne rien mettre pour le moment  
+> **200.50** : nombre de tokens que vous possedez (0 si vous ne voulez pas utiliser cette option)  
   
 ### Le mode semi-automatique fonctionne conjointement au mode manuel. Vous pouvez suivre vos Tokens ERC20 exportés de DeltaBalance et d'autres coins ou tokens que vous n'avez pas sur votre wallet ethereum ou d'autres wallets.   
   
@@ -103,8 +105,8 @@ Première version Tatooine :
 Si vous désirez des modifications, n'hesitez pas à laissez une issue pour me notifier de votre demande, évolution ou même support.  
 @Youpit  
 ```
-**Eth:** 0x2a0bc682Cf0A70E4489089E550383dC9F28aF34B  
-**Ltc:** LdJGoMUsvzZtD47yXJ1WuH5kBpGiGDtFdvVM  
-**Neo:** AZNU7GrAcVe5XXQaqzpyh3HmX2nVGyuthd  
-**Waves:** 3PMY2vMw1EaQfZF9FMBj2ssatTUjn9P9WJT  
+Eth: 0x2a0bc682Cf0A70E4489089E550383dC9F28aF34B  
+Ltc: LdJGoMUsvzZtD47yXJ1WuH5kBpGiGDtFdvVM  
+Neo: AZNU7GrAcVe5XXQaqzpyh3HmX2nVGyuthd  
+Waves: 3PMY2vMw1EaQfZF9FMBj2ssatTUjn9P9WJT  
 ```
