@@ -198,9 +198,9 @@ function get_Wallet_NEO(address) {
                     if (tokenName != "NEO") {
                         var cmc_idToken = lst_CMC_ID_Tokens.filter(filterBySlug, tokenName.toUpperCase());
                         if (cmc_idToken.length > 0) {
-                            lstTokens.push([(cmc_idToken[0].slug).toUpperCase(), "coinmarketcap", 0, "", newvalue]);
+                            lstTokens.push([(cmc_idToken[0].slug).toUpperCase(), "coinmarketcap", 0, "NEO", newvalue]);
                         } else {
-                            lstUnkTokens.push([tokenName.toUpperCase(), "", 0, "", newvalue]);
+                            lstUnkTokens.push([tokenName.toUpperCase(), "NEP", 0, "", newvalue]);
                         }
                     }
                 }

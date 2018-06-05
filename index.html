@@ -604,8 +604,8 @@
                         contract: "Not Token",
                         wallet: "local",
                         "24h": parseFloat(tokenInfo["percent_change_24h"]),
-                        balance: totalWallet
-
+                        balance: totalWallet,
+                        type: "COIN"
                     });
                     if (value[5] != "") {
                         list_Wallets_Online.push({
@@ -638,7 +638,8 @@
                         contract: "",
                         wallet: "local",
                         "24h": parseFloat(tokenInfo["percent_change_24h"]),
-                        balance: totalWallet
+                        balance: totalWallet,
+                        type: "ERC20"
                     });
                     //}
                 } else {
@@ -847,9 +848,9 @@
                 $("#" + token.slug + " #headerCard").addClass(cl_card);
             }
             if (token.percent_change > 0) {
-                $("#" + token.slug + " #headerCard").css("background-color", "rgb(222, 254, 222)");
+                $("#" + token.slug + " #headerCard").css("background-color", fond_vert);
             } else {
-                $("#" + token.slug + " #headerCard").css("background-color", "rgb(255, 236, 240)");
+                $("#" + token.slug + " #headerCard").css("background-color", fond_rouge);
 
             }
 

@@ -22,3 +22,6 @@ lstTokens.push(["REBL", "coinmarketcap", 0, "", 100]);
 // Liste pour supprimer un token de la liste, comme un shitcoin ou doublon sans valeur ou scam .....
 // 1er Token Hydro
 exceptContract.push("0x12fb5d5802c3b284761d76c3e723ea913877afba");
+// Couleur des cartes Verte / Rouge :
+fond_vert = "#defede";
+fond_rouge = "#ffced9";

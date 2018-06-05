@@ -35,6 +35,8 @@ var apiWebJS = false;
 // var contractJC = ""
 var tokenName;
 var walletBalance = 0;
+var fond_vert = "";
+var fond_rouge = "";
 var priceToken = {
     ETH: 0,
     BTC: 0,
@@ -120,7 +122,7 @@ exceptContract = [(
 )];
 
 
-var templateBadge = "<div id='_SLUG_' class='col-12 col-xs-6 col-sm-6 col-md-6 col-lg-3 col-xl-2'>" +
+/* var templateBadge = "<div id='_SLUG_' class='col-12 col-xs-6 col-sm-6 col-md-6 col-lg-3 col-xl-2'>" +
     "<div class='card'>" +
     "<div id='headerCard' class='card-header'>" +
     "<div class='row'>" +
@@ -163,6 +165,68 @@ var templateBadge = "<div id='_SLUG_' class='col-12 col-xs-6 col-sm-6 col-md-6 c
     "</li>" + "</ul>" +
     "</div><div class='col-9 col-md-9 float-right'>" +
     "<img id='imgGraph' class='img-fluid mx-auto d-block' src='" + cmc_sparkLine7d + "_ID_FLAG_.png' /></div></div>" +
+    "</div>" +
+    "</div>"; */
+
+var cardHeader =
+    "<div id='headerCard' class='card-header'>" +
+    "<div class='row'>" +
+    "<div class='col-3 col-md-3'><img class='' src='" + cmc_urlStaticIMG + "_ID_FLAG_.png' data-toggle='tooltip' title='_SUPPLY_' /></div>" +
+    "<div class='col-9 col-md-9'>" +
+    "<h6 class='card-title font-weight-bold' data-toggle='tooltip' title='_CONTRACT_'><a href='" + cmc_urlCurrencies + "_SLUG_' target='_blank'>_TOKEN_</a> <span class='small font-weight-light'><sup>_SHT_</sup></span><span id='tokenPill' class=''></span></h6>" +
+    "<p class='card-text'>_TokenP_ <span id='badgePchange' class='float-right badge'>_PChange_%</span></p>" +
+    "<p class='card-text'>" +
+    "<span class='float-left small'><b>_NBToken_</b> _S_</span>" +
+    "</p>" +
+    "<hr>" +
+    "<p class='card-text'>" +
+    "<span id='walletPrice_TokenStore' class='float-left small align-baseline'><img class='align-baseline' width='10' src='https://coinmarketcap.com/favicon.ico' /> <b>_WalletP_CMC_</b></span>" +
+    "<span id='walletPrice_Idex' class='float-right small align-baseline'>_WalletP_IDEX_ <img class='align-baseline' width='10' src='https://idex.market/favicon.ico' /></span>" +
+    "</p>" +
+    "</div>" +
+    "</div>" +
+    "</div>";
+var cardBody =
+    "<div id='rowTokenInfos' class='card-body'>" +
+    "<div id='rtHeaders' class='row'>" +
+    "<div class='col-3 col-md-3 text-center'><b>RANK</b></div>" +
+    "<div class='col-4 col-md-4 text-center'><b>MARKET CAP</b></div>" +
+    "<div class='col-4 col-md-4 text-center'><b>VOLUME (24H)</b></div>" +
+    "</div>" +
+    "<div id='rtDatas' class='row'>" +
+    "<div class='col-3 col-md-3 text-center'>_RANK_</div>" +
+    "<div class='col-4 col-md-4 text-center'>_CurrMCAP__MCAP_</div>" +
+    "<div class='col-4 col-md-4 text-center'>_CurrMCAP__VOLUME_</div>" +
+    "</div>" +
+    "</div>";
+var cardFooter =
+    "<div id='footerCard' class='card-footer'>" +
+    "<div class='row'>" +
+    "<div class='col-3'>" +
+    "<div class='nav flex-column nav-pills' role='tablist' aria-orientation='vertical'>" +
+    "<a class='nav-link small' data-toggle='pill' href='#onday_SLUG_' role='tab' aria-controls='v-pills-profile' aria-selected='false' style='padding:2px;text-align:center;'>1d</a>" +
+    "<a class='nav-link small active' data-toggle='pill' href='#sevendays_SLUG_' role='tab' aria-controls='v-pills-profile' aria-selected='true' style='padding:2px;text-align:center;'>7d</a>" +
+    "</div>" +
+    "</div>" +
+    "<div class='col-9' style='padding-left:0px;'>" +
+    "<div class='tab-content'>" +
+    "<div class='tab-pane fade' id='onday_SLUG_' role='tabpanel'>" +
+    "<img class='img-fluid mx-auto d-block' style='padding-top:5px;padding-bottom:5px;' alt='No Graph' src='" + cmc_sparkLine1d + "_ID_FLAG_.png' />" +
+    "</div>" +
+    "<div class='tab-pane fade show active' id='sevendays_SLUG_' role='tabpanel'>" +
+    "<img class='img-fluid mx-auto d-block' style='padding-top:5px;padding-bottom:5px;' alt='No Graph' src='" + cmc_sparkLine7d + "_ID_FLAG_.png' />" +
+    "</div>" +
+    "</div>" +
+    "</div>" +
+    "</div>" +
+    "</div>";
+
+var templateBadge =
+    "<div id='_SLUG_' class='col-12 col-xs-6 col-sm-6 col-md-6 col-lg-3 col-xl-2'>" +
+    "<div class='card'>" +
+    cardHeader +
+    cardBody +
+    cardFooter +
     "</div>" +
     "</div>";
 
