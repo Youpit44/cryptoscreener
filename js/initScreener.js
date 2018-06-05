@@ -56,8 +56,8 @@ var _decimals = {
     ETH: 7,
     LTC: 7,
     NEO: 7,
-    EUR: 3,
-    USD: 3,
+    EUR: 7,
+    USD: 7,
     CARD: 7
 };
 
@@ -156,10 +156,10 @@ var templateBadge = "<div id='_SLUG_' class='col-12 col-xs-6 col-sm-6 col-md-6 c
     "<div class='card-footer'>" +
     "<div id='dayGraph' class='col-3 col-md-3 float-left'><ul class='nav flex-column'>" +
     "<li class='nav-item'>" +
-    "<a class='nav-link small' href='#'>1d</a>" +
+    "<a id='graph_1d' class='nav-link small' href='#'>1d</a>" +
     "</li>" +
     "<li class='nav-item'>" +
-    "<a class='nav-link small' href='#'>7d</a>" +
+    "<a id='graph_7d' class='nav-link small badge badge-primary' href='#'>7d</a>" +
     "</li>" + "</ul>" +
     "</div><div class='col-9 col-md-9 float-right'>" +
     "<img id='imgGraph' class='img-fluid mx-auto d-block' src='" + cmc_sparkLine7d + "_ID_FLAG_.png' /></div></div>" +

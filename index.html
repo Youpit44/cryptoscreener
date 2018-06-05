@@ -58,14 +58,14 @@
                         <a class="dropdown-item" id="" href="https://www.huobi.pro/fr-fr/" target="_blank">Huobi-Pro</a>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
+                <li id="menu_telegram" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Télégram</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown01">
                         <a class="dropdown-item" id="" href="https://t.me/cryptogainschat" target="_blank">Cryptogains.fr - Chat</a>
                         <a class="dropdown-item" id="" href="https://t.me/cryptogainsairdrops2" target="_blank">Cryptogains.fr - Airdrop</a>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
+                <li id="menu_wallet" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dd_Wallets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wallets</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown01">
                         <div class="dropdown-header">Ethereum</div>
@@ -125,16 +125,16 @@
             </ul>
             <ul class="nav nav-pills">
                 <li class="nav-item">
-                    <span class="btn btn-light">Bal: <span id="wallet_Balance" class="badge">0</span></span>
+                    <span class="btn btn-light"><span id="txt_balance">Bal: </span><span id="wallet_Balance" class="badge">0</span></span>
                 </li>
                 <li class="nav-item">
-                    <span id="bt_glMC" class="btn btn-info">M.Cap: <span id="gl_MC" class="badge badge-light">0</span></span>
+                    <span id="bt_glMC" class="btn btn-info"><span id="txt_MC">M.Cap: </span><span id="gl_MC" class="badge badge-light">0</span></span>
                 </li>
                 <li class="nav-item">
-                    <span id="bt_glVol" class="btn btn-info">24h Vol: <span id="gl_Vol" class="badge badge-light">0</span></span>
+                    <span id="bt_glVol" class="btn btn-info"><span id="txt_Vol">24h Vol: </span><span id="gl_Vol" class="badge badge-light">0</span></span>
                 </li>
                 <li class="nav-item">
-                    <span id="bt_glBTCDom" class="btn btn-secondary">BTC Dom: <span id="gl_BTCdom" class="badge badge-light">0%</span></span>
+                    <span id="bt_glBTCDom" class="btn btn-secondary"><span id="txt_Dom">BTC Dom: </span><span id="gl_BTCdom" class="badge badge-light">0%</span></span>
                 </li>
             </ul>
             <!--<form class="form-inline my-2 my-lg-0">
@@ -232,6 +232,17 @@
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES  
         //
+		var small_screen = $(document).width() < 1024 ? true : false;
+		//if ((screen.width>=1024) && (screen.height>=768)) {
+/*			alert('Screen size: ' + $(document).width());
+			//$("link[rel=stylesheet]:not(:first)").attr({href : "style2.css"});
+		}
+		else {
+			alert('Screen size: less than 1024x768, 800x600 maybe?');
+			//$("link[rel=stylesheet]:not(:first)").attr({href : "style1.css"});
+		}
+*/
+	
         var lst_CMC_ID_Tokens = new Array();
 
         var tokenName = "Bitcoin";
@@ -427,6 +438,9 @@
             let balance = currencySym + walletBalance.toFixed(decimals);
 
             $("#wallet_Balance").html(balance);
+			if(small_screen) {
+			//alert($("#wallet_Balance").parent().text());
+			}
 
             if (walletBalance > last_balance.EUR) {
                 $("#wallet_Balance").addClass("badge-success");
@@ -676,7 +690,14 @@
 
             // $.each()
             //$("#all_Wallets").text(localStorage.getItem('cs_balances'));
-
+			if(small_screen) {
+				$("#menu_telegram").hide();
+				$("#menu_wallet").hide();
+				$("#txt_balance").hide();
+				$("#txt_MC").hide();
+				$("#txt_Vol").hide();
+				$("#txt_Dom").hide();
+			}
 
             $("#input_addEth").val(walletAddress.ETH);
 
@@ -753,7 +774,7 @@
             tokenBadge = tokenBadge.replace(/_TokenP_/g, currencySym + token.price);
             tokenBadge = tokenBadge.replace(/_WalletP_CMC_/, currencySym + totalWallet.toFixed(decimals));
             //tokenBadge = tokenBadge.replace(/_WalletP_IDEX_/, currencySym + totalIDEX.toFixed(decimals));
-            tokenBadge = totalIDEX > 0 ? tokenBadge.replace(/_WalletP_IDEX_/, currencySym + totalIDEX.toFixed(decimals)) : tokenBadge.replace(/_WalletP_IDEX_/, totalIDEX);
+            tokenBadge = totalIDEX > 0 ? tokenBadge.replace(/_WalletP_IDEX_/, currencySym + totalIDEX.toFixed(decimals-2)) : tokenBadge.replace(/_WalletP_IDEX_/, totalIDEX);
             tokenBadge = tokenBadge.replace(/_WalletP_TS_/, currencySym + totalWallet.toFixed(decimals));
             tokenBadge = tokenBadge.replace(/_Currency_/g, currencySym);
 
