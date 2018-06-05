@@ -1,5 +1,5 @@
 # CryptoScreener - Tatooine  
-![Capture Crypto-Screener](https://raw.githubusercontent.com/Youpit44/cryptoscreener/tatooine/docs/v_Tatooine.png)  
+![Capture Crypto-Screener](https://raw.githubusercontent.com/Youpit44/cryptoscreener/master/docs/v_Tatooine.png)  
 ## ATTENTION : Ajout d'un nouveau DEX sur [DeltaBalances.github.io](https://deltabalances.github.io/).
 **Pensez à refaire un export en cochant toutes les cases des exchanges.**  
   
