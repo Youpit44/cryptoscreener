@@ -9,7 +9,7 @@ Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les to
    
 ### Fonctionnalités :  
   * Prise en charge de toutes les crypto-monnaies référencées par CoinMarketCap.com (price, rank, icon, marketcap, supply, ...),  
-  * Récupération des balances des cryptos suivantes : NEO et ses NEP, ETH et ses ERC20, Advanced Technology Coin (ARC), (pour le moment) ....  
+  * Récupération des balances des cryptos suivantes : NEO et ses NEP-5, ETH et ses ERC20, Advanced Technology Coin (ARC), (pour le moment) ....  
   * Gestion de votre balance pour chaque crypto, calcul global de votre porte-feuille d'actifs et convertion vers EUR, USD ou BTC,  
   * Affichage au format carte suivant un tri sur le rang, le volume 24h en % et votre balance (nombre de token en votre possession),  
   * Portail de liens vers les principaux sites d'informations, d'exchanges ou de wallets.  
@@ -18,13 +18,14 @@ Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les to
 - [x] Ethereum : [DeltaBalances.github.io](https://deltabalances.github.io/), [Ethplorer.io](https://Ethplorer.io/)  
 - [x] Neo : [NeoScan.io](https://neoscan.io)  
 - [x] ArcTic Coin : [ArcTiccoin.org](http://explorer.arcticcoin.org/)  
-- [ ] LiteCoin : * * à venir* *   
-- [ ] BitCoin : * * à venir* *   
-- [ ] Waves : * * à venir* *   
+- [ ] LiteCoin : *à venir*   
+- [ ] BitCoin : *à venir*   
+- [ ] Waves : *à venir*   
 - [ ] ...   
   
 ### Dernier changement :  
-- [x] Prise en charge du Wallet [NEO](https://neotracker.io/wallet) et de ses NEP ainsi que du Wallet [ArcTic Coin](https://arcticcoin.org/),  
+- [x] Ajout des courbes de suivi journalier ou sur 7 jours  
+- [x] Prise en charge du Wallet [NEO](https://neotracker.io/wallet) et de ses NEP-5 ainsi que du Wallet [ArcTic Coin](https://arcticcoin.org/),  
 - [x] Affichage des **Supply** du token dans une infobulle sur l'icone du token,  
 - [x] Récupération et affichage du prix du token ERC20 de la plateforme [IDEX](https://idex.market/),  
 - [x] **Prise en compte du nouveau format** d'export .CSV de [DeltaBalances.github.io](https://deltabalances.github.io/) (ajout d'un nouveau DEX [Enclaves](http://enclaves.io/),  
@@ -81,7 +82,7 @@ __Il faut modifier le fichier "[configCryptoScreener.js](js/configCryptoScreener
 ```
 > **BITCOIN** : nom du coin à suivre  
 > **coinmarketcap** : api à utiliser  
-> **O** : ne sert plus  
+> **0** : ne sert plus  
 > **""** : ne rien mettre pour le moment  
 > **0.09** : nombre de coins que vous possedez (0 si vous ne voulez pas utiliser cette option)  
 > **""** :  mettre la clé publique de votre wallet (sert pour recupérer les balances de vos Wallets, uniquement **NEO** et **ArcTic-Coin** pour le moment)    
@@ -92,7 +93,7 @@ __Il faut modifier le fichier "[configCryptoScreener.js](js/configCryptoScreener
 ```
 > **HAVVEN** : nom du token à suivre  
 > **coinmarketcap** : api à utiliser  
-> **O** : ne sert plus  
+> **0** : ne sert plus  
 > **""** : ne rien mettre pour le moment  
 > **200.50** : nombre de tokens que vous possedez (0 si vous ne voulez pas utiliser cette option)  
   
