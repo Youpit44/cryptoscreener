@@ -125,16 +125,16 @@
             </ul>
             <ul class="nav nav-pills">
                 <li class="nav-item">
-                    <span class="btn btn-light"><span id="txt_balance">Bal: </span><span id="wallet_Balance" class="badge">0</span></span>
+                    <span class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="Balance"><span id="txt_balance">Bal: </span><span id="wallet_Balance" class="badge">0</span></span>
                 </li>
                 <li class="nav-item">
-                    <span id="bt_glMC" class="btn btn-info"><span id="txt_MC">M.Cap: </span><span id="gl_MC" class="badge badge-light">0</span></span>
+                    <span id="bt_glMC" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Market Cap"><span id="txt_MC">M.Cap: </span><span id="gl_MC" class="badge badge-light">0</span></span>
                 </li>
                 <li class="nav-item">
-                    <span id="bt_glVol" class="btn btn-info"><span id="txt_Vol">24h Vol: </span><span id="gl_Vol" class="badge badge-light">0</span></span>
+                    <span id="bt_glVol" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Volume sur 24h"><span id="txt_Vol">24h Vol: </span><span id="gl_Vol" class="badge badge-light">0</span></span>
                 </li>
                 <li class="nav-item">
-                    <span id="bt_glBTCDom" class="btn btn-secondary"><span id="txt_Dom">BTC Dom: </span><span id="gl_BTCdom" class="badge badge-light">0%</span></span>
+                    <span id="bt_glBTCDom" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Dominance du Bitcoin"><span id="txt_Dom">BTC Dom: </span><span id="gl_BTCdom" class="badge badge-light">0%</span></span>
                 </li>
             </ul>
             <!--<form class="form-inline my-2 my-lg-0">
@@ -232,17 +232,17 @@
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES  
         //
-		var small_screen = $(document).width() < 1024 ? true : false;
-		//if ((screen.width>=1024) && (screen.height>=768)) {
-/*			alert('Screen size: ' + $(document).width());
-			//$("link[rel=stylesheet]:not(:first)").attr({href : "style2.css"});
-		}
-		else {
-			alert('Screen size: less than 1024x768, 800x600 maybe?');
-			//$("link[rel=stylesheet]:not(:first)").attr({href : "style1.css"});
-		}
-*/
-	
+        var small_screen = $(document).width() < 1024 ? true : false;
+        //if ((screen.width>=1024) && (screen.height>=768)) {
+        /*			alert('Screen size: ' + $(document).width());
+        			//$("link[rel=stylesheet]:not(:first)").attr({href : "style2.css"});
+        		}
+        		else {
+        			alert('Screen size: less than 1024x768, 800x600 maybe?');
+        			//$("link[rel=stylesheet]:not(:first)").attr({href : "style1.css"});
+        		}
+        */
+
         var lst_CMC_ID_Tokens = new Array();
 
         var tokenName = "Bitcoin";
@@ -291,11 +291,14 @@
                 lst_CMC_ID_Tokens = loadCMC_ListID_tokens();
                 list_All_CMCTokens = loadCMC_Tokens();
                 list_All_IDEXTokens = get_TokenPrice_IDEX();
+                list_All_TokenStoreTokens = get_TokenPrice_TokenStore();
+                // list_All_BinanceTokens = get_TokenPrice_Binance();
 
                 //console.log(list_All_IDEXTokens["ETH_HYDRO"]);
 
                 if (configScreener.onlineMode && configScreener.otherWallet) {
                     loadWallet_online();
+                    // console.log(lstTokens);
                 }
                 get_LocalWallet();
 
@@ -435,12 +438,12 @@
         function verifyBalances() {
             var last_balance = JSON.parse(localStorage.getItem('cs_balances'));
             changeWalletBalance();
-            let balance = currencySym + walletBalance.toFixed(decimals);
+            let balance = currencySym + walletBalance.toFixed(decimals - 4);
 
             $("#wallet_Balance").html(balance);
-			if(small_screen) {
-			//alert($("#wallet_Balance").parent().text());
-			}
+            if (small_screen) {
+                //alert($("#wallet_Balance").parent().text());
+            }
 
             if (walletBalance > last_balance.EUR) {
                 $("#wallet_Balance").addClass("badge-success");
@@ -459,6 +462,8 @@
                     var max_supply = 0;
                     var total_supply = 0;
                     var available_supply = 0;
+                    var binance_Price = 0;
+                    var binance_Symbol = "ETH" + token.symbol;
 
                     var cmc_TokenInfo = list_All_CMCTokens.filter(filterByID, (token.slug).toUpperCase());
                     var tokenInfo = cmc_TokenInfo[0];
@@ -467,6 +472,12 @@
                     } else {
                         _symbol = token.symbol;
                     }
+
+                    // if (list_All_BinanceTokens[binance_Symbol] != null) {
+                    //     //console.log(list_All_IDEXTokens[idex_Symbol]);
+                    //     binance_Price = parseFloat(list_All_TokenStoreTokens[binance_Symbol].last) * priceToken.ETH;
+                    //     console.log(token.name + " : " + list_All_TokenStoreTokens[binance_Symbol].last);
+                    // }
 
                     var tokenPrice = parseFloat(tokenInfo["price_" + currency.toLowerCase()]);
                     priceToken[token.symbol] = tokenPrice;
@@ -502,7 +513,8 @@
                         total_supply: total_supply,
                         available_supply: available_supply,
                         output_zone: "lstCoins",
-                        contract: token.contract
+                        contract: token.contract,
+                        priceBinance: binance_Price
                     };
 
                     setTokenBadge(setToken);
@@ -518,16 +530,24 @@
                 var total_supply = 0;
                 var available_supply = 0;
                 var cmc_TokenInfo = list_All_CMCTokens.filter(filterByID, (token.slug).toUpperCase());
-                var idex_Symbol = "ETH_" + token.symbol;
+                var dex_Symbol = "ETH_" + token.symbol;
                 var idex_Price = 0;
+                var forkdelta_Price = 0;
+                var tokenstore_Price = 0;
                 // console.log(idex_Symbol);
 
                 //var idex_TokenInfo = 
                 //list_All_IDEXTokens.filter(filterByID, (token.slug).toUpperCase());
-                if (list_All_IDEXTokens[idex_Symbol] != null) {
+                if (list_All_IDEXTokens[dex_Symbol] != null) {
                     //console.log(list_All_IDEXTokens[idex_Symbol]);
-                    idex_Price = parseFloat(list_All_IDEXTokens[idex_Symbol].last) * priceToken.ETH;
+                    idex_Price = parseFloat(list_All_IDEXTokens[dex_Symbol].last) * priceToken.ETH;
                 }
+                if (list_All_TokenStoreTokens[dex_Symbol] != null) {
+                    //console.log(list_All_IDEXTokens[idex_Symbol]);
+                    tokenstore_Price = parseFloat(list_All_TokenStoreTokens[dex_Symbol].last) * priceToken.ETH;
+                    console.log(token.name + " : " + list_All_TokenStoreTokens[dex_Symbol].last);
+                }
+
 
                 if (cmc_TokenInfo.length > 0) {
                     var tokenInfo = cmc_TokenInfo[0];
@@ -572,7 +592,10 @@
                         available_supply: available_supply,
                         output_zone: "lstTokens",
                         contract: token.contract,
-                        priceIdex: idex_Price
+                        priceIdex: idex_Price,
+                        priceForkDelta: forkdelta_Price,
+                        priceTokenStore: tokenstore_Price,
+                        type: token.type
                     };
 
                     setTokenBadge(setToken);
@@ -691,14 +714,14 @@
 
             // $.each()
             //$("#all_Wallets").text(localStorage.getItem('cs_balances'));
-			if(small_screen) {
-				$("#menu_telegram").hide();
-				$("#menu_wallet").hide();
-				$("#txt_balance").hide();
-				$("#txt_MC").hide();
-				$("#txt_Vol").hide();
-				$("#txt_Dom").hide();
-			}
+            if (small_screen) {
+                $("#menu_telegram").hide();
+                $("#menu_wallet").hide();
+                $("#txt_balance").hide();
+                $("#txt_MC").hide();
+                $("#txt_Vol").hide();
+                $("#txt_Dom").hide();
+            }
 
             $("#input_addEth").val(walletAddress.ETH);
 
@@ -732,6 +755,8 @@
         function setTokenBadge(token) {
             var totalWallet = token.price * token.balance;
             var totalIDEX = token.priceIdex > 0 ? token.priceIdex * token.balance : "-";
+            var totalForkDelta = token.priceForkDelta > 0 ? token.priceForkDelta * token.balance : "-";
+            var totalTokenStore = token.priceTokenStore > 0 ? token.priceTokenStore * token.balance : "-";
             walletBalance += totalWallet;
             // console.log(token);
             var affTokenName = "";
@@ -751,7 +776,7 @@
 
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // Création du ToolTip du Contract Address
-            var tooltip_contract = token.contract != "Not Token" ? "Contract: " + token.contract : "";
+            var tooltip_contract = token.contract != "Not Token" && token.contract != "" ? token.name + "&#010;Contract: " + token.contract : token.name;
 
             if (token.percent_change > 0) {
                 signChange = "+";
@@ -773,10 +798,14 @@
             tokenBadge = tokenBadge.replace(/_SHT_/gi, token.short);
             tokenBadge = tokenBadge.replace(/_S_/gi, token.symbol);
             tokenBadge = tokenBadge.replace(/_TokenP_/g, currencySym + token.price);
-            tokenBadge = tokenBadge.replace(/_WalletP_CMC_/, currencySym + totalWallet.toFixed(decimals));
+            // Affichage des prix des exchanges :
+            tokenBadge = tokenBadge.replace(/_WalletP_CMC_/, currencySym + totalWallet.toFixed(decimals - 2));
             //tokenBadge = tokenBadge.replace(/_WalletP_IDEX_/, currencySym + totalIDEX.toFixed(decimals));
-            tokenBadge = totalIDEX > 0 ? tokenBadge.replace(/_WalletP_IDEX_/, currencySym + totalIDEX.toFixed(decimals-2)) : tokenBadge.replace(/_WalletP_IDEX_/, totalIDEX);
-            tokenBadge = tokenBadge.replace(/_WalletP_TS_/, currencySym + totalWallet.toFixed(decimals));
+            tokenBadge = totalIDEX > 0 ? tokenBadge.replace(/_WalletP_IDEX_/, currencySym + totalIDEX.toFixed(decimals - 4)) : tokenBadge.replace(/_WalletP_IDEX_/, totalIDEX);
+            tokenBadge = totalForkDelta > 0 ? tokenBadge.replace(/_WalletP_ForkD_/, currencySym + totalForkDelta.toFixed(decimals - 4)) : tokenBadge.replace(/_WalletP_ForkD_/, totalForkDelta);
+            tokenBadge = totalTokenStore > 0 ? tokenBadge.replace(/_WalletP_TS_/, currencySym + totalTokenStore.toFixed(decimals - 4)) : tokenBadge.replace(/_WalletP_TS_/, totalTokenStore);
+
+
             tokenBadge = tokenBadge.replace(/_Currency_/g, currencySym);
 
             var alt_currency = currency == "EUR" || currency == "USD" ? symbol.EUR : symbol.USD;
@@ -806,8 +835,8 @@
                 case (token.percent_change <= -50):
                     dump = true;
                     badgeText = "DUMP";
-                    cl_badge = colorBadge.danger;
-                    cl_card = colorCard.warning;
+                    cl_badge = colorBadge.warning;
+                    cl_card = colorCard.danger;
                     break;
                 case (token.percent_change <= -30):
                     dump = true;
@@ -860,6 +889,16 @@
                 $("#" + token.slug + " #walletPrice_TokenStore").hide();
                 $("#" + token.slug + " #walletPrice_Idex").hide();
             }
+
+            if (totalIDEX == "-") {
+                $("#" + token.slug + " #walletPrice_Idex").hide();
+            }
+            if (totalForkDelta == "-" && totalTokenStore == "-") {
+                $("#" + token.slug + " #sep_second_dex").hide();
+                $("#" + token.slug + " #walletPrice_TokenStore").hide();
+                $("#" + token.slug + " #walletPrice_ForkDelta").hide();
+            }
+
 
             if (configScreener.graphDisplay) {
                 $("#" + token.output_zone + " .card-footer").css("display", "block");
@@ -923,13 +962,6 @@
                 // $("#bt_glMC").css("background-color", "green");
                 $("#bt_glMC").addClass("btn-success");
             }
-
-
-            // $("#curr_symb1").html(currencySym);
-            // $("#curr_symb2").html(currencySym);
-            // $("#curr_symb3").html(currencySym);
-
-
 
             if (cmcInfos.bitcoin_percentage_of_market_cap > 50) {
                 $("#bt_glBTCDom").addClass("btn-danger");
@@ -1015,13 +1047,18 @@
                     smallListCoins = [];
                     smallListTokens = [];
                     walletBalance = 0;
+
                     get_LocalWallet();
                     if (configScreener.localWallet) {
                         read_walletETH_DeltaBalances(configScreener.walletName);
                     }
+                    smallListCoins = sortTokens(smallListCoins, (configScreener.viewOrder).toLowerCase(), indexOrder);
+                    smallListTokens = sortTokens(smallListTokens, (configScreener.viewOrder).toLowerCase(), indexOrder);
+
                     clean_AllCards();
                     verifyBalances();
                 }
+
                 if (choiceButton == "Graphiques") {
                     configScreener.graphDisplay = $(this).prop("checked");
                     clean_AllCards();

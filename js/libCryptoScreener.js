@@ -263,9 +263,7 @@ function changeCurrency(type) {
     smallListCoins = sortTokens(smallListCoins, (configScreener.viewOrder).toLowerCase(), indexOrder);
     smallListTokens = sortTokens(smallListTokens, (configScreener.viewOrder).toLowerCase(), indexOrder);
 
-    $("#lstCoins").html("");
-    $("#lstTokens").html("");
-    makeCard();
+    clean_AllCards();
     verifyBalances();
 }
 
@@ -294,6 +292,11 @@ function loadWallet_online() {
 
             case "ETHEREUM":
                 value[4] = get_Balance_ETH(value[5]);
+                lstCoins[key] = value;
+                // console.log(valx);
+                break;
+            case "WAVES":
+                value[4] = get_Balance_Waves(value[5]);
                 lstCoins[key] = value;
                 // console.log(valx);
                 break;

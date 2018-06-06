@@ -104,6 +104,53 @@ function get_Balance_ArcTic(address) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Get Balance Waves Coin wallet
+function get_Balance_Waves(address) {
+    // Format : http://explorer.arcticcoin.org/ext/getbalance/address
+    var balance = 0;
+    $.ajax({
+        url: "https://api.vienna-node.eu/addresses/balance/details/" + address,
+        type: "GET",
+        dataType: 'json',
+        async: false,
+        //crossDomain: true,
+        success: function(data) {
+            balance = data.available / 100000000;
+        }
+    });
+    //get_Balance_AssetsWaves(address);
+    console.log(balance);
+    return parseFloat(balance);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Get Balance Waves Assets wallet
+function get_Balance_AssetsWaves(address) {
+    // Format : http://explorer.arcticcoin.org/ext/getbalance/address
+    var assets = 0;
+    $.ajax({
+        url: "https://api.vienna-node.eu/assets/balance/" + address,
+        type: "GET",
+        dataType: 'json',
+        async: false,
+        //crossDomain: true,
+        success: function(data) {
+            assets = data;
+
+            $.each(assets.balances, function(key, wvalue) {
+                var newvalue = 0;
+                newvalue = wvalue.balance / 10000;
+                lstTokens.push([(wvalue.issueTransaction.name).toUpperCase(), "", 0, "WAVES", newvalue]);
+                console.log(wvalue);
+            });
+
+        }
+    });
+
+    return parseFloat(assets);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Get Balance xxxx wallet
 function get_Balance_ETH(address) {
     var balance;
@@ -220,6 +267,44 @@ function get_TokenPrice_IDEX(pair) {
     $.ajax({
         url: "https://api.idex.market/returnTicker",
         type: "POST",
+        dataType: 'json',
+        async: false,
+        //crossDomain: true,
+        success: function(data) {
+            // console.log(data["ETH_SAN"]);
+            lstAllTokens = data;
+        }
+    });
+    // localStorage.setItem('cs_ETHwallet', JSON.stringify(balance));
+    return lstAllTokens;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Get Token Price on TokenStore
+function get_TokenPrice_TokenStore(pair) {
+    var lstAllTokens = new Array();
+    $.ajax({
+        url: "https://v1.api.token.store/ticker",
+        type: "GET",
+        dataType: 'json',
+        async: false,
+        //crossDomain: true,
+        success: function(data) {
+            // console.log(data["ETH_SAN"]);
+            lstAllTokens = data;
+        }
+    });
+    // localStorage.setItem('cs_ETHwallet', JSON.stringify(balance));
+    return lstAllTokens;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Get Token Price on Binance
+function get_TokenPrice_Binance(pair) {
+    var lstAllTokens = new Array();
+    $.ajax({
+        url: "https://api.binance.com/api/v3/ticker/price",
+        type: "GET",
         dataType: 'json',
         async: false,
         //crossDomain: true,

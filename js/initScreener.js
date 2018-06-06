@@ -10,6 +10,8 @@ var smallListCoins = new Array();
 var list_Wallets_Online = new Array();
 var list_All_CMCTokens = new Array();
 var list_All_IDEXTokens = new Array();
+var list_All_TokenStoreTokens = new Array();
+var list_All_BinanceTokens = new Array();
 
 ////// Variable pour : COINMARKETCAP :-------------------------------------------------------------------------------
 var cmc_urlAPI = "https://api.coinmarketcap.com/v1/ticker/";
@@ -121,52 +123,22 @@ exceptContract = [(
     /* "0x12fb5d5802c3b284761d76c3e723ea913877afba"  Token Hydro */
 )];
 
-
-/* var templateBadge = "<div id='_SLUG_' class='col-12 col-xs-6 col-sm-6 col-md-6 col-lg-3 col-xl-2'>" +
-    "<div class='card'>" +
-    "<div id='headerCard' class='card-header'>" +
-    "<div class='row'>" +
-    "<div class='col-3 col-md-3'><img class='' src='" + cmc_urlStaticIMG + "_ID_FLAG_.png' data-toggle='tooltip' title='_SUPPLY_' /></div>" +
-    "<div class='col-9 col-md-9'>" +
-    "<h6 class='card-title font-weight-bold' data-toggle='tooltip' title='_CONTRACT_'><a href='" + cmc_urlCurrencies + "_SLUG_' target='_blank'>_TOKEN_</a> <span class='small font-weight-light'><sup>_SHT_</sup></span><span id='tokenPill' class=''></span></h6>" +
-    "<p class='card-text'>_TokenP_ <span id='badgePchange' class='float-right badge'>_PChange_%</span></p>" +
-    "<p class='card-text'>" +
-    // "<span class='float-left small'><b>_NBToken_</b> _S_</span><span class='float-right small align-baseline'><b>_WalletP_CMC_</b> <img class='align-baseline' width='10' src='https://coinmarketcap.com/favicon.ico' /></span>" +
-    "<span class='float-left small'><b>_NBToken_</b> _S_</span>" +
-    "</p><hr>" +
-    "<p class='card-text'>" +
-    "<span id='walletPrice_TokenStore' class='float-left small align-baseline'><img class='align-baseline' width='10' src='https://coinmarketcap.com/favicon.ico' /> <b>_WalletP_CMC_</b></span>" +
-    "<span id='walletPrice_Idex' class='float-right small align-baseline'>_WalletP_IDEX_ <img class='align-baseline' width='10' src='https://idex.market/favicon.ico' /></span>" +
-    "</p>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    "<div class='card-body' id='rowTokenInfos'>" +
-    "<div id='rtHeaders' class='row'>" +
-    "<div class='col-3 col-md-3 text-center'><b>RANK</b></div>" +
-    "<div class='col-4 col-md-4 text-center'><b>MARKET CAP</b></div>" +
-    "<div class='col-4 col-md-4 text-center'><b>VOLUME (24H)</b></div>" +
-    "</div>" +
-    "<div id='rtDatas' class='row'>" +
-    "<div class='col-3 col-md-3 text-center'>_RANK_</div>" +
-    "<div class='col-4 col-md-4 text-center'>_CurrMCAP__MCAP_</div>" +
-    "<div class='col-4 col-md-4 text-center'>_CurrMCAP__VOLUME_</div>" +
-    "</div>" +
-    //<!-- <a href='#' class='card-link'>link</a>
-    //<a href='#' class='card-link'>link</a> -->
-    "</div>" +
-    "<div class='card-footer'>" +
-    "<div id='dayGraph' class='col-3 col-md-3 float-left'><ul class='nav flex-column'>" +
-    "<li class='nav-item'>" +
-    "<a id='graph_1d' class='nav-link small' href='#'>1d</a>" +
-    "</li>" +
-    "<li class='nav-item'>" +
-    "<a id='graph_7d' class='nav-link small badge badge-primary' href='#'>7d</a>" +
-    "</li>" + "</ul>" +
-    "</div><div class='col-9 col-md-9 float-right'>" +
-    "<img id='imgGraph' class='img-fluid mx-auto d-block' src='" + cmc_sparkLine7d + "_ID_FLAG_.png' /></div></div>" +
-    "</div>" +
-    "</div>"; */
+var all_ExternalLinks = {
+    Etherscan: "https://etherscan.io/address/",
+    Ethplorer: "https://ethplorer.io/address/",
+    DeltaBalances: "https://deltabalances.github.io/index.html#",
+    MyEtherWallet: "https://www.myetherwallet.com",
+    MyCrypto: "https://mycrypto.com",
+    NeoTracker: "https://neotracker.io/wallet",
+    WavesPlatform: "https://beta.wavesplatform.com",
+    CMC: "https://coinmarketcap.com/",
+    ForkDelta: "https://forkdelta.github.io/",
+    EtherDelta: "https://etherdelta.com/",
+    IDEX: "https://idex.market/",
+    DDEX: "https://ddex.io/trade",
+    Switcheo: "https://switcheo.exchange/",
+    MetaMask: "https://metamask.io/",
+}
 
 var cardHeader =
     "<div id='headerCard' class='card-header'>" +
@@ -180,8 +152,13 @@ var cardHeader =
     "</p>" +
     "<hr>" +
     "<p class='card-text'>" +
-    "<span id='walletPrice_TokenStore' class='float-left small align-baseline'><img class='align-baseline' width='10' src='https://coinmarketcap.com/favicon.ico' /> <b>_WalletP_CMC_</b></span>" +
-    "<span id='walletPrice_Idex' class='float-right small align-baseline'>_WalletP_IDEX_ <img class='align-baseline' width='10' src='https://idex.market/favicon.ico' /></span>" +
+    "<span id='walletPrice_CMC' data-toggle='tooltip' data-placement='right' title='Moyenne sur CoinMarketCap' class='float-left small align-baseline'><img class='align-baseline' width='10' src='https://coinmarketcap.com/favicon.ico' /> <b>_WalletP_CMC_</b></span>" +
+    "<span id='walletPrice_Idex' data-toggle='tooltip' data-placement='right' title='Moyenne sur IDEX' class='float-right small align-baseline'>_WalletP_IDEX_ <a href='" + all_ExternalLinks.IDEX + "eth/_SHT_'><img class='align-baseline' width='10' src='https://idex.market/favicon.ico' /></a></span>" +
+    "</p>" +
+    "<hr id='sep_second_dex'>" +
+    "<p class='card-text'>" +
+    "<span id='walletPrice_TokenStore' data-toggle='tooltip' data-placement='right' title='Moyenne sur TokenStore' class='float-left small align-baseline'><img class='align-baseline' width='10' src='https://token.store/favicon.ico' /> _WalletP_TS_</span>" +
+    "<span id='walletPrice_ForkDelta' data-toggle='tooltip' data-placement='right' title='Moyenne sur ForkDelta' class='float-right small align-baseline'>_WalletP_ForkD_ <img class='align-baseline' width='10' src='https://idex.market/favicon.ico' /></span>" +
     "</p>" +
     "</div>" +
     "</div>" +
@@ -229,23 +206,6 @@ var templateBadge =
     cardFooter +
     "</div>" +
     "</div>";
-
-var all_ExternalLinks = {
-    Etherscan: "https://etherscan.io/address/",
-    Ethplorer: "https://ethplorer.io/address/",
-    DeltaBalances: "https://deltabalances.github.io/index.html#",
-    MyEtherWallet: "https://www.myetherwallet.com",
-    MyCrypto: "https://mycrypto.com",
-    NeoTracker: "https://neotracker.io/wallet",
-    WavesPlatform: "https://beta.wavesplatform.com",
-    CMC: "https://coinmarketcap.com/",
-    ForkDelta: "https://forkdelta.github.io/",
-    EtherDelta: "https://etherdelta.com/",
-    IDEX: "https://idex.market/",
-    DDEX: "https://ddex.io/trade",
-    Switcheo: "https://switcheo.exchange/",
-    MetaMask: "https://metamask.io/",
-}
 
 var _history = {
     "0.54": "Ajout des Supply en tooltip, d'une gestion des log/debug, tooltip sur de nouveaux elements.",

@@ -5,7 +5,7 @@
   
     
 **Troisième essai** du dashboard de suivi des cryptos-monnaies suivant un choix défini.  
-Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les tokens ERC20, l'API de NEO et d'ArcTic. D'autres suivront suivant les besoins. 
+Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les tokens ERC20, et pleins d'autres pour les NEO, ArcTic Coin et des Waves. D'autres suivront suivant les besoins. 
    
 ### Fonctionnalités :  
   * Prise en charge de toutes les crypto-monnaies référencées par CoinMarketCap.com (price, rank, icon, marketcap, supply, ...),  
@@ -20,10 +20,12 @@ Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les to
 - [x] ArcTic Coin : [ArcTiccoin.org](http://explorer.arcticcoin.org/)  
 - [ ] LiteCoin : *à venir*   
 - [ ] BitCoin : *à venir*   
-- [ ] Waves : *à venir*   
+- [x] Waves : [PyWaves.org](http://dev.pywaves.org/)   
+- [ ] Waves Assets : *en coursr*   
 - [ ] ...   
   
 ### Dernier changement :  
+- [x] Support des wallets Waves [PyWaves.org](http://dev.pywaves.org/) et de ses tokens (?),  
 - [x] Ajout des courbes de suivi journalier ou sur 7 jours  
 - [x] Prise en charge du Wallet [NEO](https://neotracker.io/wallet) et de ses NEP-5 ainsi que du Wallet [ArcTic Coin](https://arcticcoin.org/),  
 - [x] Affichage des **Supply** du token dans une infobulle sur l'icone du token,  
