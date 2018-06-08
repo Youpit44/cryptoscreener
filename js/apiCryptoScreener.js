@@ -104,9 +104,49 @@ function get_Balance_ArcTic(address) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Get Balance LiteCoin wallet
+function get_Balance_LiteCoin(address) {
+    // Format : https://chain.so/api/v2/get_address_balance/LTC/address
+    var balance = 0;
+    $.ajax({
+        url: "https://chain.so/api/v2/get_address_balance/LTC/" + address,
+        type: "GET",
+        dataType: 'json',
+        async: false,
+        //crossDomain: true,
+        success: function(data) {
+            balance = data.data.confirmed_balance;
+        }
+    });
+    //get_Balance_AssetsWaves(address);
+    console.log(balance);
+    return parseFloat(balance);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Get Balance BridgeCoin wallet
+function get_Balance_BridgeCoin(address) {
+    // Format : https://www.coinexplorer.net/api/BCO/address/balance?address=address
+    var balance = 0;
+    $.ajax({
+        url: "https://www.coinexplorer.net/api/BCO/address/balance?address=" + address,
+        type: "GET",
+        dataType: 'json',
+        async: false,
+        //crossDomain: true,
+        success: function(data) {
+            balance = data.result;
+        }
+    });
+    //get_Balance_AssetsWaves(address);
+    console.log(balance);
+    return parseFloat(balance);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Get Balance Waves Coin wallet
 function get_Balance_Waves(address) {
-    // Format : http://explorer.arcticcoin.org/ext/getbalance/address
+    // Format : https://api.vienna-node.eu/addresses/balance/details/address
     var balance = 0;
     $.ajax({
         url: "https://api.vienna-node.eu/addresses/balance/details/" + address,
@@ -119,14 +159,14 @@ function get_Balance_Waves(address) {
         }
     });
     //get_Balance_AssetsWaves(address);
-    console.log(balance);
+    //console.log(balance);
     return parseFloat(balance);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Get Balance Waves Assets wallet
 function get_Balance_AssetsWaves(address) {
-    // Format : http://explorer.arcticcoin.org/ext/getbalance/address
+    // Format :https://api.vienna-node.eu/assets/balance/address
     var assets = 0;
     $.ajax({
         url: "https://api.vienna-node.eu/assets/balance/" + address,
@@ -174,7 +214,7 @@ function get_Balance_ETH(address) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Get Balance NEO Coin and Tokens wallet
 function get_Wallet_NEO(address) {
-    // Format : http://explorer.arcticcoin.org/ext/getbalance/address
+    // Format : https://neoscan.io/api/main_net/v1/get_balance/address
     var balance = 0;
     $.ajax({
         url: "https://neoscan.io/api/main_net/v1/get_balance/" + address,
