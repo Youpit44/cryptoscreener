@@ -143,9 +143,9 @@ var all_ExternalLinks = {
 var cardHeader =
     "<div id='headerCard' class='card-header'>" +
     "<div class='row'>" +
-    "<div class='col-3 col-md-3'><img class='' src='" + cmc_urlStaticIMG + "_ID_FLAG_.png' data-toggle='tooltip' title='_SUPPLY_' /></div>" +
+    "<div class='col-3 col-md-3'><img class='' src='" + cmc_urlStaticIMG + "_ID_FLAG_.png' data-toggle='tooltip' data-placement='left' data-html='true' data-animation='true' title='<em>_SUPPLY_</em>' /></div>" +
     "<div class='col-9 col-md-9'>" +
-    "<h6 class='card-title font-weight-bold' data-toggle='tooltip' title='_CONTRACT_'><a href='" + cmc_urlCurrencies + "_SLUG_' target='_blank'>_TOKEN_</a> <span class='small font-weight-light'><sup>_SHT_</sup></span><span id='tokenPill' class=''></span></h6>" +
+    "<h6 class='card-title font-weight-bold' data-toggle='tooltip' data-animation='true' title='_CONTRACT_'><a href='" + cmc_urlCurrencies + "_SLUG_' target='_blank'>_TOKEN_</a> <span class='small font-weight-light'><sup>_SHT_</sup></span><span id='tokenPill' class=''></span></h6>" +
     "<p class='card-text'>_TokenP_ <span id='badgePchange' class='float-right badge'>_PChange_%</span></p>" +
     "<p class='card-text'>" +
     "<span class='float-left small'><b>_NBToken_</b> _S_</span>" +

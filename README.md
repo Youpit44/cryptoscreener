@@ -18,13 +18,15 @@ Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les to
 - [x] Ethereum : [DeltaBalances.github.io](https://deltabalances.github.io/), [Ethplorer.io](https://Ethplorer.io/)  
 - [x] Neo : [NeoScan.io](https://neoscan.io)  
 - [x] ArcTic Coin : [ArcTiccoin.org](http://explorer.arcticcoin.org/)  
-- [ ] LiteCoin : *à venir*   
-- [ ] BitCoin : *à venir*   
+- [x] LiteCoin : [Chain.so](https://chain.so/)   
+- [x] BridgeCoin : [CoinExplorer.net](https://www.coinexplorer.net)   
 - [x] Waves : [PyWaves.org](http://dev.pywaves.org/)   
-- [ ] Waves Assets : *en coursr*   
+- [ ] Waves Assets : *en cours*   
+- [ ] BitCoin : *à venir*   
 - [ ] ...   
   
 ### Dernier changement :  
+- [x] Support des wallets BridgeCoin [CoinExplorer.net](https://www.coinexplorer.net) et LiteCoin [Chain.so](https://chain.so/),  
 - [x] Support des wallets Waves [PyWaves.org](http://dev.pywaves.org/) et de ses tokens (?),  
 - [x] Ajout des courbes de suivi journalier ou sur 7 jours  
 - [x] Prise en charge du Wallet [NEO](https://neotracker.io/wallet) et de ses NEP-5 ainsi que du Wallet [ArcTic Coin](https://arcticcoin.org/),  

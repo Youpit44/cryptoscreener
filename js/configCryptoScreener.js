@@ -2,11 +2,11 @@
 // LISTE DES COINS A MODIFIER
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 lstCoins.push(["BITCOIN", "coinmarketcap", 0, "", 0.10391042, ""]);
-lstCoins.push(["ETHEREUM", "coinmarketcap", 0, "", 0.3641421, "0x2a0bc682Cf0A70E4489089E550383dC9F28aF34B"]);
+lstCoins.push(["ETHEREUM", "coinmarketcap", 0, "", 0.3641421, ""]);
 lstCoins.push(["LITECOIN", "coinmarketcap", 0, "", 0.202059, ""]);
-lstCoins.push(["NEO", "coinmarketcap", 0, "", 1, "AZNU7GrAcVe5XXQaqzpyh3HmX2nVGyuthd"]);
-lstCoins.push(["ARCTICCOIN", "coinmarketcap", 0, "", 1000, "ALMZCKacYCiyuZtFWqJx6EDwdKDUe8gz9X"]);
-lstCoins.push(["WAVES", "coinmarketcap", 0, "", 0, "3P9ivqPZ9Cy75PJ6FFV4d7puR9iD2DRc7GH"]);
+lstCoins.push(["NEO", "coinmarketcap", 0, "", 1, ""]);
+lstCoins.push(["ARCTICCOIN", "coinmarketcap", 0, "", 1000, ""]);
+lstCoins.push(["WAVES", "coinmarketcap", 0, "", 0, ""]);
 lstCoins.push(["BITCOIN-PRIVATE", "coinmarketcap", 0, "", 0.00065679, ""]);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // LISTE DES TOKENS ERC20 (Ethereum) A MODIFIER
