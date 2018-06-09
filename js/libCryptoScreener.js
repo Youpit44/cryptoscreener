@@ -104,7 +104,10 @@ function processDataSimple(allText) {
 function isInt(n) {
     return n % 1 === 0;
 }
-
+	function isFloat(n){
+		return Number(n) === n && n % 1 !== 0;
+	}
+	
 function filterByName(obj) {
     if ((obj.name).toUpperCase() == (this).toUpperCase()) {
         //console.log(parseInt(obj.id));

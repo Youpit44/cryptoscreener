@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Fonctions -> CoinMarketCap (CmC)
+// Fonctions -> INIT: CoinMarketCap (CmC)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function init_CoinMarketCap_Global() {
     var cmcInfos;
@@ -38,6 +38,34 @@ function init_CoinMarketCap_Tokens() {
         }
     });
     localStorage.setItem('cs_CMCtokens', JSON.stringify(lst_CMC_All_Tokens));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Fonctions -> LOAD: CoinMarketCap (CmC)
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function loadCMC_Global() {
+	var dateConvert = new Date();
+	var cmc_Infos = [];
+	if (isTimeToGet(coolDown.cmc_global)) {
+		console.log("Load CMC General Infos");
+		// console.log("Get Last Visit : "+lastvisit + " ("+parseInt(minutes)+"min)");
+		$.ajax({
+			url: cmc_urlAPIv1.global + currency,
+			type: "GET",
+			dataType: 'json',
+			async: false,
+			//crossDomain: true,
+			success: function(data) {
+				//console.log(data);
+				cmc_Infos = data;
+			}
+		});
+	} else {
+		console.log("Read CMC General Infos");
+		cmc_Infos = JSON.parse(localStorage.getItem('cs_CMCinfos'));
+		dateConvert = convertDate(cmc_Infos.last_updated);
+	}
+    return cmc_Infos;
 }
 
 function loadCMC_Tokens() {
@@ -85,6 +113,9 @@ function loadCMC_ListID_tokens() {
     }
     return lst_CMC_ID_Tokens;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Fonctions -> GET: Balances
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Get Balance ArcTic Coin wallet
 function get_Balance_ArcTic(address) {

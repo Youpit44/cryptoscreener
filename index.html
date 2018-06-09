@@ -313,7 +313,6 @@
 
                 initScreenerConfiguration();
                 setScreenerParam();
-                info_CoinMarketCap_Global();
                 lst_CMC_ID_Tokens = loadCMC_ListID_tokens();
                 list_All_CMCTokens = loadCMC_Tokens();
                 list_All_IDEXTokens = get_TokenPrice_IDEX();
@@ -839,12 +838,13 @@
 
             tokenBadge = tokenBadge.replace(/_RANK_/, token.rank);
             tokenBadge = token.mcap != "NaN" ? tokenBadge.replace(/_MCAP_/, token.mcap) : tokenBadge.replace(/_MCAP_/, "-");
-            tokenBadge = token.mcap != "NaN" ? tokenBadge.replace(/_VOLUME_/, token.volume) : tokenBadge.replace(/_VOLUME_/, "-");
+            tokenBadge = token.volume != "NaN" ? tokenBadge.replace(/_VOLUME_/, token.volume) : tokenBadge.replace(/_VOLUME_/, "-");
             tokenBadge = tokenBadge.replace(/_SUPPLY_/g, tooltip_supply);
             tokenBadge = tokenBadge.replace(/_CONTRACT_/, tooltip_contract);
 
             // tokenBadge = tokenBadge.replace(/_PChange_/g, pricechange);
-            tokenBadge = tokenBadge.replace(/_PChange_/g, signChange + token.percent_change);
+			//console.log(token.name +" :" +token.percent_change+": " +isFloat(token.percent_change));
+            tokenBadge = isFloat(token.percent_change) ? tokenBadge.replace(/_PChange_/, signChange + token.percent_change) : tokenBadge.replace(/_PChange_/, "0");
             if (token.balance > 0 && !isInt(token.balance)) {
                 var precision = (token.balance + "").split(".")[1].length;
                 if (precision > 5) {
@@ -934,27 +934,9 @@
 
         function info_CoinMarketCap_Global() {
             //console.log(cmc_urlAPIinformation+currency);
-            var dateConvert = new Date();
-            var cmcInfos;
-            if (isTimeToGet(coolDown.cmc_global)) {
-                console.log("Load CMC General Infos");
-                // console.log("Get Last Visit : "+lastvisit + " ("+parseInt(minutes)+"min)");
-                $.ajax({
-                    url: cmc_urlAPIinformation + currency,
-                    type: "GET",
-                    dataType: 'json',
-                    async: false,
-                    //crossDomain: true,
-                    success: function(data) {
-                        //console.log(data);
-                        cmcInfos = data;
-                    }
-                });
-            } else {
-                console.log("Read CMC General Infos");
-                cmcInfos = JSON.parse(localStorage.getItem('cs_CMCinfos'));
-                dateConvert = convertDate(cmcInfos.last_updated);
-            }
+            //var dateConvert = new Date();
+            var cmcInfos = loadCMC_Global();
+
             // console.log(cmcInfos["total_market_cap_" + currency.toLowerCase()]);
             // $("#lastupdate").html(dateConvert);
             // $("#gl_MC").html(cmcInfos["total_market_cap_" + currency.toLowerCase()], 4);

@@ -21,6 +21,27 @@ var cmc_urlStatic32IMG = "https://s2.coinmarketcap.com/static/img/coins/32x32/";
 var cmc_urlAPIQuickSearch = "https://s2.coinmarketcap.com/generated/search/quick_search.json";
 var cmc_urlCurrencies = "https://coinmarketcap.com/currencies/";
 
+var cmc_urlAPIv1 = {
+	ticker: "https://api.coinmarketcap.com/v1/ticker/",
+	global: "https://api.coinmarketcap.com/v1/global/?convert=",
+	icon32: "https://s2.coinmarketcap.com/static/img/coins/32x32/",
+	icon64: "https://s2.coinmarketcap.com/static/img/coins/64x64/",
+	currencies: "https://coinmarketcap.com/currencies/",
+	quicksearch: "https://s2.coinmarketcap.com/generated/search/quick_search.json"
+}
+
+var cmc_urlAPIv2 = {
+	listing: "https://api.coinmarketcap.com/v2/listings/",
+	ticker: "https://api.coinmarketcap.com/v2/ticker/",
+	global: "https://api.coinmarketcap.com/v2/global/?convert=",
+	icon32: "https://s2.coinmarketcap.com/static/img/coins/32x32/",
+	icon64: "https://s2.coinmarketcap.com/static/img/coins/64x64/",
+	currencies: "https://coinmarketcap.com/currencies/",
+	quicksearch: "https://s2.coinmarketcap.com/generated/search/quick_search.json",
+	sparkLine1d: "https://s2.coinmarketcap.com/generated/sparklines/web/1d/usd/",
+	sparkLine7d: "https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/"
+}
+
 var cmc_sparkLine7d = "https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/";
 var cmc_sparkLine1d = "https://s2.coinmarketcap.com/generated/sparklines/web/1d/usd/";
 
