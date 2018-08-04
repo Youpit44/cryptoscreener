@@ -375,8 +375,8 @@
                                 if (tokenName.indexOf('(') > -1) {
                                     tokenName = tokenName.substring(0, tokenName.indexOf('('));
                                 }
-                                var nbTokens = values[7].split(":");
-                                var contractAddress = values[10].split(":");
+                                var nbTokens = values[10].split(":");
+                                var contractAddress = values[13].split(":");
                                 //var totalTokens = parseFloat(nbTokens[1]) * token[0].price_eur;
                                 if (((exceptTokens.indexOf(tokenName) == -1) && (exceptContract.indexOf(contractAddress[1]) == -1))) {
                                     var cmc_idToken = lst_CMC_ID_Tokens.filter(filterBySymbol, tokenName);
