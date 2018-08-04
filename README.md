@@ -9,7 +9,7 @@ Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les to
    
 ### Fonctionnalités :  
   * Prise en charge de toutes les crypto-monnaies référencées par CoinMarketCap.com (price, rank, icon, marketcap, supply, ...),  
-  * Récupération des balances des cryptos suivantes : NEO et ses NEP-5, ETH et ses ERC20, Advanced Technology Coin (ARC), (pour le moment) ....  
+  * Récupération des balances des cryptos suivantes : NEO et ses NEP-5, ETH et ses ERC20, Advanced Technology Coin (ARC), Waves, BridgeCoin, (pour le moment) ....  
   * Gestion de votre balance pour chaque crypto, calcul global de votre porte-feuille d'actifs et convertion vers EUR, USD ou BTC,  
   * Affichage au format carte suivant un tri sur le rang, le volume 24h en % et votre balance (nombre de token en votre possession),  
   * Portail de liens vers les principaux sites d'informations, d'exchanges ou de wallets.  

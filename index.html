@@ -125,16 +125,16 @@
             </ul>
             <ul class="nav nav-pills">
                 <li class="nav-item">
-                    <span class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="Balance"><span id="txt_balance">Bal: </span><span id="wallet_Balance" class="badge">0</span></span>
+                    <span id="tooltip_balance" class="btn btn-light" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Balance"><span id="txt_balance">Bal: </span><span id="wallet_Balance" class="badge">0</span></span>
                 </li>
                 <li class="nav-item">
-                    <span id="bt_glMC" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Market Cap"><span id="txt_MC">M.Cap: </span><span id="gl_MC" class="badge badge-light">0</span></span>
+                    <span id="bt_glMC" class="btn btn-info" data-toggle="tooltip" data-html="false" data-placement="bottom" title="Market Cap"><span id="txt_MC">M.Cap: </span><span id="gl_MC" class="badge badge-light">0</span></span>
                 </li>
                 <li class="nav-item">
-                    <span id="bt_glVol" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Volume sur 24h"><span id="txt_Vol">24h Vol: </span><span id="gl_Vol" class="badge badge-light">0</span></span>
+                    <span id="bt_glVol" class="btn btn-info" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Volume sur 24h"><span id="txt_Vol">24h Vol: </span><span id="gl_Vol" class="badge badge-light">0</span></span>
                 </li>
                 <li class="nav-item">
-                    <span id="bt_glBTCDom" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Dominance du Bitcoin"><span id="txt_Dom">BTC Dom: </span><span id="gl_BTCdom" class="badge badge-light">0%</span></span>
+                    <span id="bt_glBTCDom" class="btn btn-secondary" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Dominance du Bitcoin"><span id="txt_Dom">BTC Dom: </span><span id="gl_BTCdom" class="badge badge-light">0%</span></span>
                 </li>
             </ul>
             <!--<form class="form-inline my-2 my-lg-0">
@@ -215,38 +215,35 @@
             </div>
         </div>
     </div>
-	<!-- The Modal d'Affichage du Token -->
-	<div class="modal" id="modal_Token">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				
-				<!-- Modal Header -->
-				<div id="token_header" class="modal-header">
-					<h4 class="modal-title">Coin</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-				
-				<!-- Modal body -->
-				<div id="token_body" class="modal-body">
-					
-				</div>
-				
-				<!-- Modal footer -->
-				<div id="token_footer" class="modal-footer">
-				<button type="button" class="btn btn-success" data-dismiss="modal">CmC</button>
-				<button type="button" class="btn btn-warning" data-dismiss="modal">Coin Info</button>
-				<button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
-				</div>
-				
-			</div>
-		</div>
-	</div>
+    <!-- The Modal d'Affichage du Token -->
+    <div class="modal" id="modal_Token">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div id="token_header" class="modal-header">
+                    <h4 class="modal-title">Coin</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div id="token_body" class="modal-body">
+
+                </div>
+
+                <!-- Modal footer -->
+                <div id="token_footer" class="modal-footer">
+                </div>
+
+            </div>
+        </div>
+    </div>
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script> -->
     <script src="./js/jquery-3.3.1.min.js"></script>
     <!-- integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
-    <script src="./js/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="./js/popper.js/1.14.3/umd/popper.js"></script>
     <!-- integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
     <script src="./js/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <!-- integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script> -->
@@ -270,6 +267,7 @@
         */
 
         var lst_CMC_ID_Tokens = new Array();
+        var lst_NEO_ID_Tokens = {};
 
         var tokenName = "Bitcoin";
         //var currency = "€";
@@ -314,6 +312,7 @@
                 initScreenerConfiguration();
                 setScreenerParam();
                 lst_CMC_ID_Tokens = loadCMC_ListID_tokens();
+                lst_NEO_ID_Tokens = loadNEO_ListID_tokens();
                 list_All_CMCTokens = loadCMC_Tokens();
                 list_All_IDEXTokens = get_TokenPrice_IDEX();
                 list_All_TokenStoreTokens = get_TokenPrice_TokenStore();
@@ -347,7 +346,7 @@
 
 
 
-            //console.log(walletBalance);
+            console.log(lstUnkTokens);
             //makeCard();
             $('.close').alert("close");
 
@@ -389,46 +388,59 @@
                                         _tokenName = cmc_idToken[0].name;
                                         // console.log(tokenName);
                                         // console.log(cmc_idToken[0]);
-                                    } else {
-                                        _tokenName = (tokenName).toUpperCase();
-                                        _symbol = _tokenName;
-                                    }
-                                    if (contractAddress[1] != "Not a token") {
-                                        //lstGoodTokens[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(nbTokens[1]), token[0].name, token[0].price_usd, token[0].price_eur, contractAddress[1], cmc_idToken[0].id];
-                                        // if(contractAddress[1]){
-                                        //     getInfoERC20Token
-                                        // }
-                                        //smallListTokens.push([(tokenName).toUpperCase(), rankToken, idImgToken, parseFloat(nbTokens[1]), contractAddress[1]]);
-                                        var cmc_TokenInfo = list_All_CMCTokens.filter(filterByID, slug.toUpperCase());
-                                        var tokenInfo = 0;
-                                        var tokenPrice = 0;
-                                        var totalWallet = 0;
-                                        var change = 0;
-                                        if (cmc_TokenInfo.length > 0) {
-                                            tokenInfo = cmc_TokenInfo[0];
-                                            tokenPrice = parseFloat(tokenInfo["price_" + currency.toLowerCase()]);
-                                            totalWallet = tokenPrice * parseFloat(nbTokens[1]);
-                                            change = parseFloat(tokenInfo["percent_change_24h"]);
+                                        if (contractAddress[1] != "Not a token") {
+                                            //lstGoodTokens[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(nbTokens[1]), token[0].name, token[0].price_usd, token[0].price_eur, contractAddress[1], cmc_idToken[0].id];
+                                            // if(contractAddress[1]){
+                                            //     getInfoERC20Token
+                                            // }
+                                            //smallListTokens.push([(tokenName).toUpperCase(), rankToken, idImgToken, parseFloat(nbTokens[1]), contractAddress[1]]);
+                                            var cmc_TokenInfo = list_All_CMCTokens.filter(filterByID, slug.toUpperCase());
+                                            var tokenInfo = 0;
+                                            var tokenPrice = 0;
+                                            var totalWallet = 0;
+                                            var change = 0;
+                                            if (cmc_TokenInfo.length > 0) {
+                                                tokenInfo = cmc_TokenInfo[0];
+                                                tokenPrice = parseFloat(tokenInfo["price_" + currency.toLowerCase()]);
+                                                totalWallet = tokenPrice * parseFloat(nbTokens[1]);
+                                                change = parseFloat(tokenInfo["percent_change_24h"]);
+                                            }
+
+                                            smallListTokens.push({
+                                                name: _tokenName,
+                                                rank: rankToken,
+                                                symbol: _symbol,
+                                                slug: slug,
+                                                img: idImgToken,
+                                                nbtoken: parseFloat(nbTokens[1]),
+                                                contract: contractAddress[1],
+                                                wallet: "deltabalances",
+                                                "24h": change,
+                                                balance: totalWallet
+                                            });
+                                            // console.log(_tokenName + " " + tokenPrice + " " + parseFloat(nbTokens[1]) + " = " + totalWallet);
+                                        } else {
+                                            //var cmc_idToken = lst_CMC_ID_Tokens.filter(filterBySlug, (value[0]).toUpperCase());
+                                            // console.log(values);
+                                            //lstGoodCoins[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(nbTokens[1]), token[0].name, token[0].price_usd, token[0].price_eur, contractAddress[1], cmc_idToken[0].id];
+                                            // smallListCoins.push([(tokenName).toUpperCase(), rankToken, idImgToken, parseFloat(nbTokens[1]), contractAddress[1]]);
                                         }
-                                        smallListTokens.push({
-                                            name: _tokenName,
-                                            rank: rankToken,
-                                            symbol: _symbol,
-                                            slug: slug,
-                                            img: idImgToken,
-                                            nbtoken: parseFloat(nbTokens[1]),
-                                            contract: contractAddress[1],
-                                            wallet: "deltabalances",
-                                            "24h": change,
-                                            balance: totalWallet
-                                        });
-                                        // console.log(_tokenName + " " + tokenPrice + " " + parseFloat(nbTokens[1]) + " = " + totalWallet);
                                     } else {
-                                        //var cmc_idToken = lst_CMC_ID_Tokens.filter(filterBySlug, (value[0]).toUpperCase());
-                                        // console.log(values);
-                                        //lstGoodCoins[token[0].rank] = [token[0].id, token[0].symbol, token[0].rank, token[0].price_btc, token[0]["percent_change_24h"], token[0].market_cap_usd, token[0]["24h_volume_usd"], parseFloat(nbTokens[1]), token[0].name, token[0].price_usd, token[0].price_eur, contractAddress[1], cmc_idToken[0].id];
-                                        // smallListCoins.push([(tokenName).toUpperCase(), rankToken, idImgToken, parseFloat(nbTokens[1]), contractAddress[1]]);
+                                        lstUnkTokens.push([(tokenName).toUpperCase(), "ERC20", 0, contractAddress[1], parseFloat(nbTokens[1])]);
+                                        // lstUnkTokens.push({
+                                        //     name: _tokenName,
+                                        //     rank: 0,
+                                        //     symbol: _symbol,
+                                        //     slug: "-",
+                                        //     img: 0,
+                                        //     nbtoken: parseFloat(nbTokens[1]),
+                                        //     contract: contractAddress[1],
+                                        //     wallet: "deltabalances",
+                                        //     "24h": 0,
+                                        //     balance: 0
+                                        // });
                                     }
+
                                     // console.log(cmc_idToken);
                                 }
                             }
@@ -466,9 +478,9 @@
             let balance = currencySym + walletBalance.toFixed(decimals - 4);
 
             $("#wallet_Balance").html(balance);
-            if (small_screen) {
-                //alert($("#wallet_Balance").parent().text());
-            }
+            // if (small_screen) {
+            //alert($("#wallet_Balance").parent().text());
+            // }
 
             if (walletBalance > last_balance.EUR) {
                 $("#wallet_Balance").addClass("badge-success");
@@ -546,6 +558,7 @@
                     // console.log(cmc_TokenInfo[0]);
                     //console.log(cmc_TokenInfo);
                 }
+
             });
 
             console.log("Load: " + smallListTokens.length + " Tokens");
@@ -570,7 +583,7 @@
                 if (list_All_TokenStoreTokens[dex_Symbol] != null) {
                     //console.log(list_All_IDEXTokens[idex_Symbol]);
                     tokenstore_Price = parseFloat(list_All_TokenStoreTokens[dex_Symbol].last) * priceToken.ETH;
-                    console.log(token.name + " : " + list_All_TokenStoreTokens[dex_Symbol].last);
+                    //console.log(token.name + " : " + list_All_TokenStoreTokens[dex_Symbol].last);
                 }
 
 
@@ -628,6 +641,7 @@
                 // console.log(cmc_TokenInfo[0]);
                 // console.log(cmc_TokenInfo);
             });
+            logInfo("Actifs " + smallListCoins.length + " Coins et " + smallListTokens.length + " Tokens | Inactifs " + lstUnkTokens.length + " Tokens inconnus", "Porte-feuille")
         }
 
         function get_LocalWallet() {
@@ -779,9 +793,9 @@
 
         function setTokenBadge(token) {
             var totalWallet = token.price * token.balance;
-            var totalIDEX = token.priceIdex > 0 ? token.priceIdex * token.balance : "-";
-            var totalForkDelta = token.priceForkDelta > 0 ? token.priceForkDelta * token.balance : "-";
-            var totalTokenStore = token.priceTokenStore > 0 ? token.priceTokenStore * token.balance : "-";
+            var totalIDEX = token.priceIdex > 0 ? token.priceIdex * token.balance : 0;
+            var totalForkDelta = token.priceForkDelta > 0 ? token.priceForkDelta * token.balance : 0;
+            var totalTokenStore = token.priceTokenStore > 0 ? token.priceTokenStore * token.balance : 0;
             walletBalance += totalWallet;
             // console.log(token);
             var affTokenName = "";
@@ -824,10 +838,24 @@
             tokenBadge = tokenBadge.replace(/_S_/gi, token.symbol);
             tokenBadge = tokenBadge.replace(/_TokenP_/g, currencySym + token.price);
             // Affichage des prix des exchanges :
-            tokenBadge = tokenBadge.replace(/_WalletP_CMC_/, currencySym + totalWallet.toFixed(decimals - 2));
-            //tokenBadge = tokenBadge.replace(/_WalletP_IDEX_/, currencySym + totalIDEX.toFixed(decimals));
-            tokenBadge = totalIDEX > 0 ? tokenBadge.replace(/_WalletP_IDEX_/, currencySym + totalIDEX.toFixed(decimals - 4)) : tokenBadge.replace(/_WalletP_IDEX_/, totalIDEX);
-            tokenBadge = totalForkDelta > 0 ? tokenBadge.replace(/_WalletP_ForkD_/, currencySym + totalForkDelta.toFixed(decimals - 4)) : tokenBadge.replace(/_WalletP_ForkD_/, totalForkDelta);
+            var maxPrice = Math.max(totalWallet, totalIDEX, totalForkDelta, totalTokenStore);
+            console.log(token.name + " :" + maxPrice);
+            if (maxPrice == totalWallet) {
+                tokenBadge = tokenBadge.replace(/_WalletP_CMC_/, "<b>" + currencySym + totalWallet.toFixed(decimals - 2) + "</b>");
+                //tokenBadge = tokenBadge.replace(/_WalletP_IDEX_/, currencySym + totalIDEX.toFixed(decimals));
+            } else {
+                tokenBadge = tokenBadge.replace(/_WalletP_CMC_/, currencySym + totalWallet.toFixed(decimals - 2));
+            }
+            if (maxPrice == totalIDEX) {
+                tokenBadge = totalIDEX > 0 ? tokenBadge.replace(/_WalletP_IDEX_/, "<b>" + currencySym + totalIDEX.toFixed(decimals - 4) + "</b>") : tokenBadge.replace(/_WalletP_IDEX_/, totalIDEX);
+            } else {
+                tokenBadge = totalIDEX > 0 ? tokenBadge.replace(/_WalletP_IDEX_/, currencySym + totalIDEX.toFixed(decimals - 4)) : tokenBadge.replace(/_WalletP_IDEX_/, totalIDEX);
+            }
+            if (maxPrice == totalForkDelta) {
+                tokenBadge = totalForkDelta > 0 ? tokenBadge.replace(/_WalletP_ForkD_/, "<b>" + currencySym + totalForkDelta.toFixed(decimals - 4) + "</b>") : tokenBadge.replace(/_WalletP_ForkD_/, totalForkDelta);
+            } else {
+                tokenBadge = totalForkDelta > 0 ? tokenBadge.replace(/_WalletP_ForkD_/, currencySym + totalForkDelta.toFixed(decimals - 4)) : tokenBadge.replace(/_WalletP_ForkD_/, totalForkDelta);
+            }
             tokenBadge = totalTokenStore > 0 ? tokenBadge.replace(/_WalletP_TS_/, currencySym + totalTokenStore.toFixed(decimals - 4)) : tokenBadge.replace(/_WalletP_TS_/, totalTokenStore);
 
 
@@ -843,7 +871,7 @@
             tokenBadge = tokenBadge.replace(/_CONTRACT_/, tooltip_contract);
 
             // tokenBadge = tokenBadge.replace(/_PChange_/g, pricechange);
-			//console.log(token.name +" :" +token.percent_change+": " +isFloat(token.percent_change));
+            //console.log(token.name +" :" +token.percent_change+": " +isFloat(token.percent_change));
             tokenBadge = isFloat(token.percent_change) ? tokenBadge.replace(/_PChange_/, signChange + token.percent_change) : tokenBadge.replace(/_PChange_/, "0");
             if (token.balance > 0 && !isInt(token.balance)) {
                 var precision = (token.balance + "").split(".")[1].length;
@@ -916,15 +944,23 @@
                 $("#" + token.slug + " #walletPrice_Idex").hide();
             }
 
-            if (totalIDEX == "-") {
+            if (totalIDEX == 0) {
                 $("#" + token.slug + " #walletPrice_Idex").hide();
             }
-            if (totalForkDelta == "-" && totalTokenStore == "-") {
+            if (totalForkDelta == 0) {
+                $("#" + token.slug + " #walletPrice_ForkDelta").hide();
+            }
+            if (totalForkDelta == 0 && totalTokenStore == 0) {
                 $("#" + token.slug + " #sep_second_dex").hide();
                 $("#" + token.slug + " #walletPrice_TokenStore").hide();
                 $("#" + token.slug + " #walletPrice_ForkDelta").hide();
             }
 
+            // verify if img loaded 
+            $("#" + token.slug + " #sparklineoned").on("error", function() {
+                $("#" + token.slug + " #sparklineoned").hide();
+                $("#" + token.slug + " #toggle_1d").hide();
+            });
 
             if (configScreener.graphDisplay) {
                 $("#" + token.output_zone + " .card-footer").css("display", "block");
@@ -940,7 +976,12 @@
             // console.log(cmcInfos["total_market_cap_" + currency.toLowerCase()]);
             // $("#lastupdate").html(dateConvert);
             // $("#gl_MC").html(cmcInfos["total_market_cap_" + currency.toLowerCase()], 4);
+            var tooltip = "MarketCap USD: " + nFormatter(cmcInfos["total_market_cap_usd"], 4) + " | " +
+                "MarketCap EUR: " + nFormatter(cmcInfos["total_market_cap_eur"], 4);
+
             $("#gl_MC").html(currencySym + nFormatter(cmcInfos["total_market_cap_" + currency.toLowerCase()], 4));
+            $("#bt_glMC").attr("title", tooltip);
+            $("#bt_glMC").attr("data-html", "true");
             $("#gl_Vol").html(currencySym + nFormatter(cmcInfos["total_24h_volume_" + currency.toLowerCase()], 4));
 
 
@@ -978,6 +1019,71 @@
             }
 
             $("#gl_BTCdom").html(cmcInfos.bitcoin_percentage_of_market_cap + "%");
+
+            // var dateConvert = convertDate(cmcInfos.last_updated);
+
+
+        }
+
+        function info_CoinMarketCap_Globalv2() {
+            //console.log(cmc_urlAPIinformation+currency);
+            //var dateConvert = new Date();
+            var cmcInfos = loadCMC_Globalv2();
+
+            console.log(cmcInfos);
+            //var active_cryptocurrencies = cmcInfos.active_cryptocurrencies;
+            var mcapUSD = cmcInfos.quotes.USD.total_market_cap;
+            var volumeUSD = cmcInfos.quotes.USD.total_volume_24h;
+            var mcapEUR = cmcInfos.quotes.EUR.total_market_cap;
+            var volumeEUR = cmcInfos.quotes.EUR.total_volume_24h;
+            var domBTC = cmcInfos.bitcoin_percentage_of_market_cap;
+
+            // console.log(cmcInfos["total_market_cap_" + currency.toLowerCase()]);
+            // $("#lastupdate").html(dateConvert);
+            // $("#gl_MC").html(cmcInfos["total_market_cap_" + currency.toLowerCase()], 4);
+            var tooltip = "MarketCap USD: " + nFormatter(mcapUSD, 4) + " | " +
+                "MarketCap EUR: " + nFormatter(mcapEUR, 4);
+
+            $("#gl_MC").html(currencySym + nFormatter(mcapEUR, 4));
+            $("#bt_glMC").attr("title", tooltip);
+            $("#bt_glMC").attr("data-html", "true");
+            $("#gl_Vol").html(currencySym + nFormatter(volumeEUR, 4));
+
+
+            if (volumeEUR < 10000000000) {
+                $("#bt_glVol").addClass("btn-danger");
+                // $("#bt_glVol").css("color", "white");
+            } else if (volumeEUR >= 10000000000 && volumeEUR <= 20000000000) {
+                $("#bt_glVol").addClass("btn-danger");
+            } else if (volumeEUR >= 30000000000 && volumeEUR < 35000000000) {
+                $("#bt_glVol").addClass("btn-success");
+            } else if (volumeEUR >= 35000000000) {
+                $("#bt_glVol").addClass("btn-success");
+                // $("#bt_glVol").css("color", "white");
+            }
+
+            // $("#gl_MC").html(nFormatter(cmcInfos.total_market_cap_eur, 4)); 282843326504
+            if (mcapEUR < 100000000000) {
+                $("#bt_glMC").addClass("btn-danger");
+                // $("#bt_glMC").css("color", "white");
+            } else if (mcapEUR >= 100000000000 && mcapEUR <= 200000000000) {
+                // $("#cmc_mc").css("background-color", "green");
+                $("#bt_glMC").addClass("btn-danger");
+            } else if (mcapEUR >= 300000000000 && mcapEUR < 350000000000) {
+                // $("#cmc_mc").css("background-color", "green");
+                $("#bt_glMC").addClass("btn-success");
+            } else if (mcapEUR >= 350000000000) {
+                // $("#bt_glMC").css("background-color", "green");
+                $("#bt_glMC").addClass("btn-success");
+            }
+
+            if (domBTC > 50) {
+                $("#bt_glBTCDom").addClass("btn-danger");
+            } else {
+                $("#bt_glBTCDom").addClass("btn-success");
+            }
+
+            $("#gl_BTCdom").html(domBTC + "%");
 
             // var dateConvert = convertDate(cmcInfos.last_updated);
 

@@ -13,6 +13,7 @@ var list_All_IDEXTokens = new Array();
 var list_All_TokenStoreTokens = new Array();
 var list_All_BinanceTokens = new Array();
 
+
 ////// Variable pour : COINMARKETCAP :-------------------------------------------------------------------------------
 var cmc_urlAPI = "https://api.coinmarketcap.com/v1/ticker/";
 var cmc_urlAPIinformation = "https://api.coinmarketcap.com/v1/global/?convert=";
@@ -22,24 +23,30 @@ var cmc_urlAPIQuickSearch = "https://s2.coinmarketcap.com/generated/search/quick
 var cmc_urlCurrencies = "https://coinmarketcap.com/currencies/";
 
 var cmc_urlAPIv1 = {
-	ticker: "https://api.coinmarketcap.com/v1/ticker/",
-	global: "https://api.coinmarketcap.com/v1/global/?convert=",
-	icon32: "https://s2.coinmarketcap.com/static/img/coins/32x32/",
-	icon64: "https://s2.coinmarketcap.com/static/img/coins/64x64/",
-	currencies: "https://coinmarketcap.com/currencies/",
-	quicksearch: "https://s2.coinmarketcap.com/generated/search/quick_search.json"
+    ticker: "https://api.coinmarketcap.com/v1/ticker/",
+    global: "https://api.coinmarketcap.com/v1/global/?convert=",
+    icon32: "https://s2.coinmarketcap.com/static/img/coins/32x32/",
+    icon64: "https://s2.coinmarketcap.com/static/img/coins/64x64/",
+    currencies: "https://coinmarketcap.com/currencies/",
+    quicksearch: "https://s2.coinmarketcap.com/generated/search/quick_search.json"
 }
 
 var cmc_urlAPIv2 = {
-	listing: "https://api.coinmarketcap.com/v2/listings/",
-	ticker: "https://api.coinmarketcap.com/v2/ticker/",
-	global: "https://api.coinmarketcap.com/v2/global/?convert=",
-	icon32: "https://s2.coinmarketcap.com/static/img/coins/32x32/",
-	icon64: "https://s2.coinmarketcap.com/static/img/coins/64x64/",
-	currencies: "https://coinmarketcap.com/currencies/",
-	quicksearch: "https://s2.coinmarketcap.com/generated/search/quick_search.json",
-	sparkLine1d: "https://s2.coinmarketcap.com/generated/sparklines/web/1d/usd/",
-	sparkLine7d: "https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/"
+    listing: "https://api.coinmarketcap.com/v2/listings/",
+    ticker: "https://api.coinmarketcap.com/v2/ticker/",
+    global: "https://api.coinmarketcap.com/v2/global/?convert=",
+    icon32: "https://s2.coinmarketcap.com/static/img/coins/32x32/",
+    icon64: "https://s2.coinmarketcap.com/static/img/coins/64x64/",
+    currencies: "https://coinmarketcap.com/currencies/",
+    quicksearch: "https://s2.coinmarketcap.com/generated/search/quick_search.json",
+    sparkLine1d: "https://s2.coinmarketcap.com/generated/sparklines/web/1d/usd/",
+    sparkLine7d: "https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/"
+}
+
+var neo_urlAPIv1 = {
+    listing: "https://neoscan.io/api/main_net/v1/get_assets",
+    /* balance: "https://neoscan.io/api/main_net/v1/get_balance/" */
+    balance: "https://api.neoscan.io/api/main_net/v1/get_balance/"
 }
 
 var cmc_sparkLine7d = "https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/";
@@ -99,8 +106,17 @@ var walletBalances = {
 
 var lastvisit = new Date();
 var coolDown = {
+    global: 600,
+    /* 10min */
+    maj: 30000,
+    /* 20 jours */
+    balance: 86400,
+    /* 1 jour */
     cmc_global: 300,
-    cmc_tokens: 300
+    /* 5min */
+    cmc_tokens: 300,
+    /* 5min */
+    neo_tokens: 86400 /* 1 jour */
 };
 
 var configScreener = {
@@ -113,7 +129,7 @@ var configScreener = {
     walletName: "tokens.csv",
     graphDisplay: true,
     graphMode: "7d",
-    version: 0.54
+    version: 0.55
 };
 
 var colorBadge = {
@@ -164,17 +180,17 @@ var all_ExternalLinks = {
 var cardHeader =
     "<div id='headerCard' class='card-header'>" +
     "<div class='row'>" +
-    "<div class='col-3 col-md-3' data-toggle='modal' data-target='#modal_Token'><img class='' src='" + cmc_urlStaticIMG + "_ID_FLAG_.png' data-toggle='tooltip' title='_SUPPLY_' /></div>" +
+    "<div class='col-3 col-md-3' data-toggle='modal' data-target='#modal_Token'><img class='' src='" + cmc_urlStaticIMG + "_ID_FLAG_.png' data-toggle='tooltip' data-html='true' title='_SUPPLY_' /></div>" +
     "<div class='col-9 col-md-9'>" +
-    "<h6 class='card-title font-weight-bold' data-toggle='tooltip' title='_CONTRACT_'><a href='" + cmc_urlCurrencies + "_SLUG_' target='_blank'>_TOKEN_</a> <span class='small font-weight-light'><sup>_SHT_</sup></span><span id='tokenPill' class=''></span></h6>" +
+    "<h6 class='card-title font-weight-bold' data-toggle='tooltip' data-html='true' title='_CONTRACT_'><a href='" + cmc_urlCurrencies + "_SLUG_' target='_blank'>_TOKEN_</a> <span class='small font-weight-light'><sup>_SHT_</sup></span><span id='tokenPill' class=''></span></h6>" +
     "<p class='card-text'>_TokenP_ <span id='badgePchange' class='float-right badge'>_PChange_%</span></p>" +
     "<p class='card-text'>" +
     "<span class='float-left small'><b>_NBToken_</b> _S_</span>" +
     "</p>" +
     "<hr>" +
     "<p class='card-text'>" +
-    "<span id='walletPrice_CMC' data-toggle='tooltip' data-placement='right' title='Moyenne sur CoinMarketCap' class='float-left small align-baseline'><img class='align-baseline' width='10' src='https://coinmarketcap.com/favicon.ico' /> <b>_WalletP_CMC_</b></span>" +
-    "<span id='walletPrice_Idex' data-toggle='tooltip' data-placement='right' title='Moyenne sur IDEX' class='float-right small align-baseline'>_WalletP_IDEX_ <a href='" + all_ExternalLinks.IDEX + "eth/_SHT_'><img class='align-baseline' width='10' src='https://idex.market/favicon.ico' /></a></span>" +
+    "<span id='walletPrice_CMC' data-toggle='tooltip' data-placement='right' title='Moyenne sur CoinMarketCap' class='float-left small align-baseline'><img class='align-baseline' width='10' src='https://coinmarketcap.com/favicon.ico' /> _WalletP_CMC_</span>" +
+    "<span id='walletPrice_Idex' data-toggle='tooltip' data-placement='right' title='Moyenne sur IDEX' class='float-right small align-baseline'>_WalletP_IDEX_ <a href='" + all_ExternalLinks.IDEX + "eth/_SHT_'><img class='align-baseline' width='10' src='https://s2.coinmarketcap.com/static/img/exchanges/32x32/310.png' /></a></span>" +
     "</p>" +
     "<hr id='sep_second_dex'>" +
     "<p class='card-text'>" +
@@ -202,22 +218,27 @@ var cardFooter =
     "<div class='row'>" +
     "<div class='col-3'>" +
     "<div class='nav flex-column nav-pills' role='tablist' aria-orientation='vertical'>" +
-    "<a class='nav-link small' data-toggle='pill' href='#onday_SLUG_' role='tab' aria-controls='v-pills-profile' aria-selected='false' style='padding:2px;text-align:center;'>1d</a>" +
-    "<a class='nav-link small active' data-toggle='pill' href='#sevendays_SLUG_' role='tab' aria-controls='v-pills-profile' aria-selected='true' style='padding:2px;text-align:center;'>7d</a>" +
+    "<a class='nav-link small' id='toggle_1d' data-toggle='pill' href='#onday_SLUG_' role='tab' aria-controls='v-pills-profile' aria-selected='false' style='padding:2px;text-align:center;'>1d</a>" +
+    "<a class='nav-link small active' id='toggle_7d' data-toggle='pill' href='#sevendays_SLUG_' role='tab' aria-controls='v-pills-profile' aria-selected='true' style='padding:2px;text-align:center;'>7d</a>" +
     "</div>" +
     "</div>" +
     "<div class='col-9' style='padding-left:0px;'>" +
     "<div class='tab-content'>" +
     "<div class='tab-pane fade' id='onday_SLUG_' role='tabpanel'>" +
-    "<img class='img-fluid mx-auto d-block' style='padding-top:5px;padding-bottom:5px;' alt='No Graph' src='" + cmc_sparkLine1d + "_ID_FLAG_.png' />" +
+    "<img id='sparklineoned' class='img-fluid mx-auto d-block' style='padding-top:5px;padding-bottom:5px;' alt='No Graph' src='" + cmc_sparkLine1d + "_ID_FLAG_.png' />" +
     "</div>" +
     "<div class='tab-pane fade show active' id='sevendays_SLUG_' role='tabpanel'>" +
-    "<img class='img-fluid mx-auto d-block' style='padding-top:5px;padding-bottom:5px;' alt='No Graph' src='" + cmc_sparkLine7d + "_ID_FLAG_.png' />" +
+    "<img id='sparklinesevend' class='img-fluid mx-auto d-block' style='padding-top:5px;padding-bottom:5px;' alt='No Graph' src='" + cmc_sparkLine7d + "_ID_FLAG_.png' />" +
     "</div>" +
     "</div>" +
     "</div>" +
     "</div>" +
     "</div>";
+
+var popupBody = "";
+var popupFooter = "<button type='button' class='btn btn-success' data-dismiss='modal'>CmC</button>" +
+    "<button type='button' class='btn btn-warning' data-dismiss='modal'>Coin Info</button>" +
+    "<button type='button' class='btn btn-danger' data-dismiss='modal'>Fermer</button>";
 
 var templateBadge =
     "<div id='_SLUG_' class='col-12 col-xs-6 col-sm-6 col-md-6 col-lg-3 col-xl-2'>" +

@@ -1,4 +1,5 @@
 function initScreenerConfiguration() {
+    logInfo("Chargement de la configuration...", "Initialisation");
     configScreener = JSON.parse(localStorage.getItem('cs_configuration'));
     walletAddress = JSON.parse(localStorage.getItem('cs_wallets'));
     // localStorage.clear();
@@ -26,7 +27,11 @@ function initScreenerConfiguration() {
     var diff = new Date(new Date() - lastvisit);
     var minutes = diff.getTime() / 1000 / 60;
     //console.log("Get Last Visit : " + lastvisit + " (" + parseInt(minutes) + "min)");
-    logInfo(lastvisit + " (" + parseInt(minutes) + "min)", "Get Last Visit");
+    if (minutes > coolDown.global) {
+        //localStorage.setItem('cs_lastvisit', JSON.stringify(new Date()));
+        //     console.log("Init Last Visit");
+    }
+    logInfo(lastvisit + " (" + parseInt(minutes) + "min)", "Dernière vérification");
     // console.log(lastvisit);
     // }
 }
@@ -104,10 +109,11 @@ function processDataSimple(allText) {
 function isInt(n) {
     return n % 1 === 0;
 }
-	function isFloat(n){
-		return Number(n) === n && n % 1 !== 0;
-	}
-	
+
+function isFloat(n) {
+    return Number(n) === n && n % 1 !== 0;
+}
+
 function filterByName(obj) {
     if ((obj.name).toUpperCase() == (this).toUpperCase()) {
         //console.log(parseInt(obj.id));
@@ -190,7 +196,10 @@ function isReady() {
     if (localStorage.getItem("cs_CMClistID") === null) {
         ready = false;
     }
-    if (localStorage.getItem("cs_CMCinfos") === null) {
+    if (localStorage.getItem("cs_CMClistID") === null) {
+        ready = false;
+    }
+    if (localStorage.getItem("cs_NEOlistID") === null) {
         ready = false;
     }
     if (localStorage.getItem("cs_CMCtokens") === null) {
@@ -225,6 +234,11 @@ function install_CryptoScreener() {
     if (localStorage.getItem("cs_CMClistID") === null) {
         init_CoinMarketCap_ListID_tokens();
         logInfo("CMC Search Infos", "Init");
+        ready = true;
+    }
+    if (localStorage.getItem("cs_NEOlistID") === null) {
+        init_NEO_ListID_tokens();
+        logInfo("NEO Search Infos", "Init");
         ready = true;
     }
     if (localStorage.getItem("cs_CMCinfos") === null) {
@@ -262,7 +276,7 @@ function changeCurrency(type) {
     // console.log("Set New Configuration v" + configScreener.version);
     logInfo("Change Default Currency " + old_currency + " to " + currency);
     // console.log("Change Default Currency " + old_currency + " to " + currency);
-    info_CoinMarketCap_Global();
+    info_CoinMarketCap_Globalv2();
     smallListCoins = sortTokens(smallListCoins, (configScreener.viewOrder).toLowerCase(), indexOrder);
     smallListTokens = sortTokens(smallListTokens, (configScreener.viewOrder).toLowerCase(), indexOrder);
 

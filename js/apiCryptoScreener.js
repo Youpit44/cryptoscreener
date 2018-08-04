@@ -39,32 +39,76 @@ function init_CoinMarketCap_Tokens() {
     });
     localStorage.setItem('cs_CMCtokens', JSON.stringify(lst_CMC_All_Tokens));
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Fonctions -> INIT: CoinMarketCap (CmC)
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function init_NEO_ListID_tokens() {
+    //https://s2.coinmarketcap.com/generated/search/quick_search.json
+    var lst_NEO_ID_Tokens;
+    $.ajax({
+        url: neo_urlAPIv1.listing,
+        type: "GET",
+        dataType: 'json',
+        async: false,
+        //crossDomain: true,
+        success: function(data) {
+            lst_NEO_ID_Tokens = data;
+        }
+    });
+    localStorage.setItem('cs_NEOlistID', JSON.stringify(lst_NEO_ID_Tokens));
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Fonctions -> LOAD: CoinMarketCap (CmC)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function loadCMC_Global() {
-	var dateConvert = new Date();
-	var cmc_Infos = [];
-	if (isTimeToGet(coolDown.cmc_global)) {
-		console.log("Load CMC General Infos");
-		// console.log("Get Last Visit : "+lastvisit + " ("+parseInt(minutes)+"min)");
-		$.ajax({
-			url: cmc_urlAPIv1.global + currency,
-			type: "GET",
-			dataType: 'json',
-			async: false,
-			//crossDomain: true,
-			success: function(data) {
-				//console.log(data);
-				cmc_Infos = data;
-			}
-		});
-	} else {
-		console.log("Read CMC General Infos");
-		cmc_Infos = JSON.parse(localStorage.getItem('cs_CMCinfos'));
-		dateConvert = convertDate(cmc_Infos.last_updated);
-	}
+    var dateConvert = new Date();
+    var cmc_Infos = [];
+    if (isTimeToGet(coolDown.cmc_global)) {
+        console.log("Load CMC General Infos");
+        // console.log("Get Last Visit : "+lastvisit + " ("+parseInt(minutes)+"min)");
+        $.ajax({
+            url: cmc_urlAPIv1.global + currency,
+            type: "GET",
+            dataType: 'json',
+            async: false,
+            //crossDomain: true,
+            success: function(data) {
+                //console.log(data);
+                cmc_Infos = data;
+            }
+        });
+    } else {
+        console.log("Read CMC General Infos");
+        cmc_Infos = JSON.parse(localStorage.getItem('cs_CMCinfos'));
+        dateConvert = convertDate(cmc_Infos.last_updated);
+    }
+    return cmc_Infos;
+}
+
+function loadCMC_Globalv2() {
+    var dateConvert = new Date();
+    var cmc_Infos = [];
+    if (isTimeToGet(coolDown.cmc_global)) {
+        console.log("Load CMC General Infos v2");
+        // console.log("Get Last Visit : "+lastvisit + " ("+parseInt(minutes)+"min)");
+        $.ajax({
+            url: cmc_urlAPIv2.global + currency,
+            type: "GET",
+            dataType: 'json',
+            async: false,
+            //crossDomain: true,
+            success: function(data) {
+                //console.log(data);
+                cmc_Infos = data.data;
+            }
+        });
+        localStorage.setItem('cs_CMCinfos', JSON.stringify(cmc_Infos));
+    } else {
+        console.log("Read CMC General Infos v2");
+        cmc_Infos = JSON.parse(localStorage.getItem('cs_CMCinfos'));
+        dateConvert = convertDate(cmc_Infos.last_updated);
+    }
     return cmc_Infos;
 }
 
@@ -113,6 +157,35 @@ function loadCMC_ListID_tokens() {
     }
     return lst_CMC_ID_Tokens;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Fonctions -> LOAD: NEO (NeoScan.io)
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function loadNEO_ListID_tokens() {
+    //https://s2.coinmarketcap.com/generated/search/quick_search.json
+    var lst_NEO_ID_Tokens;
+    if (isTimeToGet(coolDown.neo_tokens)) {
+        console.log("Load NEO Search Infos");
+        $.ajax({
+            url: neo_urlAPIv1.listing,
+            type: "GET",
+            dataType: 'json',
+            async: false,
+            //crossDomain: true,
+            success: function(data) {
+                //console.log(data);
+                lst_NEO_ID_Tokens = data;
+            }
+        });
+        localStorage.setItem('cs_NEOlistID', JSON.stringify(lst_NEO_ID_Tokens));
+    } else {
+        console.log("Read NEO Search Infos");
+        lst_NEO_ID_Tokens = JSON.parse(localStorage.getItem('cs_NEOlistID'));
+        // console.log(listAllTokens);
+    }
+    return lst_NEO_ID_Tokens;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Fonctions -> GET: Balances
@@ -248,7 +321,7 @@ function get_Wallet_NEO(address) {
     // Format : https://neoscan.io/api/main_net/v1/get_balance/address
     var balance = 0;
     $.ajax({
-        url: "https://neoscan.io/api/main_net/v1/get_balance/" + address,
+        url: neo_urlAPIv1.balance + address,
         type: "GET",
         dataType: 'json',
         async: false,
@@ -275,38 +348,53 @@ function get_Wallet_NEO(address) {
                         coinmarketcap = "coinmarketcap";
                         break;
                     case "Ontology Token":
-                        newvalue = uvalue.amount / 100000000;
+                        newvalue = uvalue.amount;
                         tokenName = "ONTOLOGY";
                         coinmarketcap = "coinmarketcap";
                         break;
                     case "CPX Token":
-                        newvalue = uvalue.amount / 100000000;
+                        newvalue = uvalue.amount;
                         tokenName = "APEX";
                         coinmarketcap = "coinmarketcap";
                         break;
                     case "Switcheo":
-                        newvalue = uvalue.amount / 100000000;
+                        newvalue = uvalue.amount;
                         tokenName = "SWITCHEO";
                         coinmarketcap = "coinmarketcap";
                         break;
                     case "Galaxy Token":
-                        newvalue = uvalue.amount / 100000000;
+                        newvalue = uvalue.amount;
                         tokenName = "Galaxy";
                         coinmarketcap = "coinmarketcap";
                         break;
                     case "Aphelion":
-                        newvalue = uvalue.amount / 100000000;
+                        newvalue = uvalue.amount;
                         tokenName = "Aphelion";
                         coinmarketcap = "coinmarketcap";
                         break;
                     case "Zeepin Token":
-                        newvalue = uvalue.amount / 100000000;
+                        newvalue = uvalue.amount;
                         tokenName = "ZEEPIN";
                         coinmarketcap = "coinmarketcap";
                         break;
                     case "Phantasma":
-                        newvalue = uvalue.amount / 100000000;
+                        newvalue = uvalue.amount;
                         tokenName = "Phantasma";
+                        coinmarketcap = "coinmarketcap";
+                        break;
+                    case "Quarteria Token":
+                        newvalue = uvalue.amount;
+                        tokenName = "Quarteria";
+                        coinmarketcap = "coinmarketcap";
+                        break;
+                    case "Master Contract Token":
+                        newvalue = uvalue.amount;
+                        tokenName = "Master-Contract-Token";
+                        coinmarketcap = "coinmarketcap";
+                        break;
+                    case "THEKEY Token":
+                        newvalue = uvalue.amount;
+                        tokenName = "THEKEY";
                         coinmarketcap = "coinmarketcap";
                         break;
                     default:
