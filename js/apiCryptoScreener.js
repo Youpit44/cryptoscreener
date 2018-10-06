@@ -162,28 +162,30 @@ function loadCMC_ListID_tokens() {
 // Fonctions -> LOAD: NEO (NeoScan.io)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function loadNEO_ListID_tokens() {
+    //http://notifications.neeeo.org/v1/tokens
     //https://s2.coinmarketcap.com/generated/search/quick_search.json
-    var lst_NEO_ID_Tokens;
-    if (isTimeToGet(coolDown.neo_tokens)) {
-        console.log("Load NEO Search Infos");
-        $.ajax({
-            url: neo_urlAPIv1.listing,
-            type: "GET",
-            dataType: 'json',
-            async: false,
-            //crossDomain: true,
-            success: function(data) {
-                //console.log(data);
-                lst_NEO_ID_Tokens = data;
-            }
-        });
-        localStorage.setItem('cs_NEOlistID', JSON.stringify(lst_NEO_ID_Tokens));
-    } else {
-        console.log("Read NEO Search Infos");
-        lst_NEO_ID_Tokens = JSON.parse(localStorage.getItem('cs_NEOlistID'));
-        // console.log(listAllTokens);
-    }
-    return lst_NEO_ID_Tokens;
+    /*    var lst_NEO_ID_Tokens;
+        if (isTimeToGet(coolDown.neo_tokens)) {
+            console.log("Load NEO Search Infos");
+            $.ajax({
+                url: neo_urlAPIv1.listing,
+                type: "GET",
+                dataType: 'json',
+                async: false,
+                //crossDomain: true,
+                success: function(data) {
+                    //console.log(data);
+                    lst_NEO_ID_Tokens = data;
+                }
+            });
+            localStorage.setItem('cs_NEOlistID', JSON.stringify(lst_NEO_ID_Tokens));
+        } else {
+            console.log("Read NEO Search Infos");
+            lst_NEO_ID_Tokens = JSON.parse(localStorage.getItem('cs_NEOlistID'));
+            // console.log(listAllTokens);
+        }
+        return lst_NEO_ID_Tokens;
+    */
 }
 
 
@@ -417,6 +419,26 @@ function get_Wallet_NEO(address) {
     //console.log(lstTokens);
     return parseFloat(balance);
 
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Get Balance LiteCoin wallet
+function get_Generique_Balance(token, address) {
+    // Format : https://chain.so/api/v2/get_address_balance/LTC/address
+    var balance = 0;
+    $.ajax({
+        url: balance_urlAPI[token] + address + "/balance",
+        type: "GET",
+        dataType: 'html',
+        async: false,
+        //crossDomain: true,
+        success: function(data) {
+            balance = data;
+        }
+    });
+    //get_Balance_AssetsWaves(address);
+    console.log(balance / 100000000);
+    return parseFloat(balance / 100000000);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

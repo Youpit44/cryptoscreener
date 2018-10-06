@@ -307,6 +307,12 @@ function loadWallet_online() {
                 // console.log(lstCoins[key]);
                 break;
 
+            case "SMARTCASH":
+                value[4] = get_Generique_Balance(value[0], value[5]);
+                lstCoins[key] = value;
+                // console.log(lstCoins[key]);
+                break;
+
             case "ETHEREUM":
                 value[4] = get_Balance_ETH(value[5]);
                 lstCoins[key] = value;
