@@ -27,7 +27,7 @@ Il utise les API de coinmarcketcap.com, ForkDelta, Infura, Ethplorer pour les to
 - [ ] ...   
   
 ### Dernier changement :  
-- [x] Support des wallets SmartCash [SmartCash.cc]](https://smartcash.cc/welcome/?lang=fr),  
+- [x] Support des wallets SmartCash [SmartCash.cc](https://smartcash.cc/welcome/?lang=fr),  
 - [x] Support des wallets BridgeCoin [CoinExplorer.net](https://www.coinexplorer.net) et LiteCoin [Chain.so](https://chain.so/),  
 - [x] Support des wallets Waves [PyWaves.org](http://dev.pywaves.org/) et de ses tokens (?),  
 - [x] Ajout des courbes de suivi journalier ou sur 7 jours  
